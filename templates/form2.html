@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phiếu Gởi Tiền</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <h1>Phiếu Gởi Tiền</h1>
+    <form action="/submit_form2" method="post" id="myForm2">
+        <label for="ma_so_2">Mã số:</label>
+        <input type="text" id="ma_so_2" name="ma_so"><br><br>
+
+        <label for="khach_hang_2">Khách hàng:</label>
+        <input type="text" id="khach_hang_2" name="khach_hang"><br><br>
+
+        <label for="ngay_goi_2">Ngày gởi:</label>
+        <input type="date" id="ngay_goi_2" name="ngay_goi"><br><br>
+
+        <label for="so_tien_gui_2">Số tiền gởi:</label>
+        <input type="number" id="so_tien_gui_2" name="so_tien_gui"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <script src="/static/script_form2.js"></script>
+</body>
+</html>

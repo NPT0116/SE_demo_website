@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Tài Khoản</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <h1>Danh Sách Tài Khoản</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Mã Số</th>
+                <th>Loại Tiết Kiệm</th>
+                <th>Khách Hàng</th>
+                <th>CMND</th>
+                <th>Địa Chỉ</th>
+                <th>Ngày Mở Sổ</th>
+                <th>Số Tiền Gửi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ account[0] }}</td>
+                <td>{{ account[1] }}</td>
+                <td>{{ account[2] }}</td>
+                <td>{{ account[3] }}</td>
+                <td>{{ account[4] }}</td>
+                <td>{{ account[5] }}</td>
+                <td>{{ account[6] }}</td>
+                <td>{{ account[7] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Lắng nghe sự kiện 'submit' trên form có id 'myForm'
-    document.getElementById('myForm2').addEventListener('submit', function(event) {
+    document.getElementById('deposit_money_form').addEventListener('submit', function(event) {
         event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
 
         // Tạo một đối tượng FormData để thu thập dữ liệu từ form
         var formData = new FormData(this);
 
         // Sử dụng Fetch API để gửi dữ liệu đến server
-        fetch('/submit_form2', {
+        fetch('/submit_deposit_money', {
             method: 'POST',
             body: formData // Gửi dữ liệu đã thu thập được
         })

@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-form2_bp = Blueprint('deposit_money', __name__)
+deposit_money_bp = Blueprint('deposit_money', __name__, template_folder="../../templates")
 
 from . import routes

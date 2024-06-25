@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Lắng nghe sự kiện 'submit' trên form có id 'myForm'
-    document.getElementById('myForm').addEventListener('submit', function(event) {
+    document.getElementById('register_account_form').addEventListener('submit', function(event) {
         event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
 
         // Tạo một đối tượng FormData để thu thập dữ liệu từ form
         var formData = new FormData(this);
 
         // Sử dụng Fetch API để gửi dữ liệu đến server
-        fetch('/submit_form1', {
+        fetch('/submit_register_account', {
             method: 'POST',
             body: formData // Gửi dữ liệu đã thu thập được
         })

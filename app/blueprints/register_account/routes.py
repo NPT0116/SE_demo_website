@@ -4,11 +4,11 @@ from app.database import db
 
 from . import register_account_bp
 
-@register_account_bp.route('/form1')
-def form1():
-    return render_template('form1.html')
+@register_account_bp.route('/register_account')
+def register_account():
+    return render_template('register_account.html')
 
-@register_account_bp.route('/submit_form1', methods=['POST'])
+@register_account_bp.route('/submit_register_acount', methods=['POST'])
 def submit_form1():
     try:
         # Xử lý dữ liệu nhận được từ form

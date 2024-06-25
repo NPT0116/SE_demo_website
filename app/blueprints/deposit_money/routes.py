@@ -6,11 +6,11 @@ from app.database import db
 
 from . import deposit_money_bp
 
-@deposit_money_bp.route('/form2')
-def form2():
-    return render_template('form2.html')
+@deposit_money_bp.route('/deposit_money')
+def deposit_money():
+    return render_template('deposit_money.html')
 
-@deposit_money_bp.route('/submit_form2', methods=['POST'])
+@deposit_money_bp.route('/submit_deposit_money', methods=['POST'])
 def submit_form2():
     try:
         # Xử lý dữ liệu nhận được từ form

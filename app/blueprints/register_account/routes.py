@@ -1,19 +1,19 @@
 from flask import render_template, request, jsonify
 from datetime import datetime
 from app.database import db
-
 from . import register_account_bp
 
 @register_account_bp.route('/register_account')
 def register_account():
     return render_template('register_account.html')
 
-@register_account_bp.route('/submit_register_acount', methods=['POST'])
-def submit_form1():
+@register_account_bp.route('/submit_register_account', methods=['POST'])
+def submit_register_account():
     try:
         # Xử lý dữ liệu nhận được từ form
         ma_so = request.form['ma_so']
         loai_tiet_kiem = request.form['loai_tiet_kiem']
+
         khach_hang = request.form['khach_hang']
         cmnd = request.form['cmnd']
         dia_chi = request.form['dia_chi']
@@ -33,4 +33,4 @@ def submit_form1():
         db.connection.commit()  # Đảm bảo rằng giao dịch được ghi vào cơ sở dữ liệu
         return jsonify({'message': 'Dữ liệu đã được gửi và lưu thành công'})
     except Exception as e:
-        return jsonify({'message': 'An error occurred', 'error': str(e)})
+        return jsonify({'message': 'khong co loai ky han do', 'error': str(e)})

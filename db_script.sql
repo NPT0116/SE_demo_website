@@ -13,7 +13,16 @@ CREATE TABLE create_account (
     ngay_mo_so DATE NOT NULL,
     so_tien_gui DECIMAL(18, 2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
 DESCRIBE create_account;
+
+
+
+
+
+
 
 
 select * from create_account

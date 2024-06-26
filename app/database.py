@@ -26,5 +26,5 @@ class Database:
         if connection:
             return connection.cursor(buffered=True)
         return None
-
+    
 db = Database()

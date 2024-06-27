@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Regulation</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Update Regulation</h1>
+    <form action="/update_regulation/submit" method="post" id = "update_regulation_form">
+        <label for="new_period">Thêm kỳ hạn mới:</label>
+        <input type="text" id="new_period" name="new_period"><br><br>
+
+        <label for="new_minimum">Số tiền gửi tối thiểu mới:</label>
+        <input type="number" id="new_minimum" name="new_minimum"><br><br>
+
+        <input type="submit" value="Cập nhật">
+    </form>
+    <script src="/static/update_regulation.js"></script>
+
+</body>
+</html>

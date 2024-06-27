@@ -2,9 +2,17 @@ from flask import render_template, request, jsonify
 from datetime import datetime
 from app.database import db
 from . import register_account_bp
+from app.regulation import regulation
+ # Gọi phương thức để lấy giá trị
+periods = []
+minimum_deposit_money = int()
 
 @register_account_bp.route('/register_account')
 def register_account():
+    periods = regulation.get_periods()  # Gọi phương thức để lấy giá trị
+    minimum_deposit_money = regulation.get_minimum_deposit_money() 
+    print ("period: ", periods)
+    print ("minimum deposit: ", minimum_deposit_money )
     return render_template('register_account.html')
 
 @register_account_bp.route('/submit_register_account', methods=['POST'])
@@ -20,7 +28,7 @@ def submit_register_account():
         ngay_mo_so = request.form['ngay_mo_so']
         so_tien_gui = request.form['so_tien_gui']
         ngay_mo_so = datetime.strptime(ngay_mo_so, '%Y-%m-%d').date()
-
+        
         # Truy vấn để chèn dữ liệu vào bảng
         query = """
         INSERT INTO create_account (ma_so, loai_tiet_kiem, khach_hang, cmnd, dia_chi, ngay_mo_so, so_tien_gui)

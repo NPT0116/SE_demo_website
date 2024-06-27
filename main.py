@@ -4,11 +4,13 @@ from app.blueprints.deposit_money import deposit_money_bp  # Import Blueprint t�
 from app.blueprints.view_accounts import view_accounts_bp  # Import Blueprint từ module form2 (tạo tương tự như form1)
 from app.database import db
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
+from app.blueprints.update_regulation import update_regulation_bp  # Import Blueprint từ module form2 (tạo tương tự như form1)
 
 # Đăng ký các Blueprints với ứng dụng chính
 app.register_blueprint(register_account_bp)
 app.register_blueprint(deposit_money_bp)
 app.register_blueprint(view_accounts_bp)
+app.register_blueprint(update_regulation_bp)
 @app.route('/')
 def home():
     return render_template('home.html')

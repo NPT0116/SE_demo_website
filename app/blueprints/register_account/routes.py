@@ -15,7 +15,7 @@ def register_account():
     print ("minimum deposit: ", minimum_deposit_money )
     return render_template('register_account.html')
 
-@register_account_bp.route('/submit_register_account', methods=['POST'])
+@register_account_bp.route('/register_account/submit', methods=['POST'])
 def submit_register_account():
     try:
         # Xử lý dữ liệu nhận được từ form

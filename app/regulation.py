@@ -9,10 +9,10 @@ class Regulation:
             "6 months": 0.055
         }
 
-    def add_period(self, new_period, interest_rate):
+    def add_period(self, new_period):
         if new_period not in self.period:
             self.period.append(new_period)
-            self.interest_rate[new_period] = interest_rate
+            self.interest_rate[new_period] = 0.0
 
     def set_minimum_deposit_money(self, amount):
         self.minimum_deposit_money = amount

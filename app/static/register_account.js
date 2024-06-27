@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var formData = new FormData(this);
 
         // Sử dụng Fetch API để gửi dữ liệu đến server
-        fetch('/submit_register_account', {
+        fetch('/register_account/submit', {
             method: 'POST',
             body: formData // Gửi dữ liệu đã thu thập được
         })

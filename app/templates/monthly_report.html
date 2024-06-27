@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Báo Cáo Mở/Đóng Sổ Tháng</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/view_account.css">
+</head>
+<body>
+    <h1>Báo Cáo Mở/Đóng Sổ Tháng</h1>
+
+    <!-- Form nhập tháng -->
+    <form action="/report/monthly/submit" method="post" id="monthly_report_form">
+        <label for="loai_tiet_kiem">Loại tiết kiệm:</label>
+        <input type="text" id="loai_tiet_kiem" name="loai_tiet_kiem" required><br><br>
+
+        <label for="thang">Tháng:</label>
+        <input type="month" id="thang" name="thang" required><br><br>
+        <input type="submit" value="Gửi Báo Cáo">
+    </form>
+
+    <!-- Bảng hiển thị kết quả -->
+    <h2>Kết Quả Báo Cáo</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Ngày </th>
+                <th>Số Mở </th>
+                <th>Số Đóng </th>
+                <th>Chênh Lệch </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ report[1] }}</td>
+                <td>{{ report[2] }}</td>
+                <td>{{ report[3] }}</td>
+                <td>{{ report[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -7,16 +7,26 @@
 </head>
 <body>
     <h1>Update Regulation</h1>
-    <form action="/update_regulation/submit" method="post" id = "update_regulation_form">
+    <form action="/update_regulation/submit" method="post" id="update_regulation_form">
         <label for="new_period">Thêm kỳ hạn mới:</label>
         <input type="text" id="new_period" name="new_period"><br><br>
 
         <label for="new_minimum">Số tiền gửi tối thiểu mới:</label>
         <input type="number" id="new_minimum" name="new_minimum"><br><br>
 
+        <label for="minimum_day">Số ngày rút tối thiểu:</label>
+        <input type="number" id="minimum_day" name="minimum_day"><br><br>
+
+        <label for="interest_rate">Lãi suất theo kỳ hạn:</label>
+        <select id="interest_period" name="interest_period">
+            {% for period in regulation.get_periods() %}
+                <option value="{{ period }}">{{ period }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" id="interest_rate" name="interest_rate" step="0.01"><br><br>
+
         <input type="submit" value="Cập nhật">
     </form>
-    <script src="/static/update_regulation.js"></script>
-
+    <script src="{{ url_for('static', filename='update_regulation.js') }}"></script>
 </body>
 </html>

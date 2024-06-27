@@ -4,13 +4,13 @@ from app.database import db
 
 # Kết nối cơ sở dữ liệu
 
-from . import deposit_money_bp
+from . import withdraw_money_bp
 
-@deposit_money_bp.route('/deposit_money')
-def deposit_money():
-    return render_template('deposit_money.html')
+@withdraw_money_bp.route('/withdraw_money')
+def withdraw_money():
+    return render_template('withdraw_money.html')
 
-@deposit_money_bp.route('/deposit_money/submit', methods=['POST'])
+@withdraw_money_bp.route('/withdraw_money/submit', methods=['POST'])
 def submit_form2():
     try:
         # Xử lý dữ liệu nhận được từ form

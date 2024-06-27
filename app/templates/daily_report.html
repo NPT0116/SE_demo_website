@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Báo Cáo Doanh Số Hoạt Động Ngày</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/view_account.css">
+</head>
+<body>
+    <h1>Báo Cáo Doanh Số Hoạt Động Ngày</h1>
+
+    <!-- Form nhập ngày -->
+    <form action="/report/daily/submit" method="post" id="daily_report_form">
+        <label for="ngay">Ngày:</label>
+        <input type="date" id="ngay" name="ngay" required><br><br>
+        <input type="submit" value="Gửi Báo Cáo">
+    </form>
+
+    <!-- Bảng hiển thị kết quả -->
+    <h2>Kết Quả Báo Cáo</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Ngày</th>
+                <th>Loại Tiết Kiệm </th>
+                <th>Tổng Thu </th>
+                <th>Tổng Chi </th>
+                <th>Chênh Lệch </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ report[1] }}</td>
+                <td>{{ report[2] }}</td>
+                <td>{{ report[3] }}</td>
+                <td>{{ report[4] }}</td>
+                <td>{{ report[5] }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

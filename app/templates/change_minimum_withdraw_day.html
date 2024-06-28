@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thay Đổi Số Ngày Rút Tối Thiểu</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Thay Đổi Số Ngày Rút Tối Thiểu</h1>
+    <form action="/change_minimum_withdraw_day/submit" method="post" id="change_minimum_withdraw_day_form">
+        <label for="minimum_day">Số ngày rút tối thiểu:</label>
+        <input type="number" id="minimum_day" name="minimum_day"><br><br>
+        <input type="submit" value="Cập nhật">
+    </form>
+    <script src="{{ url_for('static', filename='change_minimum_withdraw_day.js') }}"></script>
+</body>
+</html>

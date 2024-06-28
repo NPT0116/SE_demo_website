@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thay Đổi Số Tiền Gửi Tối Thiểu</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Thay Đổi Số Tiền Gửi Tối Thiểu</h1>
+    <form action="/change_minimum_deposit_money/submit" method="post" id="change_minimum_deposit_money_form">
+        <label for="new_minimum">Số tiền gửi tối thiểu mới:</label>
+        <input type="number" id="new_minimum" name="new_minimum"><br><br>
+        <input type="submit" value="Cập nhật">
+    </form>
+    <script src="{{ url_for('static', filename='change_minimum_deposit_money.js') }}"></script>
+</body>
+</html>

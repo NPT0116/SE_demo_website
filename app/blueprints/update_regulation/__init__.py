@@ -1,5 +1,15 @@
 from flask import Blueprint
+from flask import render_template, request, jsonify
+from .insert_term import insert_term_bp
+from .update_interest_rate import update_interest_rate_bp
+from .change_minimum_withdraw_day import change_minimum_withdraw_day_bp
+from .change_minimum_deposit_money import change_minimum_deposit_money_bp
 
-update_regulation_bp = Blueprint('update_regulation', __name__)
 
+update_regulation_bp = Blueprint('regulation',__name__)
 from . import routes
+
+update_regulation_bp.register_blueprint(insert_term_bp)
+update_regulation_bp.register_blueprint(update_interest_rate_bp)
+update_regulation_bp.register_blueprint(change_minimum_withdraw_day_bp)
+update_regulation_bp.register_blueprint(change_minimum_deposit_money_bp)

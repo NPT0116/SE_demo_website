@@ -12,7 +12,7 @@ app = Flask(__name__, template_folder='app/templates', static_folder='app/static
 app.register_blueprint(register_account_bp)
 app.register_blueprint(deposit_money_bp)
 app.register_blueprint(view_accounts_bp)
-app.register_blueprint(update_regulation_bp)
+app.register_blueprint(update_regulation_bp, url_prefix = '/regulation')
 app.register_blueprint(withdraw_money_bp)
 app.register_blueprint(report_bp, url_prefix='/report')
 

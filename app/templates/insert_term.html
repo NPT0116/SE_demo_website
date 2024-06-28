@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Kỳ Hạn Mới</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Thêm Kỳ Hạn Mới</h1>
+    <form action="/insert_term/submit" method="post" id="insert_term_form">
+        <label for="new_period">Thêm kỳ hạn mới:</label>
+        <input type="text" id="new_period" name="new_period"><br><br>
+        <input type="submit" value="Thêm">
+    </form>
+    <script src="{{ url_for('static', filename='insert_term.js') }}"></script>
+</body>
+</html>

@@ -5,9 +5,9 @@ change_minimum_deposit_money_bp = Blueprint('change_minimum_deposit_money', __na
 
 @change_minimum_deposit_money_bp.route('/change_minimum_deposit_money', methods=['GET'])
 def change_minimum_deposit_money():
-    return render_template('change_minimum_deposit_money.html')
+    return render_template('update_regulation/change_minimum_deposit_money.html')
 
-@change_minimum_deposit_money_bp.route('/change_minimum_deposit_money/submit', methods=['POST'])
+@change_minimum_deposit_money_bp.route('update_regulation//change_minimum_deposit_money/submit', methods=['POST'])
 def submit_change_minimum_deposit_money():
     new_minimum = int(request.form.get('new_minimum'))
     regulation.set_minimum_deposit_money(new_minimum)

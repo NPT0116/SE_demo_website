@@ -5,7 +5,7 @@ change_minimum_withdraw_day_bp = Blueprint('change_minimum_withdraw_day', __name
 
 @change_minimum_withdraw_day_bp.route('/change_minimum_withdraw_day', methods=['GET'])
 def change_minimum_withdraw_day():
-    return render_template('change_minimum_withdraw_day.html')
+    return render_template('update_regulation/change_minimum_withdraw_day.html')
 
 @change_minimum_withdraw_day_bp.route('/change_minimum_withdraw_day/submit', methods=['POST'])
 def submit_change_minimum_withdraw_day():

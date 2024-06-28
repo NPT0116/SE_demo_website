@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-report_bp = Blueprint('report', __name__)
+report_bp = Blueprint('report', __name__, template_folder="templates/report")
 
 from .daily_report import daily_report_bp
 from .monthly_report import monthly_report_bp

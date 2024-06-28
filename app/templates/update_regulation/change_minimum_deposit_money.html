@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thay Đổi Số Tiền Gửi Tối Thiểu</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Thay Đổi Số Tiền Gửi Tối Thiểu</h1>
+    <form  id="change_minimum_deposit_money_form">
+        <label for="new_minimum">Số tiền gửi tối thiểu mới:</label>
+        <input type="number" id="new_minimum" name="new_minimum"><br><br>
+        <input type="submit" value="Cập nhật" onclick="submitForm()">
+    </form>
+    <script>
+        function submitForm() {
+            var form = document.getElementById('change_minimum_deposit_money_form');
+            var formData = new FormData(form);
+            
+            fetch('/regulation/change_minimum_deposit_money_form/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+            // Hiển thị thông báo nhận được từ server (cần phía server trả về JSON)
+            alert('Thông tin đã được gửi thành công: ' + data.message);
+            })
+            .then(data => {
+                document.getElementById('result').textContent = data.message;
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = 'Có lỗi xảy ra: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>

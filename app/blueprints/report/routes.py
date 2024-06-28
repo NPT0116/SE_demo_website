@@ -6,4 +6,4 @@ from . import report_bp
 
 @report_bp.route('/')
 def register_account():
-    return render_template('report.html')
+    return render_template('report/report.html')

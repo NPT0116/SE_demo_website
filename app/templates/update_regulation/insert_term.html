@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Kỳ Hạn Mới</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Thêm Kỳ Hạn Mới</h1>
+    <form id="insert_term_form">
+        <label for="new_period">Thêm kỳ hạn mới:</label>
+        <input type="text" id="new_period" name="new_period"><br><br>
+        <button type="button" onclick="submitForm()">Thêm</button>
+    </form>
+    <script>
+        function submitForm() {
+            var form = document.getElementById('insert_term_form');
+            var formData = new FormData(form);
+            
+            fetch('/regulation/insert_term/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+            // Hiển thị thông báo nhận được từ server (cần phía server trả về JSON)
+            alert('Thông tin đã được gửi thành công: ' + data.message);
+            })
+            .then(data => {
+                document.getElementById('result').textContent = data.message;
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = 'Có lỗi xảy ra: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>

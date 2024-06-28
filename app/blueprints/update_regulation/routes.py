@@ -9,4 +9,4 @@ from . import update_regulation_bp
 
 @update_regulation_bp.route('/')
 def update_regulation():
-    return render_template('update_regulation.html')
+    return render_template('update_regulation/update_regulation.html')

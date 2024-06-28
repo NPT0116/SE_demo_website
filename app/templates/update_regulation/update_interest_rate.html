@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập Nhật Lãi Suất</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Cập Nhật Lãi Suất</h1>
+    <form  id="update_interest_rate_form">
+        <label for="interest_period">Kỳ hạn lãi suất:</label>
+        <select id="interest_period" name="interest_period">
+            {% for period in regulation.get_periods() %}
+                <option value="{{ period }}">{{ period }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" id="interest_rate" name="interest_rate" step="0.01"><br><br>
+        <input type="submit" value="Cập nhật" onclick="submitForm()">
+    </form>
+    <script>
+        function submitForm() {
+            var form = document.getElementById('update_interest_rate_form');
+            var formData = new FormData(form);
+            
+            fetch('/regulation/update_interest_rate_form/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+            // Hiển thị thông báo nhận được từ server (cần phía server trả về JSON)
+            alert('Thông tin đã được gửi thành công: ' + data.message);
+            })
+            .then(data => {
+                document.getElementById('result').textContent = data.message;
+            })
+            .catch(error => {
+                document.getElementById('result').textContent = 'Có lỗi xảy ra: ' + error;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ monthly_report_bp = Blueprint('monthly_report', __name__)
 
 @monthly_report_bp.route('/', methods=['GET'])
 def monthly_report():
-    return render_template('monthly_report.html')
+    return render_template('report/monthly_report.html')
 
 @monthly_report_bp.route('/submit', methods=['POST'])
 def submit_monthly_report():

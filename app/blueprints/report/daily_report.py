@@ -4,7 +4,7 @@ daily_report_bp = Blueprint('daily_report', __name__)
 
 @daily_report_bp.route('/', methods=['GET'])
 def daily_report():
-    return render_template('daily_report.html')
+    return render_template('report/daily_report.html')
 
 @daily_report_bp.route('/submit', methods=['POST'])
 def submit_daily_report():

@@ -5,6 +5,8 @@ from app.blueprints.view_accounts import view_accounts_bp
 from app.blueprints.update_regulation import update_regulation_bp 
 from app.blueprints.withdraw_money import withdraw_money_bp  
 from app.blueprints.report import report_bp
+from app.blueprints.home import home_bp
+
 from app.database import db
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 
@@ -15,10 +17,8 @@ app.register_blueprint(view_accounts_bp)
 app.register_blueprint(update_regulation_bp, url_prefix = '/regulation')
 app.register_blueprint(withdraw_money_bp)
 app.register_blueprint(report_bp, url_prefix='/report')
+app.register_blueprint(home_bp)
 
-@app.route('/')
-def home():
-    return render_template('home.html')
 
 
 

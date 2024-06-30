@@ -10,25 +10,32 @@
     <form action="/regulation/register_account/submit" method="post" id="register_account_form">
         <label for="ma_so">Mã số:</label>
         <input type="text" id="ma_so" name="ma_so"><br><br>
+        <span class="error-message" id="ma_so_error"></span>
 
         <label for="loai_tiet_kiem">Loại tiết kiệm:</label>
         <input type="text" id="loai_tiet_kiem" name="loai_tiet_kiem"><br><br>
+        <span class="error-message" id="loai_tiet_kiem_error"></span>
 
         <label for="khach_hang">Khách hàng:</label>
         <input type="text" id="khach_hang" name="khach_hang"><br><br>
+        <span class="error-message" id="khach_hang_error"></span>
 
         <label for="cmnd">CMND:</label>
         <input type="text" id="cmnd" name="cmnd"><br><br>
+        <span class="error-message" id="cmnd_error"></span>
 
         <label for="dia_chi">Địa chỉ:</label>
         <input type="text" id="dia_chi" name="dia_chi"><br><br>
+        <span class="error-message" id="dia_chi_error"></span>
 
         <label for="ngay_mo_so">Ngày mở sổ:</label>
         <input type="date" id="ngay_mo_so" name="ngay_mo_so"><br><br>
+        <span class="error-message" id="ngay_mo_so_error"></span>
 
         <label for="so_tien_gui">Số tiền gửi:</label>
         <input type="number" id="so_tien_gui" name="so_tien_gui"><br><br>
-
+        <span class="error-message" id="so_tien_gui_error"></span>
+        
         <input type="submit" value="Submit">
     </form>
     <script src="/static/register_account.js"></script>

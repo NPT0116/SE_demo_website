@@ -10,15 +10,7 @@ def daily_report():
 def submit_daily_report():
     try:
         ngay = request.form['ngay']
-        loai_tiet_kiem_1 = request.form['loai_tiet_kiem_1']
-        tong_thu_1 = request.form['tong_thu_1']
-        tong_chi_1 = request.form['tong_chi_1']
-        chenh_lech_1 = request.form['chenh_lech_1']
-        
-        loai_tiet_kiem_2 = request.form['loai_tiet_kiem_2']
-        tong_thu_2 = request.form['tong_thu_2']
-        tong_chi_2 = request.form['tong_chi_2']
-        chenh_lech_2 = request.form['chenh_lech_2']
+
         
         # Xử lý và lưu dữ liệu vào database
         return jsonify({'message': 'Báo cáo hàng ngày đã được gửi và lưu thành công'})

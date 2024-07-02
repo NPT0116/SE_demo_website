@@ -20,7 +20,7 @@ CREATE TABLE Tai_khoan_tiet_kiem (
     ID_tai_khoan CHAR(10) NOT NULL,
     Ngay_mo DATE NOT NULL,
     Nguoi_so_huu CHAR(10) NOT NULL,
-    Loai_tai_khoan NCHAR(20) NOT NULL,
+    Loai_tiet_kiem NCHAR(20) NOT NULL,
     Tien_nap_ban_dau DECIMAL(19, 4) NOT NULL,
     Lai_suat FLOAT NOT NULL,
     PRIMARY KEY (ID_tai_khoan),
@@ -59,7 +59,7 @@ VALUES
 
 
 -- Thêm các tài khoản tiết kiệm vào bảng Tai_khoan_tiet_kiem
-INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Ngay_mo, Nguoi_so_huu, Loai_tai_khoan, Tien_nap_ban_dau, Lai_suat)
+INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Ngay_mo, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
 VALUES 
 ('BT001', '2004-04-22', '22127060', '3 Tháng', 100000000, 4.6),
 ('BT002', '2023-06-15', '22127088', '3 Tháng', 50000000, 2.1),

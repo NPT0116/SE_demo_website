@@ -7,7 +7,7 @@ from . import view_accounts_bp
 @view_accounts_bp.route('/view_accounts')
 def view_accounts():
     try:
-        query = "SELECT id, ma_so, loai_tiet_kiem, khach_hang, cmnd, dia_chi, DATE_FORMAT(ngay_mo_so, '%d-%m-%Y') as ngay_mo_so, so_tien_gui FROM create_account"
+        query = "SELECT ID_tai_khoan,  Loai_tiet_kiem, Ho_ten, Tien_nap_ban_dau FROM Tai_khoan_tiet_kiem tktk join Khach_hang kh on kh.ID_khach_hang = tktk.Nguoi_so_huu "
         cursor = db.get_cursor()
         cursor.execute(query)
         accounts = cursor.fetchall()
@@ -16,4 +16,3 @@ def view_accounts():
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)})
     
-

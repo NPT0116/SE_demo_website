@@ -12,7 +12,7 @@ class Database:
                     host="localhost",
                     user="root",
                     passwd="Npt16012004",
-                    database="saving_account_management"
+                    database="QL_TAIKHOANTIETKIEM"
                 )
                 if self.connection.is_connected():
                     print("Connected to MySQL database")

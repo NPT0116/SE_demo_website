@@ -1,41 +1,100 @@
-class Regulation:
+from app.database import db
+from datetime import datetime
+
+class RegulationManager:
     def __init__(self):
-        self.period = ["no period", "3 months", "6 months"]
-        self.minimum_deposit_money = 100000  # Số tiền gửi tối thiểu
-        self.minimum_withdraw_day = 15
-        self.interest_rate = {
-            "no period": 0.015,
-            "3 months": 0.05,
-            "6 months": 0.055
-        }
+        self.load_current_settings()
 
-    def add_period(self, new_period):
-        if new_period not in self.period:
-            self.period.append(new_period)
-            self.interest_rate[new_period] = 0.0
+    def load_current_settings(self):
+        """Load the current settings for terms and regulations."""
+        self.load_current_terms()
+        self.load_current_deposit()
+        self.load_current_withdraw_day()
+    def load_current_terms(self):
+        """Load the latest terms from the database."""
+        self.terms = {}
+        query = "SELECT term_name, interest_rate FROM terms ORDER BY created_at DESC"
+        cursor = db.get_cursor()
+        if cursor:
+            cursor.execute(query)
+            results = cursor.fetchall()
+            cursor.close()
+            for term in results:
+                if term[0] not in self.terms:  # Ensure only the latest for each term is added
+                    self.terms[term[0]] = term[1]
 
-    def set_minimum_deposit_money(self, amount):
-        self.minimum_deposit_money = amount
+    def load_current_deposit(self):
+        """Load the latest minimum deposit amount."""
+        query = "SELECT amount FROM minimum_deposit_money ORDER BY created_at DESC LIMIT 1"
+        cursor = db.get_cursor()
+        if cursor:
+            cursor.execute(query)
+            result = cursor.fetchone()
+            cursor.close()
+            if result:
+                self.minimum_deposit_money = result[0]
 
-    def get_periods(self):
-        return self.period
+    def load_current_withdraw_day(self):
+        """Load the latest minimum withdraw day setting."""
+        query = "SELECT days FROM minimum_withdraw_day ORDER BY created_at DESC LIMIT 1"
+        cursor = db.get_cursor()
+        if cursor:
+            cursor.execute(query)
+            result = cursor.fetchone()
+            cursor.close()
+            if result:
+                self.minimum_withdraw_day = result[0]
 
-    def get_minimum_deposit_money(self):
-        return int(self.minimum_deposit_money)
 
-    def set_interest_rate(self, period, rate):
-        if period in self.period:
-            self.interest_rate[period] = rate
-        else:
-            raise ValueError(f"Period '{period}' not found in periods")
 
-    def get_interest_rate(self, period):
-        return self.interest_rate.get(period, None)
-    
-    def set_minimum_withdraw_day (self, day):
-        self.minimum_withdraw_day = day
+    def add_term(self, term_name):
+        query = "INSERT INTO terms (term_name) VALUES (%s)"
+        cursor = db.get_cursor()
+        if cursor:
+            try:
+                cursor.execute(query, (term_name,))
+                cursor.connection.commit()
+            except Exception as e:
+                print("Error when trying to add term:", e)  # Or use logging to log the error
+            finally:
+                cursor.close()
 
-    def get_minimum_withdraw_day (self):
-        return self.minimum_withdraw_day
-# Khởi tạo đối tượng Regulation toàn cục
-regulation = Regulation()
+    def update_interest_rate(self, term_name, interest_rate):
+        query = "UPDATE terms SET interest_rate = %s WHERE term_name = %s"
+        cursor = db.get_cursor()
+        if cursor:
+            cursor.execute(query, (interest_rate, term_name))
+            cursor.connection.commit()
+            cursor.close()
+
+
+    def add_minimum_deposit_money(self, amount):
+        query = "INSERT INTO minimum_deposit_money (amount) VALUES (%s)"
+        cursor = db.get_cursor()
+        if cursor:
+            cursor.execute(query, (amount,))
+            cursor.connection.commit()
+            cursor.close()
+
+    def add_minimum_withdraw_day(self, days):
+        query = "INSERT INTO minimum_withdraw_day (days) VALUES (%s)"
+        cursor = db.get_cursor()
+        if cursor:
+            cursor.execute(query, (days,))
+            cursor.connection.commit()
+            cursor.close()
+    def get_terms(self):
+        query = "SELECT term_name FROM terms ORDER BY CAST(SUBSTRING_INDEX(term_name, ' ', 1) AS UNSIGNED) ASC;"
+        terms = []
+        cursor = db.get_cursor()
+        if cursor:
+            try:
+                cursor.execute(query)
+                results = cursor.fetchall()
+                for row in results:
+                    terms.append(row[0])  # Assuming term_name is the first column
+            finally:
+                cursor.close()
+        return terms
+
+regulation = RegulationManager()

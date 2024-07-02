@@ -10,5 +10,5 @@ def change_minimum_withdraw_day():
 @change_minimum_withdraw_day_bp.route('/change_minimum_withdraw_day/submit', methods=['POST'])
 def submit_change_minimum_withdraw_day():
     minimum_day = int(request.form.get('minimum_day'))
-    regulation.set_minimum_withdraw_day(minimum_day)
+    regulation.add_minimum_withdraw_day(minimum_day)
     return jsonify({'message': 'Số ngày rút tối thiểu đã được cập nhật thành công'})

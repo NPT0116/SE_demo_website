@@ -4,14 +4,14 @@ from app.database import db
 from . import register_account_bp
 from app.regulation import regulation
  # Gọi phương thức để lấy giá trị
-periods = []
+terms = []
 minimum_deposit_money = int()
 
 @register_account_bp.route('/register_account')
 def register_account():
-    periods = regulation.get_periods()  # Gọi phương thức để lấy giá trị
+    t = regulation.get_terms()  # Gọi phương thức để lấy giá trị
     minimum_deposit_money = regulation.get_minimum_deposit_money() 
-    print ("period: ", periods)
+    print ("period: ", terms)
     print ("minimum deposit: ", minimum_deposit_money )
     return render_template('register_account.html')
 
@@ -40,7 +40,7 @@ def submit_register_account():
         if any(char.isalpha() for char in so_tien_gui):
             errors.append('Số tiền gửi không được chứa chữ.')
 
-        if loai_tiet_kiem not in regulation.get_periods():
+        if loai_tiet_kiem not in regulation.get_terms():
             errors.append('Loại kỳ hạn tiết kiệm không hợp lệ.')
 
         if int(so_tien_gui) < regulation.get_minimum_deposit_money():

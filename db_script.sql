@@ -42,7 +42,7 @@ CREATE TABLE Giao_dich (
 -- Tạo bảng Regulation
 CREATE TABLE Regulation (
     ID_REGULATION CHAR(5) NOT NULL,
-    Mo_ta NVARCHAR(255) NOT NULL,
+    Mo_ta NVARCHAR(255) NULL,
     Ngay_hieu_luc DATE NOT NULL,
     Trang_thai NCHAR(10) NOT NULL,
     PRIMARY KEY (ID_REGULATION)

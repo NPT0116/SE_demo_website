@@ -3,15 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Update Regulation</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="../../static/regulation/regulation_home.css">
 </head>
 <body>
-    <h1>Update Regulation</h1>
-    <ul>
-        <li><a href="/regulation/insert_term">Thêm Kỳ Hạn Mới</a></li>
-        <li><a href="/regulation/update_interest_rate">Cập Nhật Lãi Suất</a></li>
-        <li><a href="/regulation/change_minimum_withdraw_day">Thay Đổi Số Ngày Rút Tối Thiểu</a></li>
-        <li><a href="/regulation/change_minimum_deposit_money">Thay Đổi Số Tiền Gửi Tối Thiểu</a></li>
-    </ul>
+    <div class="background"></div>
+    <div class="regulation_container">
+    <h1>Change Regulation</h1>
+        <ul class="regulation_list_item">
+            <li class = "regulation_item">
+                <a href="/regulation/insert_term">
+                <span class="item_text">
+                    Insert Term
+                </span>
+                </a>
+            </li>
+            <li class = "regulation_item">
+                <a href="/regulation/update_interest_rate">
+                <span class="item_text">
+                    Update interset rate
+                </span>
+                </a>
+            </li>
+            <li class = "regulation_item">
+                <a href="/regulation/change_minimum_withdraw_day">
+                <span class="item_text">
+                    Change Minimum Withdraw Day
+                </span>
+                </a>
+            </li>
+            <li class = "regulation_item">
+                <a href="/regulation/change_minimum_deposit_money">
+                <span class="item_text">
+                    Change Minimum Deposit
+                </span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>

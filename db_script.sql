@@ -40,13 +40,34 @@ CREATE TABLE Giao_dich (
 
 
 -- Tạo bảng Regulation
-CREATE TABLE Regulation (
-    ID_REGULATION CHAR(5) NOT NULL,
-    Mo_ta NVARCHAR(255) NULL,
-    Ngay_hieu_luc DATE NOT NULL,
-    Trang_thai NCHAR(10) NOT NULL,
-    PRIMARY KEY (ID_REGULATION)
+CREATE TABLE IF NOT EXISTS terms (
+    term_id INT AUTO_INCREMENT PRIMARY KEY,
+    term_name VARCHAR(50) NOT NULL,
+    interest_rate FLOAT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS minimum_deposit_money (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    amount INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS minimum_withdraw_day (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    days INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO terms (term_name, interest_rate) VALUES
+('no period', 0.015),
+('3 months', 0.05),
+('6 months', 0.055);
+INSERT INTO minimum_withdraw_day(days) Values
+(15);
+INSERT INTO minimum_deposit_money( amount) Values
+(100000);
 
 
 -- Thêm các khách hàng vào bảng Khach_hang
@@ -73,7 +94,6 @@ VALUES
 ('RT001', 'KKH001', 'Rút Tiền', 150000000, '2024-06-30'),
 ('NT001', 'KKH001', 'Nạp Tiền', 430000000, '2024-06-17');
 
-
-
-
-
+select * from terms;
+select * from minimum_withdraw_day;
+select * from minimum_deposit_money;

@@ -10,7 +10,7 @@
     <form  id="update_interest_rate_form">
         <label for="interest_period">Kỳ hạn lãi suất:</label>
         <select id="interest_period" name="interest_period">
-            {% for period in regulation.get_periods() %}
+            {% for period in regulation.get_terms() %}
                 <option value="{{ period }}">{{ period }}</option>
             {% endfor %}
         </select>
@@ -22,7 +22,7 @@
             var form = document.getElementById('update_interest_rate_form');
             var formData = new FormData(form);
             
-            fetch('/regulation/update_interest_rate_form/submit', {
+            fetch('/regulation/update_interest_rate/submit', {
                 method: 'POST',
                 body: formData
             })

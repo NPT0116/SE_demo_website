@@ -1,0 +1,153 @@
+/* Basic resets and full height layout */
+* {
+    box-sizing: border-box; /* Ensures padding and border are included in the width/height */
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Arial', sans-serif;
+}
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../home/images/bgwhite.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+body {
+    display: grid;
+    place-items: center; /* Centers content in both dimensions */
+    height: 100vh; /* Adjust the height as needed */
+}
+
+/* Background and centering the container */
+.regulation_container {
+    width: 80vw; /* Full width minus some padding */
+    height: calc(0.5 * 80vw);
+    padding: 20px; /* Adds padding inside the container */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically */
+}
+
+h1 {
+    display: block;
+    margin: 0;
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.regulation_list_item {
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(250px, 1fr)); /* Adjusted minmax width */
+    grid-template-rows: 1fr 1fr; /* Two rows of equal height */
+    gap: 10px;
+    width: 100%; /* Full width of the container */
+    height: 100%; /* Full height of the container */
+    align-items: center; /* Centers items vertically */
+    justify-items: center; /* Centers items horizontally */
+    min-width: 960px; /* Set a minimum width */
+}
+
+.regulation_item {
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    width: 80%;
+    height: 70%; /* Ensure items take full height of the grid row */
+    background-color: #fff;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 50px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 5px solid rgba(255, 255, 255, 0.11);
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    cursor: pointer;
+    transform: scale(0.9);
+}
+
+.regulation_item a {
+    text-decoration: none;
+    color: #333;
+}
+
+.regulation_item:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.item_text {
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: black;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+    transition: opacity 0.5s;
+}
+
+/* Align the first row items to the bottom */
+.regulation_item:nth-child(-n+2) {
+    align-self: flex-end; /* Aligns the first two items (first row) to the bottom */
+    
+}
+.regulation_item:nth-child(3),
+.regulation_item:nth-child(4) {
+    align-self: flex-start; /* Aligns the last two items (second row) to the top */
+}
+
+.regulation_item:nth-child(3),.regulation_item:nth-child(1)
+{
+    justify-self: end;
+}
+.regulation_item:nth-child(2),.regulation_item:nth-child(4)
+{
+    justify-self: start;
+}
+/* Media Query for smaller screens */
+@media (max-width: 1040px) {
+    .regulation_list_item {
+        width: 100%; /* Use 100% of the parent container */
+        min-width: 0; /* Remove the minimum width constraint */
+        grid-template-columns: 1fr; /* Change to a single column layout */
+        grid-template-rows: repeat(4, 150px); /* Four rows, each with a height of 150px */
+        align-items: center;
+        justify-items: center;
+    }
+    .regulation_item {
+        width: 50%; /* Ensure items take full width of the column */
+        height: 150px; /* Adjust height for smaller screens */
+       
+
+        
+    }
+    .regulation_container {
+        height: 100vh;
+    }
+    .regulation_item:nth-child(3),.regulation_item:nth-child(1),
+.regulation_item:nth-child(2),.regulation_item:nth-child(4)
+{
+    justify-self: center
+}
+}

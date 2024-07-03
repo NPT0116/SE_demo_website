@@ -3,48 +3,45 @@ from datetime import datetime
 
 class RegulationManager:
     def __init__(self):
-        self.load_current_settings()
+        pass
 
-    def load_current_settings(self):
-        """Load the current settings for terms and regulations."""
-        self.load_current_terms()
-        self.load_current_deposit()
-        self.load_current_withdraw_day()
-    def load_current_terms(self):
-        """Load the latest terms from the database."""
-        self.terms = {}
-        query = "SELECT term_name, interest_rate FROM terms ORDER BY created_at DESC"
-        cursor = db.get_cursor()
-        if cursor:
-            cursor.execute(query)
-            results = cursor.fetchall()
-            cursor.close()
-            for term in results:
-                if term[0] not in self.terms:  # Ensure only the latest for each term is added
-                    self.terms[term[0]] = term[1]
-
-    def load_current_deposit(self):
+    def get_minimum_deposit_money(self):
         """Load the latest minimum deposit amount."""
-        query = "SELECT amount FROM minimum_deposit_money ORDER BY created_at DESC LIMIT 1"
+        query = "SELECT amount FROM minimum_deposit_money ORDER BY ID DESC LIMIT 1"
         cursor = db.get_cursor()
         if cursor:
             cursor.execute(query)
             result = cursor.fetchone()
             cursor.close()
             if result:
-                self.minimum_deposit_money = result[0]
+                return result[0]
 
-    def load_current_withdraw_day(self):
+    def get_minimum_withdraw_day(self):
         """Load the latest minimum withdraw day setting."""
-        query = "SELECT days FROM minimum_withdraw_day ORDER BY created_at DESC LIMIT 1"
+        query = "SELECT days FROM minimum_withdraw_day ORDER BY ID DESC LIMIT 1"
         cursor = db.get_cursor()
         if cursor:
             cursor.execute(query)
             result = cursor.fetchone()
             cursor.close()
             if result:
-                self.minimum_withdraw_day = result[0]
+                return result[0]
 
+    def get_interest_rate(self, term_name):
+        query = "SELECT interest_rate FROM terms WHERE term_name = %s"
+        cursor = db.get_cursor()
+        if cursor:
+            try:
+                cursor.execute(query, (term_name,))
+                result = cursor.fetchone()
+                if result:
+                    return result[0]  # Return the interest rate found
+                else:
+                    return None  # Return None if no term is found
+            except Exception as e:
+                print("Error when trying to fetch interest rate:", e)  # Or use logging to log the error
+            finally:
+                cursor.close()
 
 
     def add_term(self, term_name):
@@ -96,5 +93,7 @@ class RegulationManager:
             finally:
                 cursor.close()
         return terms
+    
+
 
 regulation = RegulationManager()

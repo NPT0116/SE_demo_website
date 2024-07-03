@@ -45,21 +45,43 @@ body {
     height: calc(0.6 * 80vw);
     padding: 20px; /* Adds padding inside the container */
     box-sizing: border-box; /* Includes padding and border in the element's total width and height */
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center; /* Centers items horizontally */
     justify-content: center; /* Centers items vertically */
+    max-height: 600px;
+    max-width: 1200px;
+    /* background-image:url(images/Subtract.png) ; */
+    /* background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;   
+    background-size: cover;
+    position: relative; */
 }
-
+/* .regulation_container::after
+{
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: #fff;
+    right: 15px;
+    top: -8px;
+    border-radius: 50%;
+   
+       
+} */
 h1 {
     display: block;
     margin: 0;
     text-align: center;
     color: #333;
-    margin: 20px 0px;
+    margin-top: 20px;
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+    font-weight: 400;
 }
 
 .regulation_list_item {
@@ -70,8 +92,8 @@ h1 {
     display: grid;
     grid-template-columns: repeat(2, minmax(250px, 1fr)); /* Adjusted minmax width */
     grid-template-rows: 1fr 1fr; /* Two rows of equal height */
-    gap: 10px;
-
+    gap: 20px;
+    
     align-items: center; /* Centers items vertically */
     justify-items: center; /* Centers items horizontally */
     min-width: 960px; /* Set a minimum width */
@@ -92,9 +114,9 @@ h1 {
     overflow: hidden;
     position: relative;
     transform-style: preserve-3d;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     cursor: pointer;
-    transform: scale(0.9);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background 0.3s ease-out;
+
 }
 
 .regulation_item a {
@@ -110,6 +132,7 @@ h1 {
 }
 
 .item_text {
+    text-align: center;
     padding: 20px;
     position: relative;
     z-index: 1;
@@ -122,6 +145,7 @@ h1 {
     text-align: center;
     height: 100%;
     transition: opacity 0.5s;
+    line-height: 1.2rem;
 }
 
 /* Align the first row items to the bottom */
@@ -136,11 +160,19 @@ h1 {
 
 .regulation_item:nth-child(3),.regulation_item:nth-child(1)
 {
-    justify-self: center;
+    justify-self: end;
 }
 .regulation_item:nth-child(2),.regulation_item:nth-child(4)
 {
-    justify-self: center;
+    justify-self: start;
+}
+.regulation_item:hover{
+    
+    transform: translateY(-5%);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+
+    background: rgb(249,211,255);
+    background: linear-gradient(20deg, rgba(249,211,255,1) 10%, rgba(200,255,255,1) 47%, rgba(210,234,252,1) 76%);
 }
 /* Media Query for smaller screens */
 @media (max-width: 1040px) {
@@ -148,23 +180,29 @@ h1 {
         width: 100%; /* Use 100% of the parent container */
         min-width: 0; /* Remove the minimum width constraint */
         grid-template-columns: 1fr; /* Change to a single column layout */
-        grid-template-rows: repeat(4, 150px); /* Four rows, each with a height of 150px */
+        grid-template-rows: repeat(4, 1fr); /* Four rows, each with a height of 150px */
         align-items: center;
         justify-items: center;
     }
     .regulation_item {
         width: 50%; /* Ensure items take full width of the column */
-        height: 150px; /* Adjust height for smaller screens */
-       
-
-        
+        height: 100%; /* Adjust height for smaller screens */
     }
     .regulation_container {
-        height: 100vh;
+        height: fit-content;
+        max-height: none;
+    }
+    .item_text{
+        line-height: 1.7rem;
+
+    }
+    
+    h1{
+        font-size: 1.2rem;
     }
     .regulation_item:nth-child(3),.regulation_item:nth-child(1),
-.regulation_item:nth-child(2),.regulation_item:nth-child(4)
-{
-    justify-self: center
-}
+    .regulation_item:nth-child(2),.regulation_item:nth-child(4)
+    {
+        justify-self: center
+    }
 }

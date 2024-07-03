@@ -1,12 +1,25 @@
 /* Basic resets and full height layout */
 * {
     box-sizing: border-box; /* Ensures padding and border are included in the width/height */
+    font-family: 'Borel', sans-serif;
+
+}
+html {
+    font-size: 25px; /* Defines the base size for 1rem */
+}
+
+body {
+    font-size: 1.2rem; /* All text in body will start at 19.2px */
+    line-height: 1.7rem;
+}
+
+h1 {
+    font-size: 2.0rem; /* Consistent sizing across the application, regardless of parent font size */
 }
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Arial', sans-serif;
 }
 .background {
     position: fixed;
@@ -29,7 +42,7 @@ body {
 /* Background and centering the container */
 .regulation_container {
     width: 80vw; /* Full width minus some padding */
-    height: calc(0.5 * 80vw);
+    height: calc(0.6 * 80vw);
     padding: 20px; /* Adds padding inside the container */
     box-sizing: border-box; /* Includes padding and border in the element's total width and height */
     background: rgba(255, 255, 255, 0.5);
@@ -46,17 +59,19 @@ h1 {
     margin: 0;
     text-align: center;
     color: #333;
-    margin-bottom: 10px;
+    margin: 20px 0px;
 }
 
 .regulation_list_item {
+    width: 100%; /* Full width of the container */
+    height: 100%; /* Full height of the container */
+    margin: 0;
     padding-left: 0;
     display: grid;
     grid-template-columns: repeat(2, minmax(250px, 1fr)); /* Adjusted minmax width */
     grid-template-rows: 1fr 1fr; /* Two rows of equal height */
     gap: 10px;
-    width: 100%; /* Full width of the container */
-    height: 100%; /* Full height of the container */
+
     align-items: center; /* Centers items vertically */
     justify-items: center; /* Centers items horizontally */
     min-width: 960px; /* Set a minimum width */
@@ -83,6 +98,8 @@ h1 {
 }
 
 .regulation_item a {
+    width: 100%;
+    height: 100%;
     text-decoration: none;
     color: #333;
 }
@@ -119,11 +136,11 @@ h1 {
 
 .regulation_item:nth-child(3),.regulation_item:nth-child(1)
 {
-    justify-self: end;
+    justify-self: center;
 }
 .regulation_item:nth-child(2),.regulation_item:nth-child(4)
 {
-    justify-self: start;
+    justify-self: center;
 }
 /* Media Query for smaller screens */
 @media (max-width: 1040px) {

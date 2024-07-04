@@ -40,7 +40,7 @@ body {
 }
 
 /* Background and centering the container */
-.regulation_container {
+.container {
     width: 80vw; /* Full width minus some padding */
     height: calc(0.6 * 80vw);
     padding: 20px; /* Adds padding inside the container */
@@ -74,7 +74,7 @@ body {
    
        
 } */
-h1 {
+.container_header {
     display: block;
     margin: 0;
     text-align: center;
@@ -84,7 +84,7 @@ h1 {
     font-weight: 400;
 }
 
-.regulation_list_item {
+.container_list {
     width: 100%; /* Full width of the container */
     height: 100%; /* Full height of the container */
     margin: 0;
@@ -99,7 +99,7 @@ h1 {
     min-width: 960px; /* Set a minimum width */
 }
 
-.regulation_item {
+.container_list_item {
     display: flex;
     align-items: center; /* Centers content vertically */
     justify-content: center; /* Centers content horizontally */
@@ -119,19 +119,19 @@ h1 {
 
 }
 
-.regulation_item a {
+.container_list_item a {
     width: 100%;
     height: 100%;
     text-decoration: none;
     color: #333;
 }
 
-.regulation_item:hover {
+.container_list_item:hover {
     background-color: #e0e0e0;
     cursor: pointer;
 }
 
-.item_text {
+.container_list_item_text {
     text-align: center;
     padding: 20px;
     position: relative;
@@ -149,24 +149,24 @@ h1 {
 }
 
 /* Align the first row items to the bottom */
-.regulation_item:nth-child(-n+2) {
+.container_list_item:nth-child(-n+2) {
     align-self: flex-end; /* Aligns the first two items (first row) to the bottom */
     
 }
-.regulation_item:nth-child(3),
-.regulation_item:nth-child(4) {
+.container_list_item:nth-child(3),
+.container_list_item:nth-child(4) {
     align-self: flex-start; /* Aligns the last two items (second row) to the top */
 }
 
-.regulation_item:nth-child(3),.regulation_item:nth-child(1)
+.container_list_item:nth-child(3),.container_list_item:nth-child(1)
 {
     justify-self: end;
 }
-.regulation_item:nth-child(2),.regulation_item:nth-child(4)
+.container_list_item:nth-child(2),.container_list_item:nth-child(4)
 {
     justify-self: start;
 }
-.regulation_item:hover{
+.container_list_item:hover{
     
     transform: translateY(-5%);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -176,7 +176,7 @@ h1 {
 }
 /* Media Query for smaller screens */
 @media (max-width: 1040px) {
-    .regulation_list_item {
+    .container_list {
         width: 100%; /* Use 100% of the parent container */
         min-width: 0; /* Remove the minimum width constraint */
         grid-template-columns: 1fr; /* Change to a single column layout */
@@ -184,15 +184,15 @@ h1 {
         align-items: center;
         justify-items: center;
     }
-    .regulation_item {
+    .container_list_item {
         width: 50%; /* Ensure items take full width of the column */
         height: 100%; /* Adjust height for smaller screens */
     }
-    .regulation_container {
+    .container {
         height: fit-content;
         max-height: none;
     }
-    .item_text{
+    .container_list_item_text{
         line-height: 1.7rem;
 
     }
@@ -200,9 +200,22 @@ h1 {
     h1{
         font-size: 1.2rem;
     }
-    .regulation_item:nth-child(3),.regulation_item:nth-child(1),
-    .regulation_item:nth-child(2),.regulation_item:nth-child(4)
+    .container_list_item:nth-child(3),.container_list_item:nth-child(1),
+    .container_list_item:nth-child(2),.container_list_item:nth-child(4)
     {
         justify-self: center
     }
 }
+
+
+/* form */
+
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    height: 50%;
+}
+
+input[type = "text"]

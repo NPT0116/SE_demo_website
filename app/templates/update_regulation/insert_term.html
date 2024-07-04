@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Thêm Kỳ Hạn Mới</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="../../static/regulation/regulation_home.css">
+    <link href='https://fonts.googleapis.com/css?family=Borel' rel='stylesheet'>
 </head>
 <body>
-    <h1>Thêm Kỳ Hạn Mới</h1>
-    <form id="insert_term_form">
-        <label for="new_period">Thêm kỳ hạn mới:</label>
-        <input type="text" id="new_period" name="new_period"><br><br>
-        <button type="button" onclick="submitForm()">Thêm</button>
-    </form>
+    <div class="background"></div>
+    <div class="container">
+
+
+        <h1 class = "container_header">Insert Term</h1>
+        <form id="insert_term_form" class = "container_form">
+            <label for="new_period">Thêm kỳ hạn mới:</label>
+            <input type="text" id="new_period" name="new_period"><br><br>
+            <button type="button" onclick="submitForm()">Add</button>
+        </form>
+    </div>
     <script>
         function submitForm() {
             var form = document.getElementById('insert_term_form');

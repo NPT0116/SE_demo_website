@@ -7,7 +7,7 @@ from . import view_accounts_bp
 @view_accounts_bp.route('/view_accounts')
 def view_accounts():
     try:
-        query = "SELECT ID_tai_khoan,  Loai_tiet_kiem, Ho_ten, Tien_nap_ban_dau FROM Tai_khoan_tiet_kiem tktk join Khach_hang kh on kh.ID_khach_hang = tktk.Nguoi_so_huu "
+        query = "select ID_tai_khoan, Ho_ten, loai_tiet_kiem, tien_nap_ban_dau from tai_khoan_tiet_kiem tktk join khach_hang kh on tktk.Nguoi_so_huu = kh.chung_Minh_thu"
         cursor = db.get_cursor()
         cursor.execute(query)
         accounts = cursor.fetchall()

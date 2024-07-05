@@ -1,0 +1,18 @@
+#sphere-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#sphere {
+    position: absolute;
+    width: 15vh;
+    height: 15vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    transition: transform 0.1s ease-out;
+}

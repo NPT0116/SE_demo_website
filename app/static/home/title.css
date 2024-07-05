@@ -1,0 +1,38 @@
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.title-container {
+    z-index: 2; /* Ensure titles are above background */
+    text-shadow: 1px 1px 15px rgba(0, 0, 0, 0.134);
+}
+
+.left-title, .right-title {
+    font-family: "Inter", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+    /* background: rgba(255, 255, 255, 0.695); */
+    background: linear-gradient(270deg, #ff9100, #ff0404a4, #3300ffb7, #9d00ff);
+    /* background: linear-gradient(270deg, #2600ff, #ffa200, #3300ff, #ff00ff); */
+    background-size: 800% 800%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 8s ease infinite;
+}
+
+.left-title {
+    font-size: 7vw;
+    margin-right: 20px; /* Adjust margin as needed */
+}
+
+.right-title {
+    font-size: 3.5vw;
+}

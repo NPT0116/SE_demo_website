@@ -28,7 +28,6 @@
                 <th>Ngày </th>
                 <th>Số Mở </th>
                 <th>Số Đóng </th>
-                <th>Chênh Lệch </th>
 
             </tr>
         </thead>
@@ -36,10 +35,10 @@
             {% for report in reports %}
             <tr>
                 <td>{{ loop.index }}</td>
+                <td>{{ report[0] }}</td>
                 <td>{{ report[1] }}</td>
                 <td>{{ report[2] }}</td>
                 <td>{{ report[3] }}</td>
-                <td>{{ report[4] }}</td>
             </tr>
             {% endfor %}
         </tbody>

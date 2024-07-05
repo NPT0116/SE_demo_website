@@ -209,13 +209,3 @@ body {
 
 
 /* form */
-
-form {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 50%;
-    height: 50%;
-}
-
-input[type = "text"]

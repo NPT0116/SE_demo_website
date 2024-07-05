@@ -8,23 +8,22 @@ USE QL_TAIKHOANTIETKIEM;
 
 -- Tạo bảng Khach_hang
 CREATE TABLE Khach_hang (
-    ID_khach_hang CHAR(10) NOT NULL,
     Ho_ten NVARCHAR(50) NOT NULL,
     Chung_minh_Thu CHAR(15) NOT NULL,
     Dia_chi NVARCHAR(80) ,
-    PRIMARY KEY (ID_khach_hang)
+    PRIMARY KEY (Chung_minh_Thu)
 );
 
 -- Tạo bảng Tai_khoan_tiet_kiem
 CREATE TABLE Tai_khoan_tiet_kiem (
     ID_tai_khoan CHAR(10) NOT NULL,
     Ngay_mo DATE NOT NULL,
-    Nguoi_so_huu CHAR(10) NOT NULL,
+    Nguoi_so_huu CHAR(15) NOT NULL,
     Loai_tiet_kiem NCHAR(20) NOT NULL,
     Tien_nap_ban_dau DECIMAL(19, 4) NOT NULL,
     Lai_suat FLOAT NOT NULL,
     PRIMARY KEY (ID_tai_khoan),
-    FOREIGN KEY (Nguoi_so_huu) REFERENCES Khach_hang(ID_khach_hang)
+    FOREIGN KEY (Nguoi_so_huu) REFERENCES Khach_hang(Chung_minh_Thu)
 );
 
 -- Tạo bảng Giao_dich
@@ -69,7 +68,7 @@ INSERT INTO minimum_withdraw_day(days) Values
 INSERT INTO minimum_deposit_money( amount) Values
 (100000);
 
-
+/*
 -- Thêm các khách hàng vào bảng Khach_hang
 INSERT INTO Khach_hang (ID_khach_hang, Ho_ten, Chung_minh_Thu, Dia_chi)
 VALUES 
@@ -93,6 +92,7 @@ INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tie
 VALUES 
 ('RT001', 'KKH001', 'Rút Tiền', 150000000, '2024-06-30'),
 ('NT001', 'KKH001', 'Nạp Tiền', 430000000, '2024-06-17');
+*/
 
 select * from terms;
 select * from minimum_withdraw_day;

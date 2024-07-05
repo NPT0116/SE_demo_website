@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Thay Đổi Số Tiền Gửi Tối Thiểu</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="../../static/regulation/input.css">
+    <link href='https://fonts.googleapis.com/css?family=Borel' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Thay Đổi Số Tiền Gửi Tối Thiểu</h1>
-    <form  id="change_minimum_deposit_money_form">
-        <label for="new_minimum">Số tiền gửi tối thiểu mới:</label>
-        <input type="number" id="new_minimum" name="new_minimum"><br><br>
-        <input type="submit" value="Cập nhật" onclick="submitForm()">
-    </form>
+    <div class="background">
+
+    </div>
+    <div class="container">
+
+
+        <form  id="change_minimum_deposit_money_form" >
+            <div class = "input_container_header">
+                <span class="input_container_header_text">
+                    Change minimum deposit 
+                </span>
+                </div>
+            <div class="form-item">
+
+                <p class = "formLabel "> Deposit</p>
+                <input class="form-style" type="number" id="new_minimum" name="new_minimum"><br><br>
+                <span class="percentage-sign">VND</span>
+
+            </div>
+            <input class = "button" type="submit" value="Update" onclick="submitForm()">
+        </form>
+    </div>
     <script>
         function submitForm() {
             var form = document.getElementById('change_minimum_deposit_money_form');
@@ -33,6 +52,28 @@
                 document.getElementById('result').textContent = 'Có lỗi xảy ra: ' + error;
             });
         }
+        var formInputs = $('input[type="text"],input[type="number"]');
+    formInputs.focus(function() {
+        $(this).parent().children('p.formLabel').addClass('formTop');
+        $(this).parent().children('span.percentage-sign').addClass('percentage-sign-focus');
+        $('div.input_container_header').addClass('header-focus')
+
+        
+    });
+    formInputs.focusout(function() {
+        if ($.trim($(this).val()).length == 0){
+        $(this).parent().children('p.formLabel').removeClass('formTop');
+        }
+        $(this).parent().children('span.percentage-sign').removeClass('percentage-sign-focus');
+        $('div.input_container_header').removeClass('header-focus')
+
+
+
+    });
+    $('p.formLabel').click(function(){
+        $(this).parent().children('.form-style').focus();
+
+    });
     </script>
 </body>
 </html>

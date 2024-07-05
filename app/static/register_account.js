@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.errors) {
                 // Nếu có lỗi, đánh dấu các trường bị lỗi và hiển thị thông báo lỗi
                 data.errors.forEach(error => {
-                    if (error.includes('khách hàng')) {
+                    if (error.includes('Tên khách hàng')) {
                         var input = document.getElementById('khach_hang');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('khach_hang_error');
@@ -54,6 +54,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         var input = document.getElementById('ngay_mo_so');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('ngay_mo_so_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Họ tên khách hàng không khớp')) {
+                        var input = document.getElementById('khach_hang');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('khach_hang_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Địa chỉ khách hàng không khớp')) {
+                        var input = document.getElementById('dia_chi');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('dia_chi_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
                     }

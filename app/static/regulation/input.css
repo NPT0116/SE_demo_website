@@ -100,7 +100,7 @@ input{
     transition: all .2s ease;
 }
 
-input.form-style{
+.form-style{
     color:#8a8a8a;
     display: block;
     width: 90%;
@@ -252,4 +252,117 @@ input::-webkit-inner-spin-button {
     top: 44%;
     margin-left:-180px;
     margin-top:-200px;
+}
+/* .selection-box
+{
+    display: block;
+} */
+
+/* css selection box */
+
+
+.selection-box
+{
+    color:#8a8a8a;
+    display: block;
+    width: 90%;
+    height: 70px;
+    padding: 5px 5%;
+    padding-left: 120px;
+    border:1px solid #ccc;
+    -moz-border-radius: 27px;
+    -webkit-border-radius: 27px;
+    border-radius: 27px;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    background-color: #fff;
+    font-size: 105%;
+    letter-spacing: .8px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+
+.selection-box-label
+{   
+    position: absolute;
+    top:-32px !important; 
+    left:26px; 
+    background-color: #fff;
+     padding:0 5px; 
+     font-size: 20px; 
+    color: #55b1df;
+}
+.option-box
+{
+    display: none;
+    
+    margin: 0;
+    padding: 0;
+    height: auto;
+    max-height: 300px;
+    position: absolute;
+    z-index: 11;
+    background-color: white;
+    width: 100%;
+    top: 78px;
+    right: 0;
+    list-style: none;
+    border:1px solid #ccc;
+    border-radius: 20px;
+    overflow-y: scroll;
+    transition: transform 0.3s ease;
+
+    /* padding: 10px; */
+}
+
+.option-item
+{
+    height: 40px;
+    width: 100%;
+    /* border-bottom: 1px solid #ccc; */
+    font-size: 1.0rem;
+    padding: 10px 0 0 20px;
+    transition: 0.3s ease all;
+}
+.option-item:hover
+{
+    background-color: #55b1df;
+    color: white;
+    cursor: pointer;
+}
+
+.output-option
+{
+    display: block;
+    padding-left: 80px;
+    padding-top: 22px;
+}
+.fa-arrow-down
+{
+    position: absolute;
+    top: 20px;
+    right: 19px;
+    font-weight: 300;
+    color: #55b1df;
+}
+
+.fa-arrow-left
+{
+    position: absolute;
+    top: 20px;
+    right: 19px;
+    font-weight: 300;
+    color: #55b1df;
+}
+
+.selection-box:hover
+{
+    cursor: pointer;
+}
+.visible 
+{
+    display: block !important;
+    
 }

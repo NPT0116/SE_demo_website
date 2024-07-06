@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
+from app.database import db
 
 daily_report_bp = Blueprint('daily_report', __name__)
 
@@ -10,9 +11,23 @@ def daily_report():
 def submit_daily_report():
     try:
         ngay = request.form['ngay']
-
-        
-        # Xử lý và lưu dữ liệu vào database
-        return jsonify({'message': 'Báo cáo hàng ngày đã được gửi và lưu thành công'})
+        query = f"""SELECT '{ngay}',rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP ,rut_tien.TONG_RUT
+                    FROM
+                    (SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
+                    FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
+                    where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Rút tiền') as tk_gd
+                    RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
+                    group by tk.Loai_tiet_kiem) as rut_tien
+                    ,(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_NAP
+                    FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
+                    where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Nạp tiền') as tk_gd
+                    RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
+                    group by tk.Loai_tiet_kiem) as nap_tien
+                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem """
+        cursor = db.get_cursor()
+        cursor.execute(query)
+        daily_reports = cursor.fetchall()
+        print ("accounts: ", daily_reports)
+        return render_template('report/daily_report.html', reports = daily_reports)
     except Exception as e:
         return jsonify({'message': 'Không thể gửi báo cáo hàng ngày', 'error': str(e)})

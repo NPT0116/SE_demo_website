@@ -3,20 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <title>Cập Nhật Lãi Suất</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="../../static/regulation/input.css">
+    <link href='https://fonts.googleapis.com/css?family=Borel' rel='stylesheet'>
+    <link rel="stylesheet" href="../../static/regulation/fonts/fontawesome-free-6.4.2-web/css/all.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Cập Nhật Lãi Suất</h1>
-    <form  id="update_interest_rate_form">
-        <label for="interest_period">Kỳ hạn lãi suất:</label>
-        <select id="interest_period" name="interest_period">
-            {% for period in regulation.get_terms() %}
-                <option value="{{ period }}">{{ period }}</option>
-            {% endfor %}
-        </select>
-        <input type="number" id="interest_rate" name="interest_rate" step="0.01"><br><br>
-        <input type="submit" value="Cập nhật" onclick="submitForm()">
-    </form>
+    <div class="background"></div>
+    <div class="container">
+
+ 
+        <form  id="update_interest_rate_form" class="container_form">
+            <div class = "input_container_header">
+                <span class="input_container_header_text">
+                    Update Interest rate
+                </span>
+
+                </div>
+
+                <div class="selection-box">
+
+                    <p class="selection-box-label">
+                        Choose Term
+                    </p>
+                    <span class="output-option">
+
+                    </span>
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+
+
+                <ul class="option-box">
+                    {% for period in regulation.get_terms() %}
+                    <li value="{{ period }}" class="option-item">{{ period }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+            <div class="form-item">
+                <p class = "formLabel "> Interest</p>
+                    
+                <input class = "form-style" type="number" id="interest_rate" name="interest_rate" step="0.01"><br><br>
+                <span class="percentage-sign">%</span>
+
+            </div>
+            <input class = "button"type="submit" value="Update" onclick="submitForm()">
+        </form>
+    </div>
     <script>
         function submitForm() {
             var form = document.getElementById('update_interest_rate_form');
@@ -38,6 +70,81 @@
                 document.getElementById('result').textContent = 'Có lỗi xảy ra: ' + error;
             });
         }
+        $(document).ready(function(){
+    var formInputs = $('input[type="text"],input[type="number"],.selection-box');
+    formInputs.focus(function() {
+        $(this).parent().children('p.formLabel').addClass('formTop');
+        $(this).parent().children('span.percentage-sign').addClass('percentage-sign-focus');
+        $('div.input_container_header').addClass('header-focus')
+        $('p.selection-box-label').addClass('selection-box-label-focus');
+
+        
+    });
+    formInputs.focusout(function() {
+        
+        $(this).parent().children('p.formLabel').removeClass('formTop');
+        
+        $(this).parent().children('span.percentage-sign').removeClass('percentage-sign-focus');
+        $('div.input_container_header').removeClass('header-focus')
+        $('p.selection-box-label').removeClass('selection-box-label-focus');
+
+
+
+    });
+    $('p.formLabel').click(function(){
+        $(this).parent().children('.form-style').focus();
+
+    });
+
+});
+    </script>
+    <script>
+        // Lấy tất cả các phần tử có lớp option-item
+        const optionBox = document.querySelector('.option-box')
+        const optionItems = document.querySelectorAll('.option-item');
+        const outputOption = document.querySelector('.output-option');
+        const arrow = document.querySelector('.fa-arrow-left');
+        const selection_box = document.querySelector('.selection-box')
+        const header = document.querySelector('.input_container_header')
+        selection_box.addEventListener('click', function()
+    {
+  
+        event.stopPropagation();
+                if (optionBox.classList.contains('visible')) {
+                    optionBox.classList.remove('visible');
+                    arrow.classList.add('fa-arrow-left');
+                    arrow.classList.remove('fa-arrow-down');
+                    header.classList.remove('header-focus')
+                } else {
+                    optionBox.classList.add('visible');
+                    arrow.classList.add('fa-arrow-down');
+                    arrow.classList.remove('fa-arrow-left');
+                    header.classList.add('header-focus')
+
+                }
+
+    })
+
+
+    document.addEventListener('click', function() {
+                arrow.classList.add('fa-arrow-left');
+                arrow.classList.remove('fa-arrow-down');
+        optionBox.classList.remove('visible')
+
+            });
+        // Thêm sự kiện click cho từng option-item
+        optionItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Xóa lớp selected khỏi tất cả các mục
+                optionItems.forEach(i => i.classList.remove('selected'));
+                
+                // Thêm lớp selected cho mục được chọn
+                this.classList.add('selected');
+    
+                // Cập nhật nội dung của span output-option
+                outputOption.textContent = this.textContent;
+            });
+        });
     </script>
 </body>
 </html>

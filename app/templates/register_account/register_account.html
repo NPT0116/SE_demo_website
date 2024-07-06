@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form Example</title>
+    <link rel="stylesheet" href="../../static/root.css">
+    <link rel="stylesheet" href="../../static/register_account/form.css">
+    <link rel="stylesheet" href="../../static/register_account/background.css">
+    <link rel="stylesheet" href="../../static/register_account/sphere.css">
+    <link rel="stylesheet" href="../../static/register_account/primary_information.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="form-container">
+            <div class="primary-information">
+                <div class="card-information">
+                    <div id="sphere-container">
+                        <div class="sphere"></div>
+                    </div>
+                    <div class="s-name"></div>
+                    <div class="s-id"></div>
+                    <div class="s-address"></div>
+                    <div class="bottom-infor">
+                        <div class="s-open-date"></div>
+                        <div class="s-term"></div>
+                    </div>
+                </div>
+                <div class="card-amount">
+                    <div class="s-amount"></div>
+                    <label for="s-amount"></label>
+                </div>
+            </div>
+            <div class="home-button"></div>
+            <form class="create-account-form">
+                <div class="left-column">
+                    <div class="group-left">
+                        <input type="text" id="amount" name="amount" placeholder="amount?" required>
+                        <span class="static-label-currency">VND</span>
+                        <label for="amount">Initial Deposit</label>
+                        <span class="error-message-1" id="amount_error"></span>
+                    </div>
+                    <div class="group-left">
+                        <div class="select-container">
+                            <select id="term" name="term" required>
+                                <option value="" disabled selected id="holder">choose a term</option>
+                                <option value="no-term">no-term</option>
+                                <option value="1-month">1-month</option>
+                                <option value="3-month">3-month</option>
+                                <option value="6-month">6-month</option>
+                                <option value="12-month">12-month</option>
+                            </select>
+                        </div>
+                        <!-- <span class="static-label-term">TERM</span> -->
+                        <label for="term">Term</label>
+                        <span class="error-message-1" id="term_error"></span>
+                    </div>
+                    <!-- <button type="submit">Submit</button> -->
+                    <button type="submit" id="submit-button" disabled>Submit</button>
+                </div>
+                <div class="right-column">
+                    <div class="title">create saving account</div>
+                    <div class="group-right">
+                        <input type="text" id="customer" name="customer" placeholder=" " required>
+                        <label for="customer">Customer's Name</label>
+                        <span class="error-message-2" id="customer_error"></span>
+                    </div>
+                    <div class="group-right">
+                        <input type="text" id="ID" name="ID" placeholder=" " required>
+                        <label for="ID">ID Number</label>
+                        <span class="error-message-2" id="ID_error"></span>
+                    </div>
+                    <div class="group-right">
+                        <input type="text" id="address" name="address" placeholder=" " required>
+                        <label for="address">Address</label>
+                        <span class="error-message-2" id="address_error"></span>
+                    </div>
+                    <div class="group-right">
+                        <input type="date" id="opening-date" name="opening-date" required>
+                        <label for="opening-date">Opening Date</label>
+                        <span class="error-message-2" id="opening-date_error"></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../static/register_account/register_account.js"></script>
+    <script src="../../static/register_account/sphere.js"></script>
+    <script src="../../static/register_account/move_card.js"></script>
+</body>
+
+</html>

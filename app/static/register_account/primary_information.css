@@ -1,0 +1,130 @@
+.primary-information {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 52%;
+    height: 30.8vh;
+    /* overflow: hidden; */
+    /* background-color: blue; */
+}
+.card-information {
+    width: 50%;
+    height: 100%;
+    background-image: url('images/infor2.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    /* backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); */
+    transition: transform 0.3s ease;
+}
+.card-information:hover {
+    /* scale: 1.1; */
+    /* transition: transform 0.3s ease; */
+}
+
+.s-name, .s-id, .s-address, .s-open-date, .s-term {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: white;
+    width: 80%;
+    height: 10%;
+    /* flex: 1; */
+    /* margin: 1%; */
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    text-shadow: 5px 5px 10px black;
+}
+
+.s-name {
+    font-size: 1.6vw;
+    /* background-color: blue; */
+}
+.s-id {
+    font-size: 1.4vw;
+    /* background-color: rgb(255, 0, 187); */
+}
+.s-address {
+    font-size: 1vw;
+    /* background-color: rgb(0, 255, 60); */
+}
+
+.bottom-infor {
+    /* position: fixed; */
+    padding: 0;
+    margin: 0;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: aquamarine; */
+}
+
+.s-open-date {
+    font-size: 1.3vw;
+    font-weight: 1000;
+    font-style: italic;
+    margin: 0%;
+}
+.s-term {
+    font-size: 1.6vw;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.card-amount {
+    width: 49%;
+    height: 100%;
+    background-image: url('images/infor1.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    /* backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); */
+    position: relative;
+    text-shadow: 5px 5px 10px black;
+}
+
+.s-amount {
+    font-family: 'Inter',sans-serif;
+    font-weight: 600;
+    font-size: 3vw;
+    font-style: italic;
+    color: rgb(201, 201, 201);
+    display: flex;
+    width: 90%;
+    height: 30%;
+    margin-top: 10px;
+    order: 1;
+    align-items: center;
+    justify-content: center;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    flex-wrap: wrap; /* Ensure long content wraps */
+
+    /* background-color: red; */
+}
+.card-amount label {
+    font-family: 'Inter',sans-serif;
+    font-weight: 600;
+    font-size: 1.5vw;
+    font-style: italic;
+
+    color: white;
+    width: 90%;
+    margin-top: 10%;
+}

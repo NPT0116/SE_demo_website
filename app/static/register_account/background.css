@@ -1,0 +1,40 @@
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('images/pawel-czerwinski-uXy0UbFwoXE-unsplash.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+.home-button {
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 95%;
+    width: 5%;
+    height: 10%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
+    box-shadow: inset 0 0 10px #000000;
+
+    border-radius: 50%;
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(0.5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.home-button:hover {
+    background: rgba(255, 255, 255, 0.616);
+    border: 2px solid rgb(255, 255, 255);
+}

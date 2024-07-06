@@ -1,0 +1,334 @@
+.form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: blue; */
+    background-image: url('images/Subtract.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 95vw;
+    height: 95vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+/* CSS adjustments */
+.group-right input,
+.group-right textarea,
+.group-left input,
+.group-left textarea {
+    box-sizing: border-box; 
+}
+
+.create-account-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-column,
+.right-column {
+    position: relative;
+}
+
+.left-column {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20vh
+}
+
+.right-column {
+    position: relative;
+    max-width: 90%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0px;
+    max-width: 90%;
+    width: 90%;
+    margin: 0;
+    
+    /* padding-top: 5vh;
+    padding-bottom: 5vh;
+    padding-right: 8vh; */
+
+    font-family: "Borel", sans-serif;
+    font-size: 3.5vw;
+    font-weight: 600;
+    text-align: center;
+    /* background-color: red; */
+}
+
+.group-right {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* background-color: #27408b; */
+}
+
+.group-right label {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9vw;
+    color: rgb(99, 102, 102);
+    position: absolute;
+    top: 50%;
+    left: 7%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    transition: all .3s ease;
+}
+
+.group-right input,
+.group-right textarea {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6vw;
+    max-width: 90%;
+    width: 90%;
+    height: 10vh;
+    padding:2vh;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    /* background-color: #ff0000; */
+}
+
+.group-right input:placeholder-shown + label,
+.group-right textarea:placeholder-shown + label {
+    top: 50%;
+    left: 7%;
+    transform: translateY(-50%);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: transparent;
+}
+
+.group-right input:focus,
+.group-right textarea:focus {
+    outline: none;
+}
+
+.group-right input:focus + label,
+.group-right textarea:focus + label {
+    top: 12%;
+    left: 7%;
+    transform: translateY(0);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #fff;
+    color: #000000;
+    font-weight: 600;
+}
+.group-right input:not(:placeholder-shown) + label,
+.group-right textarea:not(:placeholder-shown) + label {
+    top: 12%;
+    left: 7%;
+    transform: translateY(0);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #fff;
+    color: green;
+    font-weight: 600;
+}
+
+.group-right textarea {
+    resize: none;
+    height: 10px;
+}
+
+button {
+    align-items: center;
+    justify-content: center;
+    background-color: #bbbbbb;
+    width: 80%;
+    height: 7vh;
+    color: #ffffff86;
+    border: none;
+    border-radius: 60px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.367);
+    /* box-shadow: 0 4px 4px black; */
+    padding: 10px;
+    font-size: 1.5vw;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.group-left {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* background-color: #27408b; */
+    padding: 4vh;
+}
+
+.group-left label {
+    font-family: "Inter", sans-serif;
+    font-size: 1vw;
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    top: 25%;
+    left: 9%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    transition: all .3s ease;
+}
+.group-left .static-label-currency {
+    font-family: "Inter", sans-serif;
+    font-size: 2.2vw;
+    font-weight: 800;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+}
+.group-left input,
+.group-left textarea{
+    font-family: "Inter", sans-serif;
+    font-size: 3vw;
+    font-weight: bold;
+    color: #0004ff;
+
+    max-width: 100%;
+    width: 90%;
+    height: 5.5vh;
+    padding: 2vh;
+    padding-left: 8vw;
+    padding-bottom: 2vh;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    border-bottom: 3px solid rgb(0, 0, 0); /* Apply border-bottom on focus */
+    /* background-color: #0055ff; */
+    outline: none; /* Remove default focus outline */
+}
+.group-left input::placeholder,
+.group-left textarea::placeholder {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6vw;
+    color: grey;
+}
+
+
+.group-left .static-label-term {
+    font-family: "Inter", sans-serif;
+    font-size: 2.2vw;
+    font-weight: 800;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    color: #000;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    /* background-color: #0004ff; */
+}
+
+
+.group-left ::placeholder {
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+
+.group-left input:focus,
+.group-left textarea:focus {
+    /* color: red; */
+    /* border-color: #4f0000; */
+}
+
+.error-message-1 {
+    position: absolute;
+    top: 80%;
+    left: 10%;
+    font-size: 1vw;
+    font-weight: bold;
+    color: #ff0000;
+}
+.error-message-2 {
+    position: absolute;
+    top: 87%;
+    left: 7%;
+    font-size: 0.8vw;
+    font-weight: bold;
+    color: red;
+}
+select {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6vw;
+    font-weight: bold;
+    color: #000;
+    padding: 1vh;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    border-bottom: 3px solid rgb(0, 0, 0);
+    outline: none;
+}
+
+/* Custom styling for the dropdown icon */
+.select-container {
+    position: relative;
+    display: inline-block;
+    width: 90%; /* Adjust width as needed */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.select-container::after {
+    content: '▼';
+    font-size: 1.6vw;
+    color: #000;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ignore pointer events on the arrow */
+}
+
+/* Hide original dropdown arrow */
+select::-ms-expand {
+    display: none;
+}
+
+#term option#holder {
+    color: rgb(99, 102, 102);
+}
+#term:not(:placeholder-shown) {
+    color: blue;
+}

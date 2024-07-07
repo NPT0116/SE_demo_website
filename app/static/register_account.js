@@ -2,10 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Lắng nghe sự kiện 'submit' trên form có id 'myForm'
     document.getElementById('register_account_form').addEventListener('submit', function(event) {
         event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
-
+        console.alert("i'm here")
+        const form = document.getElementById('register_account_form')
         // Tạo một đối tượng FormData để thu thập dữ liệu từ form
-        var formData = new FormData(this);
-
+        var formData = new FormData(form);
         // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
         var inputs = document.querySelectorAll('#register_account_form input');
         var errorMessages = document.querySelectorAll('.error-message');

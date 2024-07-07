@@ -82,13 +82,15 @@ def get_next_account_id():
 def submit_register_account():
     errors = []
     try:
-        loai_tiet_kiem = request.form['loai_tiet_kiem']
-        khach_hang = request.form['khach_hang']
-        cmnd = request.form['cmnd']
-        dia_chi = request.form['dia_chi']
-        ngay_mo_so = request.form['ngay_mo_so']
-        so_tien_gui = request.form['so_tien_gui']
+        loai_tiet_kiem = request.form['term']
+        khach_hang = request.form['customer']
+        cmnd = request.form['ID']
+        dia_chi = request.form['address']
+        ngay_mo_so = request.form['opening-date']
+        so_tien = request.form['amount']
         ngay_mo_so = datetime.strptime(ngay_mo_so, '%Y-%m-%d').date()
+        so_tien_gui = so_tien.replace(',', '')
+
 
         errors = validate_input(khach_hang, cmnd, so_tien_gui, loai_tiet_kiem, ngay_mo_so)
         if errors:
@@ -107,7 +109,7 @@ def submit_register_account():
         rate = regulation.get_interest_rate(loai_tiet_kiem)
         so_tien_gui = float(so_tien_gui)
         values = (ma_so, ngay_mo_so, cmnd, loai_tiet_kiem, so_tien_gui, rate)
-
+        print(values)
         cursor = db.get_cursor()
         cursor.execute(insert_account_query, values)
         db.connection.commit()

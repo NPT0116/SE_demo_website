@@ -7,7 +7,76 @@ document.addEventListener('DOMContentLoaded', () => {
     const sterm = document.querySelector('.s-term');
     const samount = document.querySelector('.s-amount');
     const samount_label = samount.parentElement.querySelector('label')
+    document.getElementById('register_account_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
 
+        // Tạo một đối tượng FormData để thu thập dữ liệu từ form
+        var formData = new FormData(this);
+
+        // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
+        var inputs = document.querySelectorAll('#register_account_form input');
+        var errorMessages = document.querySelectorAll('.error-message');
+        inputs.forEach(input => input.classList.remove('error'));
+        errorMessages.forEach(errorMessage => errorMessage.style.display = 'none');
+
+        // Sử dụng Fetch API để gửi dữ liệu đến server
+        fetch('/register_account/submit', {
+            method: 'POST',
+            body: formData // Gửi dữ liệu đã thu thập được
+        })
+        .then(response => response.json()) // Chuyển đổi phản hồi nhận được thành JSON
+        .then(data => {
+            // Xóa lớp lỗi khỏi tất cả các trường input
+            var inputs = document.querySelectorAll('#register_account_form input');
+            inputs.forEach(input => input.classList.remove('error'));
+
+            if (data.errors) {
+                // Nếu có lỗi, đánh dấu các trường bị lỗi và hiển thị thông báo lỗi
+                data.errors.forEach(error => {
+                    if (error.includes('khách hàng')) {
+                        var input = document.getElementById('khach_hang');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('khach_hang_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('CMND')) {
+                        var input = document.getElementById('cmnd');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('cmnd_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('tiền gửi')) {
+                        var input = document.getElementById('so_tien_gui');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('so_tien_gui_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('kỳ hạn')) {
+                        var input = document.getElementById('loai_tiet_kiem');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('loai_tiet_kiem_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Ngày mở sổ')) {
+                        var input = document.getElementById('ngay_mo_so');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('ngay_mo_so_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    }
+                });
+                //alert('Có lỗi xảy ra: \n' + data.errors.join('\n'));
+            } else {
+                // Nếu không có lỗi, hiển thị thông báo thành công
+                alert('Thông tin đã được gửi thành công: ' + data.message);
+            }
+        })
+        .catch(error => {
+            // Xử lý lỗi nếu có
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi gửi thông tin');
+        });
+    });
     // Name check only accept no digit and special char except - and '
     function validateCustomerName(event) {
         const customer = document.getElementById('customer');
@@ -278,13 +347,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Home button
     document.querySelector('.home-button').addEventListener('click', () => {
-        window.location.href = '../templates/home/home.html'
+        window.location.href = '/'
     })
 
     let today = new Date();
     let formattedDate = today.toISOString().split('T')[0];
     document.getElementById('opening-date').value = formattedDate;
     sopendate.textContent = formattedDate;
+
 });
 
 

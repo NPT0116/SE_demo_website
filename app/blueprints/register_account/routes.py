@@ -10,7 +10,7 @@ def register_account():
     minimum_deposit_money = regulation.get_minimum_deposit_money()
     print("period: ", t)
     print("minimum deposit: ", minimum_deposit_money)
-    return render_template('register_account/register_account.html')
+    return render_template('register_account/register_account.html',regulation=regulation)
 
 def validate_input( so_tien_gui, loai_tiet_kiem, ngay_mo_so):
     errors = []

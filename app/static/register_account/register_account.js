@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (error.includes('deposit')) {
                         var input = document.getElementById('amount');
                         input.classList.add('error');
-                        var errorMessage = document.getElementById('amount_error');
+                        const errorMessage = document.getElementById('amount_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
                     } else if (error.includes('term')) {
@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         var errorMessage = document.getElementById('address_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
+
                     } else if (error.includes('opening date')) {
                         var input = document.getElementById('opening-date');
                         input.classList.add('error');
@@ -241,17 +242,18 @@ document.addEventListener('DOMContentLoaded', () => {
             amountInput.style.color = 'red'
             return false;
         } else if (/^\d+$/.test(removeCommas(amountInput.value.trim()))) {
-            amountError.textContent = ''
+            // amountError.textContent = ''
             amountInput.style.color = 'blue'
             samount_label.textContent = 'Initial Balance';
             samount.textContent =  formatNumberWithCommas(value);
             return true;
-        } else if (amountInput.value.trim() === '') {
-            samount_label.textContent = '';
-            samount.textContent =  '';
-            amountError.textContent = '';
-            return false
         }
+        //  else if (amountInput.value.trim() === '') {
+        //     samount_label.textContent = '';
+        //     samount.textContent =  '';
+        //     amountError.textContent = '';
+        //     return false
+        // }
         return false;
     }
 

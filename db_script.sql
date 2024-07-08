@@ -17,9 +17,9 @@ CREATE TABLE Khach_hang (
 -- Tạo bảng Tai_khoan_tiet_kiem
 CREATE TABLE Tai_khoan_tiet_kiem (
     ID_tai_khoan CHAR(10) NOT NULL,
-    Trang_thai_tai_khoan BOOLEAN NOT NULL,
+    Trang_thai_tai_khoan BOOLEAN NOT NULL DEFAULT 1,
     Ngay_mo DATE NOT NULL,
-    Ngay_dong DATE,
+    Ngay_dong DATE DEFAULT NULL,
     Nguoi_so_huu CHAR(15) NOT NULL,
     Loai_tiet_kiem NCHAR(20) NOT NULL,
     Tien_nap_ban_dau DECIMAL(19, 4) NOT NULL,
@@ -62,9 +62,9 @@ CREATE TABLE IF NOT EXISTS minimum_withdraw_day (
 
 
 INSERT INTO terms (term_name, interest_rate) VALUES
-('no period', 0.015),
-('3 months', 0.05),
-('6 months', 0.055);
+('no period', 0.15),
+('3 months', 0.5),
+('6 months', 0.55);
 INSERT INTO minimum_withdraw_day(days) Values
 (15);
 INSERT INTO minimum_deposit_money( amount) Values

@@ -12,20 +12,14 @@ def register_account():
     print("minimum deposit: ", minimum_deposit_money)
     return render_template('register_account/register_account.html')
 
-def validate_input(khach_hang, cmnd, so_tien_gui, loai_tiet_kiem, ngay_mo_so):
+def validate_input( so_tien_gui, loai_tiet_kiem, ngay_mo_so):
     errors = []
-    if any(char.isdigit() for char in khach_hang):
-        errors.append('Tên khách hàng không được chứa số.')
-    if any(char.isalpha() for char in cmnd):
-        errors.append('Số CMND không được chứa chữ.')
-    if any(char.isalpha() for char in so_tien_gui):
-        errors.append('Số tiền gửi không được chứa chữ.')
     if loai_tiet_kiem not in regulation.get_terms():
-        errors.append('Loại kỳ hạn tiết kiệm không hợp lệ.')
+        errors.append('Invalid term type.')
     if int(so_tien_gui) < regulation.get_minimum_deposit_money():
-        errors.append(f'Số tiền gửi tối thiểu là {regulation.get_minimum_deposit_money()} VND.')
+        errors.append(f'Minimum deposit amount is {regulation.get_minimum_deposit_money()} VND.')
     if ngay_mo_so > datetime.now().date():
-        errors.append('Ngày mở sổ không được quá ngày hiện tại.')
+        errors.append('The opening date cannot be later than the current date.')
     return errors
 
 def check_and_add_customer(cmnd, khach_hang, dia_chi):
@@ -39,10 +33,10 @@ def check_and_add_customer(cmnd, khach_hang, dia_chi):
     if result:
         existing_name, existing_address = result
         if khach_hang != existing_name:
-            error_name = 'Họ tên khách hàng không khớp với dữ liệu hiện tại: ' + existing_name
+            error_name = 'Customer name does not match the current data: ' + existing_name
             errors.append(error_name)
         if dia_chi != existing_address:
-            error_address = 'Địa chỉ khách hàng không khớp với dữ liệu hiện tại: ' + existing_address
+            error_address = 'Customer address does not match the current data: ' + existing_address
             errors.append(error_address)
     else:
         insert_customer_query = """
@@ -92,13 +86,13 @@ def submit_register_account():
         so_tien_gui = so_tien.replace(',', '')
 
 
-        errors = validate_input(khach_hang, cmnd, so_tien_gui, loai_tiet_kiem, ngay_mo_so)
+        errors = validate_input(so_tien_gui, loai_tiet_kiem, ngay_mo_so)
         if errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': errors}), 400
+            return jsonify({'message': 'An error occurred.', 'errors': errors}), 400
         
         customer_error = check_and_add_customer(cmnd, khach_hang, dia_chi)
         if customer_error:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': customer_error}), 400
+            return jsonify({'message': 'An error occurred.', 'errors': customer_error}), 400
         
         ma_so = get_next_account_id()
         
@@ -109,11 +103,10 @@ def submit_register_account():
         rate = regulation.get_interest_rate(loai_tiet_kiem)
         so_tien_gui = float(so_tien_gui)
         values = (ma_so, ngay_mo_so, cmnd, loai_tiet_kiem, so_tien_gui, rate)
-        print(values)
         cursor = db.get_cursor()
         cursor.execute(insert_account_query, values)
         db.connection.commit()
 
-        return jsonify({'message': 'Dữ liệu đã được gửi và lưu thành công'})
+        return jsonify({'message': 'Information was successfully submitted.'})
     except Exception as e:
-        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+        return jsonify({'message': 'An error occurred.', 'error': str(e)}), 500

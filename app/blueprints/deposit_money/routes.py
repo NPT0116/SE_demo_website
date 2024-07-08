@@ -3,12 +3,15 @@ from app.database import db
 from datetime import datetime
 from app.regulation import regulation
 from . import deposit_money_bp
+from app.account import Account
 
 @deposit_money_bp.route('/get_account_info', methods=['POST'])
 def get_account_info():
     try:
         ma_so = request.form['ma_so']
         cursor = db.get_cursor()
+        account = Account(ma_so)
+        print (account.get_name())
         query = """
             SELECT k.Ho_ten 
             FROM Tai_khoan_tiet_kiem t

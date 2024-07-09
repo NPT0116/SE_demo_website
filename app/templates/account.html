@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết Tài khoản</title>
+</head>
+<body>
+    <h1>Nhập ID Tài khoản</h1>
+    <input type="text" id="account_id" placeholder="Nhập ID Tài khoản">
+
+    <h2>Chi tiết Tài khoản</h2>
+    <p>ID Tài khoản: <span id="id_tai_khoan"></span></p>
+    <p>Trạng thái Tài khoản: <span id="trang_thai_tai_khoan"></span></p>
+    <p>Ngày mở: <span id="ngay_mo"></span></p>
+    <p>Ngày đóng: <span id="ngay_dong"></span></p>
+    <p>Người sở hữu: <span id="nguoi_so_huu"></span></p>
+    <p>Loại tiết kiệm: <span id="loai_tiet_kiem"></span></p>
+    <p>Tiền nạp ban đầu: <span id="tien_nap_ban_dau"></span></p>
+    <p>Lãi suất: <span id="lai_suat"></span></p>
+    <p>Thời gian mở sổ:  <span id="thoi-gian"> </span></p>
+    <p>Tiền lãi:  <span id="tien_lai"> </span></p>
+
+    <script>
+        let account_data ;
+        document.getElementById('account_id').addEventListener('input', function() {
+            const accountId = this.value;
+            if (accountId.length > 0) {
+                fetch(`/account/${accountId}`)
+                    .then(response => response.json())
+                    .then(account => {
+                        account_data = account;
+                        document.getElementById('id_tai_khoan').textContent = account.ID_tai_khoan;
+                        document.getElementById('trang_thai_tai_khoan').textContent = account.Trang_thai_tai_khoan;
+                        document.getElementById('ngay_mo').textContent = account.Ngay_mo;
+                        document.getElementById('ngay_dong').textContent = account.Ngay_dong;
+                        document.getElementById('nguoi_so_huu').textContent = account.Nguoi_so_huu;
+                        document.getElementById('loai_tiet_kiem').textContent = account.Loai_tiet_kiem;
+                        document.getElementById('tien_nap_ban_dau').textContent = account.Tien_nap_ban_dau;
+                        document.getElementById('lai_suat').textContent = account.Lai_suat;
+                        document.getElementById('thoi-gian').textContent = account['Thoi-Gian-toi-hien-tai'];
+                        document.getElementById('tien_lai').textContent = account.Tien_lai;
+
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+</body>
+</html>

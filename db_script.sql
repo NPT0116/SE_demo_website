@@ -133,10 +133,32 @@ END //
 
 DELIMITER ;
 
+select 
+from tai_khoan_tiet_kiem tktk join giao_dich gd on tktk.id_tai_khoan = gd.tai_khoan_giao_dich
+group by gd.tai_khoan_giao_dich
 
 
 select * from terms;
 select * from minimum_withdraw_day;
 select * from minimum_deposit_money;
 
-select * from tai_khoan_tiet_kiem
+SELECT 
+    tktk.ID_tai_khoan,
+    tktk.Tien_nap_ban_dau,
+    COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Nạp Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) AS Tong_nap_tien,
+    COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Rút Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) AS Tong_rut_tien,
+    tktk.Tien_nap_ban_dau + 
+        COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Nạp Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) - 
+        COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Rút Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0)/(1+tktk.lai_suat/100) AS Tong_so_tien
+FROM 
+    Tai_khoan_tiet_kiem tktk
+LEFT JOIN 
+    Giao_dich gd ON tktk.ID_tai_khoan = gd.Tai_khoan_giao_dich
+WHERE tktk.loai_tiet_kiem = 'no period'
+GROUP BY 
+    tktk.ID_tai_khoan, tktk.Tien_nap_ban_dau, tktk.lai_suat;
+    
+    
+    
+select * from giao_dich
+select * from khach_hang

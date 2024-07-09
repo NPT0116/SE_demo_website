@@ -22,7 +22,8 @@ class Database:
         return self.connection
 
     def get_cursor(self):
-        connection = self.connect()
+        connection = self.connect();
+        connection.reconnect();
         if connection:
             return connection.cursor(buffered=True)
         return None

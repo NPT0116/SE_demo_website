@@ -31,6 +31,7 @@
         function submitForm() {
             var form = document.getElementById('change_minimum_withdraw_day_form');
             var formData = new FormData(form);
+            event.preventDefault()
             
             fetch('/regulation/change_minimum_withdraw_day/submit', {
                 method: 'POST',

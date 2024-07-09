@@ -11,9 +11,13 @@ def insert_term():
 def submit_insert_term():
     try:
         new_period = request.form.get('new_period')
-        print(new_period)
+        new_interest = request.form.get('new_interest')
+
+        print(new_interest)
         if new_period:
             regulation.add_term(new_period)
+            if new_interest:
+                regulation.update_interest_rate(new_period, new_interest)
             return jsonify({'message': 'Kỳ hạn mới đã được thêm thành công'})
         else:
             return jsonify({'message': 'Kỳ hạn mới không được bỏ trống'}), 400

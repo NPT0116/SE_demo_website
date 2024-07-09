@@ -35,6 +35,7 @@
         function submitForm() {
             var form = document.getElementById('change_minimum_deposit_money_form');
             var formData = new FormData(form);
+            event.preventDefault()
             
             fetch('/regulation/change_minimum_deposit_money/submit', {
                 method: 'POST',

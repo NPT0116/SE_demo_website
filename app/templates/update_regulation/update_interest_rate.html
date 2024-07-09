@@ -27,7 +27,7 @@
                     <p class="selection-box-label">
                         Choose Term
                     </p>
-                    <span class="output-option">
+                    <span class="output-option" id="interest_period">
 
                     </span>
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
@@ -39,6 +39,8 @@
                     {% endfor %}
                 </ul>
                 </div>
+                <input type="hidden" id="hidden_interest_period" name="interest_period">
+
             <div class="form-item">
                 <p class = "formLabel "> Interest</p>
                     
@@ -52,8 +54,11 @@
     <script>
         function submitForm() {
             var form = document.getElementById('update_interest_rate_form');
+            var hiddenInput = document.getElementById('hidden_interest_period');
+            var interestPeriod = document.getElementById('interest_period').textContent;
+            hiddenInput.value = interestPeriod
             var formData = new FormData(form);
-            
+            event.preventDefault()
             fetch('/regulation/update_interest_rate/submit', {
                 method: 'POST',
                 body: formData

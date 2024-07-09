@@ -55,7 +55,7 @@ class RegulationManager:
                 print("Error when trying to add term:", e)  # Or use logging to log the error
             finally:
                 cursor.close()
-
+   
     def update_interest_rate(self, term_name, interest_rate):
         query = "UPDATE terms SET interest_rate = %s WHERE term_name = %s"
         cursor = db.get_cursor()

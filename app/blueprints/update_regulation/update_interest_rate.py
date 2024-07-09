@@ -10,6 +10,7 @@ def update_interest_rate():
 @update_interest_rate_bp.route('/update_interest_rate/submit', methods=['POST'])
 def submit_update_interest_rate():
     term = request.form.get('interest_period')
+    print (term)
     rate = float(request.form.get('interest_rate'))
     regulation.update_interest_rate(term, rate)
     return jsonify({'message': 'Lãi suất đã được cập nhật thành công'})

@@ -65,12 +65,10 @@ def validate_input(ngay_rut, ngay_mo):
         errors.append('Ngày rút không được trước ngày mở sổ.')
     return errors
 
-def validate_withdraw_conditions(term, ngay_mo, ngay_giao_dich, so_tien_rut, old_balance):
+def validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance):
     errors = []
     
     current_date = datetime.now().date()
-    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=15)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=15)):
-        errors.append('Chỉ được rút sau lần giao dịch gần nhất ít nhất 15 ngày.')
     if term == 'no period':
         if int(so_tien_rut) > int(old_balance):
             errors.append('Số tiền rút không được lớn hơn số dư hiện có.')
@@ -97,6 +95,13 @@ def validate_interest_rate(term, ngay_mo, ngay_rut):
             return 0.15
     return 0
 
+def validate_date (ngay_giao_dich, ngay_mo):
+    errors = []
+    current_date = datetime.now().date()
+    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=15)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=15)):
+        errors.append('Chỉ được rút sau lần giao dịch gần nhất ít nhất 15 ngày.')
+    return errors
+    
 def get_term(ma_so, errors):
     # Lấy loại tiết kiệm từ mã số 
     cursor = db.get_cursor()
@@ -249,29 +254,35 @@ def submit_form2():
         if int(account_status(ma_so)) == 0:
             status.append('Sổ đã đóng')
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 400
-        
-        # Kiểm tra dữ liệu đầu vào
+
+        # Kiểm tra dữ liệu đầu vào ( ngày hiện tại / quá khứ và không trước ngày mở)
         input_errors = validate_input(ngay_rut, ngay_mo)
         if input_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': input_errors}), 400
 
-        # Truy vấn để lấy loại tiết kiệm từ mã số
-        term_errors = []
+        # Truy vấn để lấy loại tiết kiệm từ mã số ( có tồn tại mã số đó )
+        term_errors = [] 
         term = get_term(ma_so, term_errors)
         if term_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 400
-        
+
+        # Kiểm tra điều kiện 15 ngày ( cách ngày mở / ngày giao dịch nạp gần nhất 15 ngày)
+        nearest_transaction = calculate_nearest_transaction(ma_so)
+        date_errors = validate_date(nearest_transaction, ngay_mo)    
+        if date_errors:
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': date_errors}), 400
+          
         # Tính lãi suất
         withdraw_money_after = 0
         interest_rate = validate_interest_rate(term, ngay_mo, ngay_rut)
+
         if interest_rate != 0:
             expired_time = cal_expired_time(ngay_mo, ngay_rut, term)
             withdraw_money_after = cal_withdraw_money(term, so_tien_rut, interest_rate, expired_time)
             
-        # Kiểm tra thỏa điều kiện rút (Đủ ngày + Số dư)
+        # Kiểm tra thỏa điều kiện rút (Đủ tháng + Số dư)
         old_balance = calculate_old_balance(ma_so, interest_rate, expired_time, term)
-        nearest_transaction = calculate_nearest_transaction(ma_so)
-        withdraw_errors = validate_withdraw_conditions(term, ngay_mo, nearest_transaction, so_tien_rut, old_balance)
+        withdraw_errors = validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance)
         if withdraw_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 400
         

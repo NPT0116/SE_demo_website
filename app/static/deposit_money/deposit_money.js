@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     var maSoInput = document.getElementById('ma_so_2');
+    var khachHangInput = document.getElementById('khach_hang_2');
+    var maSoError = document.getElementById('ma_so_error');
+
     maSoInput.addEventListener('input', function() {
         var ma_so = maSoInput.value;
         if (ma_so) {
@@ -13,23 +16,46 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.ten_tai_khoan) {
-                    document.getElementById('khach_hang_2').value = data.ten_tai_khoan;
                     khachHangInput.value = data.ten_tai_khoan;
                     khachHangInput.readOnly = true;
                     maSoError.textContent = ''; // Xóa thông báo lỗi nếu có
+
+                    // Lấy số dư cũ và hiển thị
+                    fetch('/get_old_balance', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'ma_so=' + ma_so,
+                    })
+                    .then(response => response.json())
+                    .then(balanceData => {
+                        if (balanceData['Old balance']) {
+                            console.log(`Số dư cũ: ${balanceData['Old balance']}`)
+                            document.getElementById('old_balance').textContent = `Số dư cũ: ${balanceData['Old balance']}`;
+                        } else {
+                            console.log('* Không tìm thấy thông tin tài khoản')
+                            document.getElementById('old_balance').textContent = '* Không tìm thấy thông tin tài khoản';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('old_balance').textContent = '* Đã xảy ra lỗi khi tìm kiếm số dư cũ';
+                    });
                 } else {
-                    document.getElementById('khach_hang_2').value = '';
-                    document.getElementById('ma_so_error').textContent = '* Không tìm thấy thông tin tài khoản';
+                    khachHangInput.value = '';
+                    khachHangInput.readOnly = false;
+                    maSoError.textContent = '* Không tìm thấy thông tin tài khoản';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                document.getElementById('ma_so_error').textContent = '* Đã xảy ra lỗi khi tìm kiếm thông tin tài khoản';
+                maSoError.textContent = '* Đã xảy ra lỗi khi tìm kiếm thông tin tài khoản';
             });
         } else {
-            document.getElementById('khach_hang_2').value = '';
-            document.getElementById('khach_hang_2').readOnly = false;
-            document.getElementById('ma_so_error').textContent = '';
+            khachHangInput.value = '';
+            khachHangInput.readOnly = false;
+            maSoError.textContent = '';
         }
     });
 
@@ -63,6 +89,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     var input = document.getElementById('khach_hang_2');
                     input.classList.add('error');
                     var errorMessage = document.getElementById('khach_hang_error');
+                    errorMessage.textContent = '* ' + error;
+                    errorMessage.style.display = 'block';
+                } else if (error.includes('đóng')) {
+                    var input = document.getElementById('ma_so_2');
+                    input.classList.add('error');
+                    var errorMessage = document.getElementById('ma_so_error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
                 } else if (error.includes('tiền gửi')) {

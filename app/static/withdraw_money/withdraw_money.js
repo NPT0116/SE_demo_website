@@ -19,23 +19,43 @@ document.addEventListener('DOMContentLoaded', function() {
                     khachHangInput.value = data.ten_tai_khoan;
                     khachHangInput.readOnly = true;
                     maSoError.textContent = ''; // Xóa thông báo lỗi nếu có
-                    maSoError.style.display = 'none';
+
+                    // Lấy số dư cũ và hiển thị
+                    fetch('/get_old_balance', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'ma_so=' + ma_so,
+                    })
+                    .then(response => response.json())
+                    .then(balanceData => {
+                        if (balanceData['Old balance']) {
+                            console.log(`Số dư cũ: ${balanceData['Old balance']}`)
+                            document.getElementById('old_balance').textContent = `Số dư cũ: ${balanceData['Old balance']}`;
+                        } else {
+                            console.log('* Không tìm thấy thông tin tài khoản')
+                            document.getElementById('old_balance').textContent = '* Không tìm thấy thông tin tài khoản';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        document.getElementById('old_balance').textContent = '* Đã xảy ra lỗi khi tìm kiếm số dư cũ';
+                    });
                 } else {
                     khachHangInput.value = '';
+                    khachHangInput.readOnly = false;
                     maSoError.textContent = '* Không tìm thấy thông tin tài khoản';
-                    maSoError.style.display = 'block'; // Hiển thị thông báo lỗi
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 maSoError.textContent = '* Đã xảy ra lỗi khi tìm kiếm thông tin tài khoản';
-                maSoError.style.display = 'block'; // Hiển thị thông báo lỗi
             });
         } else {
             khachHangInput.value = '';
             khachHangInput.readOnly = false;
             maSoError.textContent = '';
-            maSoError.style.display = 'none'; // Ẩn thông báo lỗi nếu không có mã số nhập vào
         }
     });
 
@@ -70,13 +90,19 @@ document.addEventListener('DOMContentLoaded', function() {
                         var errorMessage = document.getElementById('khach_hang_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
+                    } else if (error.includes('đóng')) {
+                        var input = document.getElementById('ma_so');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('ma_so_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
                     } else if (error.includes('Số tiền rút')) {
                         var input = document.getElementById('so_tien_rut');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('so_tien_rut_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('Ngày rút')) {
+                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất')) {
                         var input = document.getElementById('ngay_rut');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('ngay_goi_error');

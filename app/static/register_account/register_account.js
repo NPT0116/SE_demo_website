@@ -33,7 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.errors) {
                 // Nếu có lỗi, đánh dấu các trường bị lỗi và hiển thị thông báo lỗi
                 data.errors.forEach(error => {
-                    if (error.includes('deposit')) {
+                    if (error.includes('name')) {
+                        var input = document.getElementById('customer');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('customer_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('deposit')) {
                         var input = document.getElementById('amount');
                         input.classList.add('error');
                         const errorMessage = document.getElementById('amount_error');

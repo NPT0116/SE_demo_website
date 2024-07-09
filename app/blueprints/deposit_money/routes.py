@@ -31,7 +31,7 @@ def get_account_info():
 
 @deposit_money_bp.route('/deposit_money')
 def deposit_money():
-    return render_template('deposit_money.html')
+    return render_template('deposit_money/deposit_money.html')
 
 def get_open_date(ma_so):
     cursor = db.get_cursor()

@@ -30,7 +30,8 @@ def get_account_info():
 def get_old_balance():
     try:
         ma_so = request.form['ma_so']
-        old_balance = calculate_old_balance(ma_so)
+        rate = get_rate_by_id(ma_so)
+        old_balance = calculate_old_balance(ma_so, rate)
         if old_balance:
             return jsonify({'Old balance': old_balance}), 200
         else:
@@ -68,10 +69,8 @@ def validate_withdraw_conditions(term, ngay_mo, ngay_giao_dich, so_tien_rut, old
     errors = []
     
     current_date = datetime.now().date()
-    
-    if current_date < ngay_giao_dich + timedelta(days=15):
+    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=15)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=15)):
         errors.append('Chỉ được rút sau lần giao dịch gần nhất ít nhất 15 ngày.')
-
     if term == 'no period':
         if int(so_tien_rut) > int(old_balance):
             errors.append('Số tiền rút không được lớn hơn số dư hiện có.')
@@ -128,7 +127,13 @@ def save_data_to_database(ma_so, ngay_rut, so_tien_rut):
     cursor.execute(insert_query, values)
     db.connection.commit()
     
-def calculate_old_balance (ma_so):
+def calculate_old_balance (ma_so, interest_rate, expired_time, term):
+    month = 1
+    if term == '3 months':
+        month = 3
+    elif term == '6 months':
+        month = 6
+        
     old_balance = 0
     cursor = db.get_cursor()
     query = """
@@ -149,7 +154,7 @@ def calculate_old_balance (ma_so):
     result = cursor.fetchone()
 
     if result:
-        old_balance = result[0] + result[1] - result[2]
+        old_balance = float(result[0]) + float(result[1]) - float(result[2])/(1 + ((interest_rate/100) * month * expired_time))
     cursor.close()
     return old_balance
 
@@ -159,29 +164,92 @@ def calculate_nearest_transaction(ma_so):
     query = """
     SELECT MAX(Ngay_giao_dich) AS ngay_giao_dich_moi_nhat
     FROM Giao_dich
-    WHERE Tai_khoan_giao_dich = %s
+    WHERE Tai_khoan_giao_dich = %s AND Loai_giao_dich = N'Nạp Tiền'
     """
 
     cursor.execute(query, (ma_so,))
     result = cursor.fetchone()
-
     if result and result[0]:
         ngay_giao_dich = result[0]
 
     cursor.close()
     return ngay_giao_dich
     
+def get_rate_by_id(ma_so):
+    cursor = db.get_cursor()
+    query = """
+    SELECT
+    t.ID_tai_khoan,
+    t.Loai_tiet_kiem,
+    r.interest_rate
+    FROM
+    Tai_khoan_tiet_kiem t
+    JOIN
+    terms r ON t.Loai_tiet_kiem = r.term_name
+    WHERE
+    t.ID_tai_khoan = %s;"""
+    
+    cursor.execute(query, (ma_so, ))
+    res = cursor.fetchone()
+    return res[2]
+    
+def set_close_day(ma_so):
+    cursor = db.get_cursor()
+    query = """
+    UPDATE Tai_khoan_tiet_kiem
+    SET Trang_thai_tai_khoan = 0, Ngay_dong = CURDATE()
+    WHERE ID_tai_khoan = %s;
+    """
+    cursor.execute(query, (ma_so,))
+    db.connection.commit()
+    
+def cal_withdraw_money(term, so_tien_rut, rate, expired_time):
+    month = 1
+    if term == '3 months':
+        month = 3
+    elif term == '6 months':
+        month = 6
+    money = int(so_tien_rut) + int(so_tien_rut) * rate/100 * expired_time * month
+    return money
+
+def cal_expired_time(ngay_mo, ngay_rut, term):
+    # Tính số ngày giữa hai ngày
+    delta = ngay_rut - ngay_mo
+    expire_time = 1
+
+    # Tính toán expired time theo term
+    if term == '3 months':
+        expire_time = int(delta.days / (3 * 30))  # Sử dụng 3*30 ngày cho 3 tháng
+    elif term == '6 months':
+        expire_time = int(delta.days / (6 * 30))  # Sử dụng 6*30 ngày cho 6 tháng
+    return expire_time
+    
+def account_status(ma_so):
+    cursor = db.get_cursor()
+    query = """
+    SELECT Trang_thai_tai_khoan
+    FROM Tai_khoan_tiet_kiem
+    WHERE ID_tai_khoan = %s
+    """
+    cursor.execute(query, (ma_so, ))
+    res = cursor.fetchone()
+    return res[0]
+
 @withdraw_money_bp.route('/withdraw_money/submit', methods=['POST'])
 def submit_form2():
-    errors = []
     try:
         ma_so = request.form['ma_so']
-        khach_hang = request.form['khach_hang']
         ngay_rut = request.form['ngay_rut']
         so_tien_rut = request.form['so_tien_rut']
         ngay_rut = datetime.strptime(ngay_rut, '%Y-%m-%d').date()
         ngay_mo = get_open_date(ma_so)
 
+        # Kiểm tra sổ đóng 
+        status = []
+        if int(account_status(ma_so)) == 0:
+            status.append('Sổ đã đóng')
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 400
+        
         # Kiểm tra dữ liệu đầu vào
         input_errors = validate_input(ngay_rut, ngay_mo)
         if input_errors:
@@ -192,24 +260,29 @@ def submit_form2():
         term = get_term(ma_so, term_errors)
         if term_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 400
-      
-        # Kiểm tra thỏa điều kiện rút (Đủ ngày + Số dư)
-        old_balance = calculate_old_balance(ma_so)
-
-        nearest_transaction = calculate_nearest_transaction(ma_so)
-        withdraw_errors = validate_withdraw_conditions(term, ngay_mo, nearest_transaction, so_tien_rut, old_balance)
-        if withdraw_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 400
         
         # Tính lãi suất
         withdraw_money_after = 0
         interest_rate = validate_interest_rate(term, ngay_mo, ngay_rut)
         if interest_rate != 0:
-            withdraw_money_after = int(so_tien_rut) * (1 + interest_rate)
+            expired_time = cal_expired_time(ngay_mo, ngay_rut, term)
+            withdraw_money_after = cal_withdraw_money(term, so_tien_rut, interest_rate, expired_time)
+            
+        # Kiểm tra thỏa điều kiện rút (Đủ ngày + Số dư)
+        old_balance = calculate_old_balance(ma_so, interest_rate, expired_time, term)
+        nearest_transaction = calculate_nearest_transaction(ma_so)
+        withdraw_errors = validate_withdraw_conditions(term, ngay_mo, nearest_transaction, so_tien_rut, old_balance)
+        if withdraw_errors:
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 400
         
         # Lưu vào database
         save_data_to_database(ma_so, ngay_rut, withdraw_money_after)
         
+        # Trường hợp rút toàn bộ => đóng sổ
+        remaining = calculate_old_balance(ma_so, interest_rate, expired_time, term)
+        if remaining == 0:
+            set_close_day(ma_so)
+            
         return jsonify({'message': 'Dữ liệu đã được nhận và lưu thành công.'}), 200
     except Exception as e:
         return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500

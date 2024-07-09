@@ -5,13 +5,69 @@ from app.regulation import regulation
 from . import deposit_money_bp
 from app.account import Account
 
+def get_rate_by_id(ma_so):
+    cursor = db.get_cursor()
+    query = """
+    SELECT
+    t.ID_tai_khoan,
+    t.Loai_tiet_kiem,
+    r.interest_rate
+    FROM
+    Tai_khoan_tiet_kiem t
+    JOIN
+    terms r ON t.Loai_tiet_kiem = r.term_name
+    WHERE
+    t.ID_tai_khoan = %s;"""
+    
+    cursor.execute(query, (ma_so, ))
+    res = cursor.fetchone()
+    return res[2]
+
+def calculate_old_balance (ma_so, interest_rate):
+    old_balance = 0
+    cursor = db.get_cursor()
+    query = """
+    SELECT 
+        t.Tien_nap_ban_dau,
+        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Nạp Tiền' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_nap,
+        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Rút Tiền' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_rut
+    FROM 
+        Tai_khoan_tiet_kiem t
+    LEFT JOIN 
+        Giao_dich g ON t.ID_tai_khoan = g.Tai_khoan_giao_dich
+    WHERE 
+        t.ID_tai_khoan = %s
+    GROUP BY 
+        t.Tien_nap_ban_dau
+    """
+    cursor.execute(query, (ma_so,))
+    result = cursor.fetchone()
+    if result:
+        old_balance = float(result[0]) + float(result[1]) - float(result[2])/(1 + interest_rate/100)
+
+    cursor.close()
+    return old_balance
+    
+@deposit_money_bp.route('/get_old_balance', methods=['POST'])
+def get_old_balance():
+    try:
+        ma_so = request.form['ma_so']
+        rate = get_rate_by_id(ma_so)
+        old_balance = calculate_old_balance(ma_so, float(rate))
+        if old_balance:
+            return jsonify({'Old balance': old_balance}), 200
+        else:
+            return jsonify({'message': 'Không tìm thấy thông tin tài khoản.'}), 404
+
+    except Exception as e:
+        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+
 @deposit_money_bp.route('/get_account_info', methods=['POST'])
 def get_account_info():
     try:
         ma_so = request.form['ma_so']
         cursor = db.get_cursor()
         account = Account(ma_so)
-        print (account.get_name())
         query = """
             SELECT k.Ho_ten 
             FROM Tai_khoan_tiet_kiem t
@@ -61,7 +117,7 @@ def validate_input(ma_so, khach_hang, so_tien_gui, ngay_gui):
         errors.append('Ngày gửi không được trước ngày mở sổ.')
     return errors
         
-def get_loai_tiet_kiem(ma_so, errors):
+def get_term(ma_so, errors):
     # Lấy loại tiết kiệm từ mã số 
     cursor = db.get_cursor()
     query = "SELECT Loai_tiet_kiem FROM Tai_khoan_tiet_kiem WHERE ID_tai_khoan = %s"
@@ -77,7 +133,6 @@ def validate_deposit_conditions(so_tien_gui, loai_tiet_kiem):
     # Kiểm tra điều kiện gửi tiền 
     if loai_tiet_kiem != 'no period':
         err = 'Chỉ nhận gửi tiền cho loại tiết kiệm "no period". ' + 'Loại tiết kiệm của sổ là ' + loai_tiet_kiem 
-        print(err)
         errors.append(err)
 
     minimum_deposit_amount = regulation.get_minimum_deposit_money()
@@ -104,7 +159,18 @@ def save_data_to_database(ma_so, ngay_gui, so_tien_gui):
     values = (new_id, ma_so, 'Nạp Tiền', so_tien_gui, ngay_gui)
     cursor.execute(insert_query, values)
     db.connection.commit()
-    
+
+def account_status(ma_so):
+    cursor = db.get_cursor()
+    query = """
+    SELECT Trang_thai_tai_khoan
+    FROM Tai_khoan_tiet_kiem
+    WHERE ID_tai_khoan = %s
+    """
+    cursor.execute(query, (ma_so, ))
+    res = cursor.fetchone()
+    return res[0]
+
 @deposit_money_bp.route('/deposit_money/submit', methods=['POST'])
 def submit_form2():
     try:
@@ -115,6 +181,12 @@ def submit_form2():
         so_tien_gui = request.form['so_tien_gui']
         ngay_gui = datetime.strptime(ngay_gui, '%Y-%m-%d').date()
         
+        # Kiểm tra sổ đóng 
+        status = []
+        if int(account_status(ma_so)) == 0:
+            status.append('Sổ đã đóng')
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 400
+        
         # Kiểm tra dữ liệu đầu vào
         input_errors = validate_input(ma_so, khach_hang, so_tien_gui, ngay_gui)
         if input_errors:
@@ -122,7 +194,7 @@ def submit_form2():
         
         # Truy vấn để lấy loại tiết kiệm từ mã số
         term_errors = []
-        loai_tiet_kiem = get_loai_tiet_kiem(ma_so, term_errors)
+        loai_tiet_kiem = get_term(ma_so, term_errors)
 
         if term_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 400

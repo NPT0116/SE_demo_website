@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     /* Function to remove comma and parse as BigInt */
     function removeComma(value) {
-        return value.replace(/,/g, ''); // Removes all commas from the string
+        return value.replace(/[,\.]/g, ''); // Removes all commas and dots from the string
     }
     /* Function to display/remove old balance */
     const oldBalanceBox = document.getElementById('c-old-balance')
@@ -92,9 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         removeOldBalance();
                     });
                 }
-                customerName = 'Pham Quang Duy'
                 // Fetch Old Balance cho nay
-                oldBalance = 10000
                 updateOldBalance()
                 return true;
             } else if (idValue !== '') {
@@ -119,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return false;
             }
         } else {
-            if (/^\d+$/.test(idValue)) {
+            if (/^[a-zA-Z]+\d+$/.test(idValue)) {
                 return true;
             } else {
                 return false;

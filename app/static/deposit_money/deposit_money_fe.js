@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     /* Function to remove comma and parse as BigInt */
     function removeComma(value) {
-        return value.replace(/,/g, ''); // Removes all commas from the string
+        return value.replace(/[,\.]/g, ''); // Removes all commas and dots from the string
     }
     function removeDot(value) {
         return value.replace(/./g, ''); // Removes all commas from the string

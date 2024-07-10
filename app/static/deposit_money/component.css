@@ -1,0 +1,217 @@
+form  {
+    width: 100%;
+    height: 100%;
+}
+.home-button {
+    position: fixed;
+    right: 0;
+    width: 5vw;
+    height: 10vh;
+    background-color: white;
+    border-radius: 50%;
+
+    box-shadow: inset 0 0 10px black;
+    border: 2px solid white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1000;
+}
+.home-button:hover {
+    background-color: rgba(255, 255, 255, 0.616);
+    border: 2px solid white;
+}
+.title {
+    font-size: 4vw;
+    font-family: 'Borel' ,sans-serif;
+    font-weight: 500;
+}
+.right-column {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    width: 48%;
+    height: 100%;
+    background-size: 100% 100%;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.right-group input,
+.left-group input {
+    box-sizing: border-box;
+}
+.right-group {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 45vw;
+}
+.right-group label {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9vw;
+    color: rgb(99, 102, 102);
+    position: absolute;
+    top: 50%;
+    left: 7%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    transition: all .3s ease;
+}
+.right-group input{
+    font-family: "Inter", sans-serif;
+    font-size: 1.6vw;
+    max-width: 90%;
+    width: 100%;
+    height: 10vh;
+    padding:2vh;
+    margin-top: 2.5vh;
+    margin-bottom: 2.5vh;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+}
+.right-group input:placeholder-shown + label {
+    top: 50%;
+    left: 7%;
+    transform: translateY(-50%);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: transparent;
+}
+.right-group input:focus {
+    outline: none;
+}
+.right-group:not(.no-focus) input:not(#name):focus + label {
+    top: 12%;
+    left: 7%;
+    transform: translateY(0);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #fff;
+    color: #000000;
+    font-weight: 600;
+}
+.right-group input:not(:placeholder-shown) + label {
+    top: 12%;
+    left: 7%;
+    transform: translateY(0);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #fff;
+    color: green;
+    font-weight: 600;
+}
+.left-column {
+    position: relative;
+    width: 52%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.form-part-left {
+    position: relative;
+    top: 27.5%;
+    width: 100%;
+    height: 45.5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+    /* background-color: red; */
+}
+#submit-button {
+    font-family: "Inter", sans-serif;
+    font-size: 1.2vw;
+    font-weight: 800;
+    position: relative;
+    width: 70%;
+    height: 20%;
+    margin: 80px;
+    border-radius: 50px;
+    border: 0px solid black;
+    order: 2;
+    color: white;
+    /* background-color: blue; */
+}
+.left-group {
+    position: relative;
+    top: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    z-index: 2000;
+    order: 1;
+    padding-top: 1.3vh;
+    /* background-color: #8b2727; */
+}
+.left-group label {
+    font-family: "Inter", sans-serif;
+    font-size: 1vw;
+    font-weight: 800;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    top: 1%;
+    left: 3%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    transition: all .3s ease;
+}
+.left-group #static-label-currency {
+    font-family: "Inter", sans-serif;
+    font-size: 2.2vw;
+    font-weight: 800;
+    color: #000;
+    position: absolute;
+    right: 86.5%;
+}
+.left-group input {
+    font-family: "Inter", sans-serif;
+    font-size: 3vw;
+    font-weight: bold;
+    color: blue;
+
+    max-width: 100%;
+    width: 94%;
+    height: 6vh;
+    padding-left: 8vw;
+    padding-bottom: 0.5vh;
+    border: none;
+    border-radius: 10px;
+    background-color: transparent;
+    border-bottom: 3px solid rgb(0, 0, 0);
+    /* background-color: #0055ff; */
+    outline: none; 
+}
+.left-group input::placeholder {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6vw;
+    color: grey;
+}
+.error-message-1 {
+    position: absolute;
+    top: 90%;
+    left: 8%;
+    font-family: "Inter", sans-serif;
+    font-size: 1vw;
+    font-weight: bold;
+    color: red;
+}
+.error-message-2 {
+    position: absolute;
+    top: 90%;
+    /* left: 8%; */
+    left: 5%;
+    font-family: "Inter", sans-serif;
+    font-size: 1vw;
+    font-weight: bold;
+    color: red;
+}

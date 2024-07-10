@@ -1,0 +1,63 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('images/bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.sub-background {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 95%;
+    background-image: url('images/subBg.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+#card-information {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25.5%;
+    height: 32.5%;
+    background-image: url('../deposit_money/images/Information.png');
+    background-size: 100% 100%;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-shadow: 5px 5px 10px black;
+}
+#card-old-balance {
+    position: fixed;
+    top: 0;
+    left: 26%;
+    width: 26%;
+    height: 32.5%;
+    background-image: url('../deposit_money/images/InitialBalance.png');
+    background-size: 100% 100%;
+    /* background-color: rgb(255, 0, 0); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-shadow: 5px 5px 10px black;
+}
+#card-new-balance {
+    position: fixed;
+    top: 33.5%;
+    left: 0;
+    width: 52%;
+    height: 20.5%;
+    background-image: url('../deposit_money/images/NewBalance.png');
+    background-size: 100% 100%;
+    /* background-color: rgb(255, 0, 0); */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-shadow: 5px 5px 10px black;
+}

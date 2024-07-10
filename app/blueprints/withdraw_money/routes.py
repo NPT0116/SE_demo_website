@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from app.regulation import regulation
 from . import withdraw_money_bp
 
-@withdraw_money_bp.route('/get_account_info', methods=['POST'])
+@withdraw_money_bp.route('/withdraw_money/get_account_info', methods=['POST'])
 def get_account_info():
     try:
         ma_so = request.form['ma_so']
@@ -26,7 +26,7 @@ def get_account_info():
     except Exception as e:
         return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
 
-@withdraw_money_bp.route('/get_old_balance', methods=['POST'])
+@withdraw_money_bp.route('/withdraw_money/get_old_balance', methods=['POST'])
 def get_old_balance():
     try:
         ma_so = request.form['ma_so']

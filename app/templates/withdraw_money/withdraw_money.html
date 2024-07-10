@@ -1,31 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Phiếu Rút Tiền</title>
-    <link rel="stylesheet" type="text/css" href="../../static/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/withdraw_money/component.css">
+    <link rel="stylesheet" href="../../static/withdraw_money/root.css">
+    <link rel="stylesheet" href="../../static/withdraw_money/background.css">
+    <link rel="stylesheet" href="../../static/withdraw_money/primary_information.css">
 </head>
+
 <body>
-    <h1>Phiếu Rút Tiền</h1>
-    <form action="/withdraw_money/submit" method="post" id="withdraw_money_form">
-        <label for="ma_so">Mã số:</label>
-        <input type="text" id="ma_so" name="ma_so" required><br><br>
-        <span class="error-message" id="ma_so_error"></span>
+    <div class="background">
+        <div class="sub-background">
+            <div class="home-button"></div>
+            <form action="">
+                <div class="right-column">
+                    <div class="title">withdraw</div>
+                    <div class="title"></div>
+                    <div class="search-information">
+                        <div class="right-group">
+                            <input type="text" id="id" placeholder=" " required>
+                            <label for="id">Savingbook's ID</label>
+                            <span class="error-message-1" id="id-error"></span>
+                        </div>
+                        <div class="right-group">
+                            <input type="text" id="name" readonly placeholder=" " required>
+                            <label for="name">Customer's Name</label>
+                            <span class="error-message-1" id="name-error"></span>
+                        </div>
+                        <div class="right-group">
+                            <input type="date" id="withdraw-date" required>
+                            <label for="withdraw-date">Withdraw Date</label>
+                            <span class="error-message-1" id="date-error"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-column">
+                    <div class="summary-information">
+                        <div id="card-information">
+                            <div id="c-information-container">
+                                <div id="c-id"></div>
+                                <div id="c-name"></div>
+                                <div id="c-withdraw-date"></div>
+                            </div>
+                        </div>
+                        <div id="card-old-balance">
+                            <div id="c-old-balance"></div>
+                            <label for="c-old-balance"></label>
+                        </div>
+                        <div id="card-new-balance">
+                            <div id="c-new-balance"></div>
+                            <label for="c-new-balance"></label>
+                        </div>
+                    </div>
+                    <div class="form-part-left">
+                        <div class="left-group">
+                            <input id="withdraw-money" type="text" placeholder="amount?" required>
+                            <span id="static-label-currency">VND</span>
+                            <label for="withdraw-money">Withdraw Amount</label>
+                            <span class="error-message-2" id="withdraw-money-error"></span>
+                        </div>
 
-        <label for="khach_hang">Khách hàng:</label>
-        <input type="text" id="khach_hang" name="khach_hang" required><br><br>
-        <span class="error-message" id="khach_hang_error"></span>
-
-        <label for="ngay_rut">Ngày rút:</label>
-        <input type="date" id="ngay_rut" name="ngay_rut" required><br><br>
-        <span class="error-message" id="ngay_goi_error"></span>
-
-        <label for="so_tien_rut">Số tiền rút:</label>
-        <input type="number" id="so_tien_rut" name="so_tien_rut" required><br><br>
-        <span class="error-message" id="so_tien_rut_error"></span>
-
-        <input type="submit" value="Rút Tiền">
-    </form>
-    <script src="../../static/withdraw_money/withdraw_money.js"></script>
+                        <button id="submit-button">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="../../static/withdraw_money/withdraw_money_fe.js"></script>
 </body>
+
 </html>

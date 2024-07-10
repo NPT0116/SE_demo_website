@@ -48,7 +48,7 @@ def calculate_old_balance (ma_so, interest_rate):
     cursor.close()
     return old_balance
     
-@deposit_money_bp.route('/get_old_balance', methods=['POST'])
+@deposit_money_bp.route('/deposit_money/get_old_balance', methods=['POST'])
 def get_old_balance():
     try:
         ma_so = request.form['ma_so']
@@ -61,8 +61,7 @@ def get_old_balance():
 
     except Exception as e:
         return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
-
-@deposit_money_bp.route('/get_account_info', methods=['POST'])
+@deposit_money_bp.route('/deposit_money/get_account_info', methods=['POST'])
 def get_account_info():
     try:
         ma_so = request.form['ma_so']
@@ -76,7 +75,6 @@ def get_account_info():
         """
         cursor.execute(query, (ma_so,))
         result = cursor.fetchone()
-        
         if result:
             return jsonify({'ten_tai_khoan': result[0]}), 200
         else:
@@ -210,3 +208,4 @@ def submit_form2():
         return jsonify({'message': 'Dữ liệu đã được nhận và lưu thành công.'}), 200
     except Exception as e:
         return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+

@@ -82,11 +82,11 @@ VALUES
 -- Thêm các tài khoản tiết kiệm vào bảng Tai_khoan_tiet_kiem
 INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Trang_thai_tai_khoan, Ngay_mo, Ngay_dong, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
 VALUES 
-('BT001',1, '2004-04-22',NULL, '060277982156', '3 months', 100000000, 4.6),
-('BT002', 1, '2023-06-15', '2023-06-18', '060277982157', '3 months', 50000000, 2.1),
-('ST001', 1, '2023-06-16', NULL, '060277982158', '6 months', 200000000, 4.6),
-('KKH001', 1,'2023-06-17', NULL,'060277982159', 'no period', 30000000, 0.15),
-('BT003', 1, '2023-06-18', NULL,'060277982156', '3 months', 70000000, 2.1);
+('BT001',1, '2004-04-22',NULL, '060277982156', '3 Tháng', 100000000, 4.6),
+('BT002', 1, '2023-06-15', NULL, '060277982157', '3 Tháng', 50000000, 2.1),
+('ST001', 1, '2023-06-16', NULL, '060277982158', '6 Tháng', 200000000, 4.6),
+('KKH001', 1,'2023-06-17', NULL,'060277982159', 'Không kỳ hạn', 30000000, 0.15),
+('BT003', 1, '2023-06-18', NULL,'060277982156', '3 Tháng', 70000000, 2.1);
 
 -- Thêm các giao dịch vào bảng Giao_dich
 INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
@@ -133,32 +133,9 @@ END //
 
 DELIMITER ;
 
-select 
-from tai_khoan_tiet_kiem tktk join giao_dich gd on tktk.id_tai_khoan = gd.tai_khoan_giao_dich
-group by gd.tai_khoan_giao_dich
 
 
 select * from terms;
 select * from minimum_withdraw_day;
 select * from minimum_deposit_money;
 
-SELECT 
-    tktk.ID_tai_khoan,
-    tktk.Tien_nap_ban_dau,
-    COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Nạp Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) AS Tong_nap_tien,
-    COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Rút Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) AS Tong_rut_tien,
-    tktk.Tien_nap_ban_dau + 
-        COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Nạp Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) - 
-        COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Rút Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0)/(1+tktk.lai_suat/100) AS Tong_so_tien
-FROM 
-    Tai_khoan_tiet_kiem tktk
-LEFT JOIN 
-    Giao_dich gd ON tktk.ID_tai_khoan = gd.Tai_khoan_giao_dich
-WHERE tktk.loai_tiet_kiem = 'no period'
-GROUP BY 
-    tktk.ID_tai_khoan, tktk.Tien_nap_ban_dau, tktk.lai_suat;
-    
-    
-    
-select * from giao_dich
-select * from khach_hang

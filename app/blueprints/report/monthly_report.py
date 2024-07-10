@@ -18,6 +18,7 @@ def submit_monthly_report():
         cursor = db.get_cursor()
         cursor.execute(query)
         monthly_reports = cursor.fetchall()
+        print(monthly_reports)
         return render_template('report/monthly_report.html', reports = monthly_reports)
     except Exception as e:
         return jsonify({'message': 'Không thể gửi báo cáo hàng tháng', 'error': str(e)})

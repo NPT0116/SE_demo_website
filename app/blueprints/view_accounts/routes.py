@@ -6,13 +6,56 @@ from . import view_accounts_bp
 
 @view_accounts_bp.route('/view_accounts')
 def view_accounts():
+    sort = request.args.get('sort', 'ID_tai_khoan')
+    order = request.args.get('order', 'asc')
+
+    # Ánh xạ các cột hợp lệ để tránh SQL injection
+    valid_columns = {
+        'ID': 'ID_tai_khoan',
+        'Mã Số': 'ID_tai_khoan',  # Giả sử mã số là ID_tai_khoan
+        'Khách Hàng': 'Ho_ten',
+        'Loại Tiết Kiệm': 'Loai_tiet_kiem',
+        'Số Tiền Gửi Ban Đầu': 'Tien_nap_ban_dau',
+        'Tiền Lãi': 'Tien_Lai',
+        'Lãi Suất': 'Lai_suat',
+        'Tổng Tiền Hiện Tại': 'Tong_tien'
+    }
+
+    # Kiểm tra xem cột sort có hợp lệ không
+    if sort not in valid_columns:
+        sort = 'ID'
+
     try:
-        query = "select ID_tai_khoan, Ho_ten, loai_tiet_kiem, tien_nap_ban_dau from tai_khoan_tiet_kiem tktk join khach_hang kh on tktk.Nguoi_so_huu = kh.chung_Minh_thu"
+        order_by = f"{valid_columns[sort]} {order.upper()}"
+        query = f"""SELECT ID_tai_khoan, Ho_ten, Loai_tiet_kiem, Tien_nap_ban_dau, Tien_Lai, Lai_suat, Tien_nap_ban_dau + Tien_Lai as Tong_tien
+FROM (
+    SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Tien_nap_ban_dau, 
+           DATEDIFF(CURDATE(), tk.Ngay_mo)*tk.Lai_suat*tk.Tien_nap_ban_dau/(30*100*CAST(SUBSTRING(tk.Loai_tiet_kiem, 1, 1) AS UNSIGNED)) as Tien_Lai, 
+           tk.Lai_suat 
+            FROM tai_khoan_tiet_kiem tk
+            JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
+            WHERE Loai_tiet_kiem != N'Không kỳ hạn' AND Trang_thai_tai_khoan = 1
+
+            UNION 
+
+            SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Tien_nap_ban_dau, Null, tk.Lai_suat
+            FROM tai_khoan_tiet_kiem tk
+            JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
+            WHERE Loai_tiet_kiem = N'Không kỳ hạn' AND Trang_thai_tai_khoan = 1
+        ) AS combined_results
+        ORDER BY {order_by};"""
         cursor = db.get_cursor()
         cursor.execute(query)
         accounts = cursor.fetchall()
         print ("accounts: ", accounts)
-        return render_template('view_accounts.html', accounts=accounts)
+        
+        if (sort == 'Tổng Tiền Hiện Tại'):
+            is_tong_tien = False;
+        else :
+            is_tong_tien = True;
+        
+        return render_template('view_accounts.html', accounts=accounts, show_initial_amount = is_tong_tien)
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)})
     
+

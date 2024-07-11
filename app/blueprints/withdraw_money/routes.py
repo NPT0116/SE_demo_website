@@ -253,24 +253,24 @@ def submit_form2():
         status = []
         if int(account_status(ma_so)) == 0:
             status.append('Sổ đã đóng')
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 400
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 401
 
         # Kiểm tra dữ liệu đầu vào ( ngày hiện tại / quá khứ và không trước ngày mở)
         input_errors = validate_input(ngay_rut, ngay_mo)
         if input_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': input_errors}), 400
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': input_errors}), 402
 
         # Truy vấn để lấy loại tiết kiệm từ mã số ( có tồn tại mã số đó )
         term_errors = [] 
         term = get_term(ma_so, term_errors)
         if term_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 400
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 403
 
         # Kiểm tra điều kiện 15 ngày ( cách ngày mở / ngày giao dịch nạp gần nhất 15 ngày)
         nearest_transaction = calculate_nearest_transaction(ma_so)
         date_errors = validate_date(nearest_transaction, ngay_mo)    
         if date_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': date_errors}), 400
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': date_errors}), 404
           
         # Tính lãi suất
         withdraw_money_after = 0
@@ -284,7 +284,7 @@ def submit_form2():
         old_balance = calculate_old_balance(ma_so, interest_rate, expired_time, term)
         withdraw_errors = validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance)
         if withdraw_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 400
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 405
         
         # Lưu vào database
         save_data_to_database(ma_so, ngay_rut, withdraw_money_after)

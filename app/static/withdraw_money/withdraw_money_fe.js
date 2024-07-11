@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let customerName = ''
     let oldBalance = 0
     /*Function to add comma*/
-    const form = querySelector('#withdraw_money_form')
+    const form = document.querySelector('#withdraw_money_form')
     // Submit Button
     form.addEventListener('submit', function(event) {
         event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định

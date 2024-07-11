@@ -42,7 +42,7 @@ def get_old_balance():
 
 @withdraw_money_bp.route('/withdraw_money')
 def withdraw_money():
-    return render_template('withdraw_money/withdraw_money.html')
+    return render_template('withdraw_money/withdraw_money.html',regulation=regulation)
 
 def get_open_date(ma_so):
     cursor = db.get_cursor()
@@ -245,10 +245,10 @@ def submit_form2():
     try:
         ma_so = request.form['ma_so']
         ngay_rut = request.form['ngay_rut']
-        so_tien_rut = request.form['so_tien_rut']
+        so_tien = request.form['so_tien_rut']
         ngay_rut = datetime.strptime(ngay_rut, '%Y-%m-%d').date()
         ngay_mo = get_open_date(ma_so)
-
+        so_tien_rut = so_tien.replace(',', '')
         # Kiểm tra sổ đóng 
         status = []
         if int(account_status(ma_so)) == 0:

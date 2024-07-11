@@ -2,6 +2,76 @@ document.addEventListener('DOMContentLoaded', () => {
     let customerName = ''
     let oldBalance = 0
     /*Function to add comma*/
+    const form = querySelector('#withdraw_money_form')
+    // Submit Button
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+
+        // Tạo một đối tượng FormData để thu thập dữ liệu từ form
+        var formData = new FormData(this);
+
+        // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
+        var inputs = document.querySelectorAll('#withdraw_money_form input');
+        var errorMessages = document.querySelectorAll('.error-message');
+        inputs.forEach(input => input.classList.remove('error'));
+        errorMessages.forEach(errorMessage => errorMessage.style.display = 'none');
+        
+        // Sử dụng Fetch API để gửi dữ liệu đến server
+        fetch('/withdraw_money/submit', {
+            method: 'POST',
+            body: formData // Gửi dữ liệu đã thu thập được
+        })
+        .then(response => response.json()) // Chuyển đổi phản hồi nhận được thành JSON
+        .then(data => {
+            // Xóa lớp lỗi khỏi tất cả các trường input
+            inputs.forEach(input => input.classList.remove('error'));
+
+            if (data.errors) {
+                data.errors.forEach(error => {
+                    if (error.includes('Tên khách hàng')) {
+                        var input = document.getElementById('khach_hang');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('khach_hang_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('đóng')) {
+                        var input = document.getElementById('ma_so');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('ma_so_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Số tiền rút')) {
+                        var input = document.getElementById('so_tien_rut');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('so_tien_rut_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất')) {
+                        var input = document.getElementById('ngay_rut');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('ngay_goi_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Mã số') || error.includes('Thông tin tài khoản')) {
+                        var input = document.getElementById('ma_so');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('ma_so_error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    }
+                });
+                alert('Có lỗi xảy ra: \n' + data.errors.join('\n'));
+            } else {
+                // Nếu không có lỗi, hiển thị thông báo thành công
+                alert('Thông tin đã được gửi thành công: ' + data.message);
+            }
+        })
+        .catch(error => {
+            // Xử lý lỗi nếu có
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi gửi thông tin');
+        });
+    });
     function addComma(value) {
         if (typeof value !== 'bigint' && typeof value !== 'number') {
             return ''
@@ -277,6 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Set current Date */
     let today = new Date();
     let formattedDate = today.toISOString().split('T')[0];
+
     document.getElementById('withdraw-date').value = formattedDate;
     document.getElementById('withdraw-date').style.border = '4px solid green';
     /* Add Listener and Animation */
@@ -297,5 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.home-button').addEventListener('click', () => {
         window.location.href = '/'
     })
-    // Submit Button
+
+
 })

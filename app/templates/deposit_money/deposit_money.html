@@ -14,23 +14,23 @@
     <div class="background">
         <div class="sub-background">
             <div class="home-button"></div>
-            <form action="">
+            <form action="/deposit_money/submit" method="POST" id ="deposit_money_form">
                 <div class="right-column">
                     <div class="title">deposit</div>
                     <div class="title"></div>
                     <div class="search-information">
                         <div class="right-group">
-                            <input type="text" id="id" placeholder=" " required>
+                            <input type="text" name = "ma_so"id="id" placeholder=" " required>
                             <label for="id">Savingbook's ID</label>
                             <span class="error-message-1" id="id-error"></span>
                         </div>
                         <div class="right-group">
-                            <input type="text" id="name" readonly placeholder=" " required>
+                            <input type="text" id="name" name="khach_hang" readonly placeholder=" " required>
                             <label for="name">Customer's Name</label>
                             <span class="error-message-1" id="name-error"></span>
                         </div>
                         <div class="right-group">
-                            <input type="date" id="deposit-date" required>
+                            <input type="date" name = "ngay_goi" id="deposit-date" required>
                             <label for="deposit-date">Deposit Date</label>
                             <span class="error-message-1" id="date-error"></span>
                         </div>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-part-left">
                         <div class="left-group">
-                            <input id="deposit-money" type="text" placeholder="amount?" required>
+                            <input id="deposit-money" name = "so_tien_gui" type="text" placeholder="amount?" required>
                             <span id="static-label-currency">VND</span>
                             <label for="deposit-money">Deposit Amount</label>
                             <span class="error-message-2" id="deposit-money-error"></span>

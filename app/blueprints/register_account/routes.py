@@ -109,4 +109,4 @@ def submit_register_account():
 
         return jsonify({'message': 'Information was successfully submitted.'})
     except Exception as e:
-        return jsonify({'message': 'An error occurred.', 'error': str(e)}), 500
+        return jsonify({'message': 'An error occurred.', 'error': str(e)}), 500 

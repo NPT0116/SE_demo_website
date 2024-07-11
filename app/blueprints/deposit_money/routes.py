@@ -85,7 +85,7 @@ def get_account_info():
 
 @deposit_money_bp.route('/deposit_money')
 def deposit_money():
-    return render_template('deposit_money/deposit_money.html')
+    return render_template('deposit_money/deposit_money.html',regulation=regulation )
 
 def get_open_date(ma_so):
     cursor = db.get_cursor()
@@ -176,9 +176,14 @@ def submit_form2():
         ma_so = request.form['ma_so']
         khach_hang = request.form['khach_hang']
         ngay_gui = request.form['ngay_goi']
-        so_tien_gui = request.form['so_tien_gui']
+        so_tien = request.form['so_tien_gui']
         ngay_gui = datetime.strptime(ngay_gui, '%Y-%m-%d').date()
-        
+        so_tien_gui = so_tien.replace(',', '')
+        print (ma_so)
+        print (khach_hang)
+        print (so_tien_gui)
+        print (ngay_gui)
+
         # Kiểm tra sổ đóng 
         status = []
         if int(account_status(ma_so)) == 0:
@@ -207,5 +212,18 @@ def submit_form2():
 
         return jsonify({'message': 'Dữ liệu đã được nhận và lưu thành công.'}), 200
     except Exception as e:
-        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+        return jsonify({'message': str(e), 'error': str(e)}), 500
 
+@deposit_money_bp.route('/deposit_money/get_minimum_deposit_money', methods=['POST'])
+def get_deposit_money():
+    try:
+        minimum_deposit_money = regulation.get_minimum_deposit_money()
+        print("Fetched minimum deposit money:", minimum_deposit_money)
+        if minimum_deposit_money:
+            return jsonify({'minimum_deposit_money': minimum_deposit_money}), 200
+        else:
+            return jsonify({'message': 'Không tìm thấy minimum deposit money.'}), 404
+
+    except Exception as e:
+        print("Error occurred:", e)
+        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500

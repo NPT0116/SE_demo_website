@@ -14,23 +14,23 @@
     <div class="background">
         <div class="sub-background">
             <div class="home-button"></div>
-            <form action="">
+            <form action="/withdraw_money/submit" id = "withdraw_money_form "method="POST">
                 <div class="right-column">
                     <div class="title">withdraw</div>
                     <div class="title"></div>
                     <div class="search-information">
                         <div class="right-group">
-                            <input type="text" id="id" placeholder=" " required>
+                            <input type="text" name="ma_so" id="id" placeholder=" " required>
                             <label for="id">Savingbook's ID</label>
                             <span class="error-message-1" id="id-error"></span>
                         </div>
                         <div class="right-group">
-                            <input type="text" id="name" readonly placeholder=" " required>
+                            <input type="text"  id="name" readonly placeholder=" " required>
                             <label for="name">Customer's Name</label>
                             <span class="error-message-1" id="name-error"></span>
                         </div>
                         <div class="right-group">
-                            <input type="date" id="withdraw-date" required>
+                            <input type="date" name="ngay_rut"id="withdraw-date" required>
                             <label for="withdraw-date">Withdraw Date</label>
                             <span class="error-message-1" id="date-error"></span>
                         </div>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-part-left">
                         <div class="left-group">
-                            <input id="withdraw-money" type="text" placeholder="amount?" required>
+                            <input id="withdraw-money"name="so_tien_rut" type="text" placeholder="amount?" required>
                             <span id="static-label-currency">VND</span>
                             <label for="withdraw-money">Withdraw Amount</label>
                             <span class="error-message-2" id="withdraw-money-error"></span>

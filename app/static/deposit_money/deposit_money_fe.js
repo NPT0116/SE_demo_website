@@ -1,9 +1,102 @@
 document.addEventListener('DOMContentLoaded', () => {
     let customerName = ''
     let oldBalance = 0
+    let minimumDeposit = 0
+
     /*Function to add comma*/
-    
-   
+    document.getElementById('deposit_money_form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+
+        // Tạo một đối tượng FormData để thu thập dữ liệu từ form
+        var formData = new FormData(this);
+
+        // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
+        var inputs = document.querySelectorAll('#register_account_form input');
+        var errorMessages = document.querySelectorAll('.error-message');
+        inputs.forEach(input => input.classList.remove('error'));
+        errorMessages.forEach(errorMessage => errorMessage.style.display = 'none');
+        
+        // Sử dụng Fetch API để gửi dữ liệu đến server
+        fetch('/deposit_money/submit', {
+            method: 'POST',
+            body: formData // Gửi dữ liệu đã thu thập được
+        })
+        .then(response => response.json()) // Chuyển đổi phản hồi nhận được thành JSON
+        .then(data => {
+           // Xóa lớp lỗi khỏi tất cả các trường input
+           var inputs = document.querySelectorAll('#register_account_form input');
+           inputs.forEach(input => input.classList.remove('error'));
+
+           if (data.errors) {
+            data.errors.forEach(error => {
+                if (error.includes('khách hàng')) {
+                    var input = document.getElementById('khach_hang_2');
+                    input.classList.add('error');
+                    var errorMessage = document.getElementById('khach_hang_error');
+                    errorMessage.textContent = '* ' + error;
+                    errorMessage.style.display = 'block';
+                } else if (error.includes('đóng')) {
+                    var input = document.getElementById('ma_so_2');
+                    input.classList.add('error');
+                    var errorMessage = document.getElementById('ma_so_error');
+                    errorMessage.textContent = '* ' + error;
+                    errorMessage.style.display = 'block';
+                } else if (error.includes('tiền gửi')) {
+                    var input = document.getElementById('so_tien_gui_2');
+                    input.classList.add('error');
+                    var errorMessage = document.getElementById('so_tien_gui_error');
+                    errorMessage.textContent = '* ' + error;
+                    errorMessage.style.display = 'block';
+                } else if (error.includes('Ngày gửi')) {
+                    var input = document.getElementById('ngay_goi_2');
+                    input.classList.add('error');
+                    var errorMessage = document.getElementById('ngay_goi_error');
+                    errorMessage.textContent = '* ' + error;
+                    errorMessage.style.display = 'block';
+                } else if (error.includes('thông tin tài khoản') || error.includes('loại tiết kiệm "no period"')) {
+                    var input = document.getElementById('ma_so_2');
+                    input.classList.add('error');
+                    var errorMessage = document.getElementById('ma_so_error');
+                    errorMessage.textContent = '* ' + error;
+                    errorMessage.style.display = 'block';
+                }
+            });
+            alert('Có lỗi xảy ra: \n' + data.errors.join('\n'));
+            } else {
+               // Nếu không có lỗi, hiển thị thông báo thành công
+               alert('Thông tin đã được gửi thành công: ' + data.message);
+            }
+        })
+        .catch(error => {
+            // Xử lý lỗi nếu có
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi gửi thông tin');
+        });
+    });
+    fetch('/deposit_money/get_minimum_deposit_money', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json(); 
+    })
+    .then(data => {
+        if (data.hasOwnProperty('minimum_deposit_money')) {
+            minimumDeposit = data['minimum_deposit_money'];
+            console.log('Minimum Deposit Money:', minimumDeposit);
+        } else {
+            console.error('Error: Minimum deposit money not found in response:', data);
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching minimum deposit money: ", error);
+    });
+   console.log(minimumDeposit)
     function addComma(value) {
         if (typeof value !== 'bigint' && typeof value !== 'number') {
             return ''
@@ -100,7 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         oldBalance = 0;
                         removeOldBalance();
                     });
+
                 }
+                
                 return true;
             } else if (idValue !== '') {
                 customerName = ''
@@ -187,7 +282,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const amountValue = removeComma(commaValue)
         console.log(commaValue)
         // Fetch get minimum deposit
-        const minimumDeposit = 100
+
+        
         if (/^\d+$/.test(amountValue) && amountValue >= minimumDeposit) {
             amountError.textContent = ''
             amountInput.style.color = 'blue'

@@ -9,9 +9,9 @@ class Database:
         if self.connection is None:
             try:
                 self.connection = mysql.connector.connect(
-                    host="127.0.0.1",
+                    host="localhost",
                     user="root",
-                    passwd="Lhd@t2204",
+                    passwd="Npt16012004",
                     database="QL_TAIKHOANTIETKIEM"
                 )
                 if self.connection.is_connected():

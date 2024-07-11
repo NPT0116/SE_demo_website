@@ -117,7 +117,7 @@ def save_data_to_database(ma_so, ngay_rut, so_tien_rut):
     cursor = db.get_cursor()
 
     # Tạo ID giao dịch mới
-    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich"
+    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Rút Tiền'"
     cursor.execute(query)
     max_id = cursor.fetchone()[0]
     next_id = 1 if max_id is None else int(max_id) + 1

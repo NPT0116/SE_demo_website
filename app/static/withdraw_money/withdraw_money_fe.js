@@ -28,34 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.errors) {
                 data.errors.forEach(error => {
-                    if (error.includes('Tên khách hàng')) {
-                        var input = document.getElementById('khach_hang');
+                    if (error.includes('Số tiền rút') || error.includes('rút hết toàn bộ')) {
+                        var input = document.getElementById('withdraw-money');
                         input.classList.add('error');
-                        var errorMessage = document.getElementById('khach_hang_error');
+                        var errorMessage = document.getElementById('withdraw-money-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('đóng')) {
-                        var input = document.getElementById('ma_so');
+                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('rút khi quá kỳ hạn')) {
+                        var input = document.getElementById('withdraw-date');
                         input.classList.add('error');
-                        var errorMessage = document.getElementById('ma_so_error');
+                        var errorMessage = document.getElementById('date-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('Số tiền rút')) {
-                        var input = document.getElementById('so_tien_rut');
+                    } else if (error.includes('Mã số') || error.includes('thông tin tài khoản') || error.includes('đóng')) {
+                        var input = document.getElementById('id');
                         input.classList.add('error');
-                        var errorMessage = document.getElementById('so_tien_rut_error');
-                        errorMessage.textContent = '* ' + error;
-                        errorMessage.style.display = 'block';
-                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất')) {
-                        var input = document.getElementById('ngay_rut');
-                        input.classList.add('error');
-                        var errorMessage = document.getElementById('ngay_goi_error');
-                        errorMessage.textContent = '* ' + error;
-                        errorMessage.style.display = 'block';
-                    } else if (error.includes('Mã số') || error.includes('Thông tin tài khoản')) {
-                        var input = document.getElementById('ma_so');
-                        input.classList.add('error');
-                        var errorMessage = document.getElementById('ma_so_error');
+                        var errorMessage = document.getElementById('id-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
                     }

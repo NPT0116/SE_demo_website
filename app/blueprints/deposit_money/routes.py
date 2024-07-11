@@ -98,15 +98,8 @@ def get_open_date(ma_so):
     else:
         return None  # Không tìm thấy tài khoản với mã số này
     
-def validate_input(ma_so, khach_hang, so_tien_gui, ngay_gui):
+def validate_input(ma_so, ngay_gui):
     errors = []
-    
-    # Kiểm tra dữ liệu đầu vào 
-    if any(char.isdigit() for char in khach_hang):
-        errors.append('Tên khách hàng không được chứa số.')
-    
-    if any(char.isalpha() for char in so_tien_gui):
-        errors.append('Số tiền gửi không được chứa chữ.')
 
     if ngay_gui > datetime.now().date():
         errors.append('Ngày gửi không được quá ngày hiện tại.')
@@ -143,7 +136,7 @@ def save_data_to_database(ma_so, ngay_gui, so_tien_gui):
     cursor = db.get_cursor()
 
     # Tạo ID giao dịch mới
-    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich"
+    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Nạp Tiền'"
     cursor.execute(query)
     max_id = cursor.fetchone()[0]
     next_id = 1 if max_id is None else int(max_id) + 1
@@ -179,10 +172,6 @@ def submit_form2():
         so_tien = request.form['so_tien_gui']
         ngay_gui = datetime.strptime(ngay_gui, '%Y-%m-%d').date()
         so_tien_gui = so_tien.replace(',', '')
-        print (ma_so)
-        print (khach_hang)
-        print (so_tien_gui)
-        print (ngay_gui)
 
         # Kiểm tra sổ đóng 
         status = []
@@ -191,7 +180,7 @@ def submit_form2():
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 400
         
         # Kiểm tra dữ liệu đầu vào
-        input_errors = validate_input(ma_so, khach_hang, so_tien_gui, ngay_gui)
+        input_errors = validate_input(ma_so, ngay_gui)
         if input_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': input_errors}), 400
         

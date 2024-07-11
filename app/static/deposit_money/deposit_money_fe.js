@@ -30,33 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
            if (data.errors) {
             data.errors.forEach(error => {
                 if (error.includes('khách hàng')) {
-                    var input = document.getElementById('khach_hang_2');
+                    var input = document.getElementById('name');
                     input.classList.add('error');
-                    var errorMessage = document.getElementById('khach_hang_error');
-                    errorMessage.textContent = '* ' + error;
-                    errorMessage.style.display = 'block';
-                } else if (error.includes('đóng')) {
-                    var input = document.getElementById('ma_so_2');
-                    input.classList.add('error');
-                    var errorMessage = document.getElementById('ma_so_error');
+                    var errorMessage = document.getElementById('name-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
                 } else if (error.includes('tiền gửi')) {
-                    var input = document.getElementById('so_tien_gui_2');
+                    var input = document.getElementById('deposit-money');
                     input.classList.add('error');
-                    var errorMessage = document.getElementById('so_tien_gui_error');
+                    var errorMessage = document.getElementById('deposit-money-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
                 } else if (error.includes('Ngày gửi')) {
-                    var input = document.getElementById('ngay_goi_2');
+                    var input = document.getElementById('deposit-date');
                     input.classList.add('error');
-                    var errorMessage = document.getElementById('ngay_goi_error');
+                    var errorMessage = document.getElementById('date-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
-                } else if (error.includes('thông tin tài khoản') || error.includes('loại tiết kiệm "no period"')) {
-                    var input = document.getElementById('ma_so_2');
+                } else if (error.includes('thông tin tài khoản') || error.includes('loại tiết kiệm "no period"') || error.includes('đóng')) {
+                    var input = document.getElementById('id');
                     input.classList.add('error');
-                    var errorMessage = document.getElementById('ma_so_error');
+                    var errorMessage = document.getElementById('id-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
                 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Tài Khoản</title>
+    <link rel="stylesheet" type="text/css" href="/static/view_account.css">
+</head>
+<body>
+    <h1>Giao dich cua tai khoan</h1>
+
+    <div>
+        <select id="column-select">
+            <!-- Các tùy chọn sẽ được tạo bằng JavaScript -->
+        </select>
+        <select id="order-select">
+            <option value="asc">Tăng dần</option>
+            <option value="desc">Giảm dần</option>
+        </select>
+        <button onclick="sortTable()">Sắp xếp</button>
+        <button onclick="resetTable()">Quay lại thứ tự mặc định</button>
+    </div>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Mã Số</th>
+                <th>Khách Hàng</th>
+                <th>Loại Giao Dịch</th>
+                <th>Số tiền giao dịch</th>
+                <th>Ngày Giao Dịch</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ account[0] }}</td>
+                <td>{{ account[1] }}</td>
+                <td>{{ account[2] }}</td>
+                <td>{{ account[3] }}</td>
+                <td>{{ account[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            sortOption();
+        });
+
+        // Lấy giá trị của ID từ backend
+        var holding_id = "{{ ID_returned }}";
+
+        function sortOption() {
+            var tableHeaders = document.querySelectorAll('th');
+            var columnSelect = document.getElementById('column-select');
+            columnSelect.innerHTML = '';
+            tableHeaders.forEach(function(header, index) {
+                var option = document.createElement('option');
+                option.textContent = header.textContent.trim();
+                option.value = header.textContent.trim();
+                columnSelect.appendChild(option);
+            });
+        }
+
+        function sortTable() {
+            var columnSelect = document.getElementById('column-select');
+            var orderSelect = document.getElementById('order-select');
+            var column = columnSelect.value;
+            var order = orderSelect.value;
+
+            window.location.href = `/view_account_transaction?sort=${column}&order=${order}&ID=${holding_id}`;
+        }
+
+        function resetTable() {
+            window.location.href = `/view_account_transaction?ID=${holding_id}`;
+        }
+
+    </script>
+</body>
+</html>

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         var errorMessage = document.getElementById('withdraw-money-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('rút khi quá kỳ hạn')) {
+                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('thời gian tối thiểu')) {
                         var input = document.getElementById('withdraw-date');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('date-error');

@@ -65,22 +65,16 @@ def validate_input(ngay_rut, ngay_mo):
         errors.append('Ngày rút không được trước ngày mở sổ.')
     return errors
 
-def validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance):
+def validate_withdraw_balance(term, so_tien_rut, old_balance):
     errors = []
-    
-    current_date = datetime.now().date()
     if term == 'no period':
         if int(so_tien_rut) > int(old_balance):
             errors.append('Số tiền rút không được lớn hơn số dư hiện có.')
     elif term == '3 months':
-        if current_date < ngay_mo + timedelta(days=3*30):
-            errors.append('Loại tiết kiệm kỳ hạn 3 tháng chỉ được rút khi quá kỳ hạn 3 tháng.')
-        elif int(so_tien_rut) != int(old_balance):
+        if int(so_tien_rut) != int(old_balance):
             errors.append('Loại tiết kiệm kỳ hạn 3 tháng phải rút hết toàn bộ.')
     elif term == '6 months':
-        if current_date < ngay_mo + timedelta(days=6*30):
-            errors.append('Loại tiết kiệm kỳ hạn 6 tháng chỉ được rút khi quá kỳ hạn 6 tháng.')
-        elif int(so_tien_rut) != int(old_balance):
+        if int(so_tien_rut) != int(old_balance):
             errors.append('Loại tiết kiệm kỳ hạn 6 tháng phải rút hết toàn bộ.')
     return errors
 
@@ -98,7 +92,8 @@ def validate_interest_rate(term, ngay_mo, ngay_rut):
 def validate_date (ngay_giao_dich, ngay_mo):
     errors = []
     current_date = datetime.now().date()
-    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=15)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=15)):
+    minimum_withdraw_date = regulation.get_minimum_withdraw_day()
+    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=minimum_withdraw_date)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=minimum_withdraw_date)):
         errors.append('Chỉ được rút sau lần giao dịch gần nhất ít nhất 15 ngày.')
     return errors
     
@@ -249,6 +244,7 @@ def submit_form2():
         ngay_rut = datetime.strptime(ngay_rut, '%Y-%m-%d').date()
         ngay_mo = get_open_date(ma_so)
         so_tien_rut = so_tien.replace(',', '')
+        
         # Kiểm tra sổ đóng 
         status = []
         if int(account_status(ma_so)) == 0:
@@ -271,21 +267,23 @@ def submit_form2():
         date_errors = validate_date(nearest_transaction, ngay_mo)    
         if date_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': date_errors}), 404
-          
+        
         # Tính lãi suất
         withdraw_money_after = 0
         interest_rate = validate_interest_rate(term, ngay_mo, ngay_rut)
-
         if interest_rate != 0:
             expired_time = cal_expired_time(ngay_mo, ngay_rut, term)
             withdraw_money_after = cal_withdraw_money(term, so_tien_rut, interest_rate, expired_time)
-            
+        else:
+            interest_rate_error = ['Loại tiết kiệm chưa đạt đủ thời gian tối thiểu để rút']
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': interest_rate_error}), 405
+        
         # Kiểm tra thỏa điều kiện rút (Đủ tháng + Số dư)
         old_balance = calculate_old_balance(ma_so, interest_rate, expired_time, term)
-        withdraw_errors = validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance)
-        if withdraw_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 405
-        
+        balance_errors = validate_withdraw_balance(term, so_tien_rut, old_balance)
+        if balance_errors:
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': balance_errors}), 406
+
         # Lưu vào database
         save_data_to_database(ma_so, ngay_rut, withdraw_money_after)
         

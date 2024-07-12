@@ -3,14 +3,14 @@ from app.database import db
 from datetime import datetime, timedelta
 from app.regulation import regulation
 from . import withdraw_money_bp
-
+from app.account import Account
 @withdraw_money_bp.route('/withdraw_money/get_account_info', methods=['POST'])
 def get_account_info():
     try:
         ma_so = request.form['ma_so']
         cursor = db.get_cursor()
         query = """
-            SELECT k.Ho_ten 
+            SELECT k.Ho_ten , trang_thai_tai_khoan, Loai_tiet_kiem, Tien_nap_ban_dau,Lai_suat
             FROM Tai_khoan_tiet_kiem t
             JOIN Khach_hang k ON t.Nguoi_so_huu = k.Chung_minh_Thu
             WHERE t.ID_tai_khoan = %s
@@ -19,7 +19,13 @@ def get_account_info():
         result = cursor.fetchone()
         
         if result:
-            return jsonify({'ten_tai_khoan': result[0]}), 200
+            return jsonify({'ten_tai_khoan': result[0],
+                            'Trang_thai_tai_khoan': result[1],
+                            'loai_tiet_kiem': result[2],
+                            'Tien_nap_ban_dau': result[3],
+                            'Lai_suat': result[4],
+                            }
+                            ), 200
         else:
             return jsonify({'message': 'Không tìm thấy thông tin tài khoản.'}), 404
 
@@ -34,6 +40,19 @@ def get_old_balance():
         old_balance = calculate_old_balance(ma_so, rate)
         if old_balance:
             return jsonify({'Old balance': old_balance}), 200
+        else:
+            return jsonify({'message': 'Không tìm thấy thông tin tài khoản.'}), 404
+
+    except Exception as e:
+        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+@withdraw_money_bp.route('/withdraw_money/get_interest_money', methods=['POST'])
+def get_interest_money():
+    try:
+        ma_so = request.form['ma_so']
+        account = Account(ma_so)
+        interest_money = account.get_interest_rate_money()
+        if interest_money:
+            return jsonify({'Interest_money': interest_money}), 200
         else:
             return jsonify({'message': 'Không tìm thấy thông tin tài khoản.'}), 404
 
@@ -65,22 +84,16 @@ def validate_input(ngay_rut, ngay_mo):
         errors.append('Ngày rút không được trước ngày mở sổ.')
     return errors
 
-def validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance):
+def validate_withdraw_balance(term, so_tien_rut, old_balance):
     errors = []
-    
-    current_date = datetime.now().date()
     if term == 'no period':
         if int(so_tien_rut) > int(old_balance):
             errors.append('Số tiền rút không được lớn hơn số dư hiện có.')
     elif term == '3 months':
-        if current_date < ngay_mo + timedelta(days=3*30):
-            errors.append('Loại tiết kiệm kỳ hạn 3 tháng chỉ được rút khi quá kỳ hạn 3 tháng.')
-        elif int(so_tien_rut) != int(old_balance):
+        if int(so_tien_rut) != int(old_balance):
             errors.append('Loại tiết kiệm kỳ hạn 3 tháng phải rút hết toàn bộ.')
     elif term == '6 months':
-        if current_date < ngay_mo + timedelta(days=6*30):
-            errors.append('Loại tiết kiệm kỳ hạn 6 tháng chỉ được rút khi quá kỳ hạn 6 tháng.')
-        elif int(so_tien_rut) != int(old_balance):
+        if int(so_tien_rut) != int(old_balance):
             errors.append('Loại tiết kiệm kỳ hạn 6 tháng phải rút hết toàn bộ.')
     return errors
 
@@ -98,7 +111,8 @@ def validate_interest_rate(term, ngay_mo, ngay_rut):
 def validate_date (ngay_giao_dich, ngay_mo):
     errors = []
     current_date = datetime.now().date()
-    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=15)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=15)):
+    minimum_withdraw_date = regulation.get_minimum_withdraw_day()
+    if (ngay_giao_dich != None and current_date < ngay_giao_dich + timedelta(days=minimum_withdraw_date)) or (ngay_giao_dich == None and current_date < ngay_mo + timedelta(days=minimum_withdraw_date)):
         errors.append('Chỉ được rút sau lần giao dịch gần nhất ít nhất 15 ngày.')
     return errors
     
@@ -253,6 +267,7 @@ def submit_form2():
         ngay_rut = datetime.strptime(ngay_rut, '%Y-%m-%d').date()
         ngay_mo = get_open_date(ma_so)
         so_tien_rut = so_tien.replace(',', '')
+        
         # Kiểm tra sổ đóng 
         status = []
         if int(account_status(ma_so)) == 0:
@@ -277,24 +292,23 @@ def submit_form2():
         date_errors = validate_date(nearest_transaction, ngay_mo)    
         if date_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': date_errors}), 404
-          
+        
         # Tính lãi suất
         withdraw_money_after = 0
         interest_rate = validate_interest_rate(term, ngay_mo, ngay_rut)
-        print ("4")
-
         if interest_rate != 0:
             expired_time = cal_expired_time(ngay_mo, ngay_rut, term)
             withdraw_money_after = cal_withdraw_money(term, so_tien_rut, interest_rate, expired_time)
-        print ("5")
-            
+        else:
+            interest_rate_error = ['Loại tiết kiệm chưa đạt đủ thời gian tối thiểu để rút']
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': interest_rate_error}), 405
+        
         # Kiểm tra thỏa điều kiện rút (Đủ tháng + Số dư)
         old_balance = calculate_old_balance(ma_so, interest_rate, expired_time, term)
-        withdraw_errors = validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance)
-        if withdraw_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 405
-        print ("6")
-        
+        balance_errors = validate_withdraw_balance(term, so_tien_rut, old_balance)
+        if balance_errors:
+            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': balance_errors}), 406
+
         # Lưu vào database
         print (ma_so)
         print (ngay_rut)
@@ -305,7 +319,7 @@ def submit_form2():
 
         remaining = calculate_old_balance(ma_so, interest_rate, expired_time, term)
         print("7")
-        if remaining == 0:
+        if int(remaining) == 0:
             set_close_day(ma_so)
             
         return jsonify({'message': 'Dữ liệu đã được nhận và lưu thành công.'}), 200

@@ -38,7 +38,7 @@
                         Tổng Tiền Hiện Tại
                     {% endif %}
                 </th>
-                <th>Tiền Lãi</th>
+                <th>Trạng Thái Tài Khoản</th>
                 <th>Lãi Suất</th>
             </tr>
         </thead>
@@ -56,7 +56,13 @@
                         {{ account[6] }}
                     {% endif %}
                 </td>
-                <td>{{ account[4] }}</td>
+                <td>
+                    {% if account[7] == 1 %}
+                        Đang hoạt động
+                    {% else %}
+                        Ngừng hoạt động
+                    {% endif %}
+                </td>
                 <td>{{ account[5] }}</td>
                 <td class="tong_tien" style="display: none;">
                     {% if show_initial_amount %}

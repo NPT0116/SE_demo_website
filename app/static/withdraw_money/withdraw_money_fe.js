@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let customerName = ''
-    let oldBalance = 0
+    let customerName = '';
+    let oldBalance = 0;
+    let account_status ;
+    let term ;
+    let initial_money;
+    let interest ;
+    let interest_money = 0;
     /*Function to add comma*/
     const form = document.querySelector('#withdraw_money_form')
     // Submit Button
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         var errorMessage = document.getElementById('withdraw-money-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('rút khi quá kỳ hạn')) {
+                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('thời gian tối thiểu')) {
                         var input = document.getElementById('withdraw-date');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('date-error');
@@ -118,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 c_id.textContent = idValue
                 // Fetch Name cho nay nha Duy gan do customerName
                 if (idValue) {
-                    fetch('/deposit_money/get_account_info', {
+                    fetch('/withdraw_money/get_account_info', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -128,20 +133,50 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(response => response.json())
                     .then(name => {
                         customerName = name['ten_tai_khoan'];
-                        return fetch('/deposit_money/get_old_balance', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                            },
-                            body: 'ma_so=' + ma_so,
-                        });
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        oldBalance = data['Old balance'];
-                        console.log(oldBalance);
-                        console.log(customerName);
-                        updateOldBalance();
+                        account_status = name['Trang_thai_tai_khoan']
+                        term = name['loai_tiet_kiem']
+                        initial_money = name['Tien_nap_ban_dau']
+                        interest = name['Lai_suat']
+                        console.log(customerName)
+                        console.log(account_status)
+                        console.log(term)
+                        console.log(initial_money)
+                        console.log(interest)
+
+                        if (term == "no period")
+                        {
+                            
+                            fetch('/deposit_money/get_old_balance', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: 'ma_so=' + ma_so,
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                oldBalance = data['Old balance'];
+                                updateOldBalance();
+                            }) 
+                        }
+                        else
+                        {
+                            oldBalance = initial_money
+                            fetch('/withdraw_money/get_interest_money', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: 'ma_so=' + ma_so,
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                interest_money = data['Interest_money'];
+                                updateOldBalance();
+                            }) 
+                        }
+                        console.log(oldBalance)
+                        console.log(interest_money)
                     })
                     .catch(error => {
                         console.error('Error fetching data:', error);
@@ -151,6 +186,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 // Fetch Old Balance cho nay
+
+                
+
                 updateOldBalance()
                 return true;
             } else if (idValue !== '') {

@@ -27,18 +27,20 @@ def view_accounts():
 
     try:
         order_by = f"{valid_columns[sort]} {order.upper()}"
-        query = f"""SELECT ID_tai_khoan, Ho_ten, Loai_tiet_kiem, Tien_nap_ban_dau, Tien_Lai, Lai_suat, Tien_nap_ban_dau + Tien_Lai as Tong_tien
+        query = f"""SELECT ID_tai_khoan, Ho_ten, Loai_tiet_kiem, Tien_nap_ban_dau, Tien_Lai, Lai_suat,
+COALESCE(Tien_nap_ban_dau + Tien_Lai, ((Select SUM(So_tien_giao_dich) from giao_dich gd where gd.Tai_khoan_giao_dich = ID_tai_khoan and gd.Loai_giao_dich = 'Nạp Tiền') 
+- (Select SUM(So_tien_giao_dich) from giao_dich gd where gd.Tai_khoan_giao_dich = ID_tai_khoan and gd.Loai_giao_dich = 'Rút Tiền') + Tien_nap_ban_dau)) as Tong_tien, Trang_thai_tai_khoan
 FROM (
     SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Tien_nap_ban_dau, 
-           DATEDIFF(CURDATE(), tk.Ngay_mo)*tk.Lai_suat*tk.Tien_nap_ban_dau/(30*100*CAST(SUBSTRING(tk.Loai_tiet_kiem, 1, 1) AS UNSIGNED)) as Tien_Lai, 
-           tk.Lai_suat 
+           DATEDIFF(CURDATE(), tk.Ngay_mo)*tk.Lai_suat*tk.Tien_nap_ban_dau/(30*100) as Tien_Lai, 
+           tk.Lai_suat , tk.Trang_thai_tai_khoan  
             FROM tai_khoan_tiet_kiem tk
             JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
             WHERE Loai_tiet_kiem != N'Không kỳ hạn' AND Trang_thai_tai_khoan = 1
 
             UNION 
 
-            SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Tien_nap_ban_dau, Null, tk.Lai_suat
+            SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Tien_nap_ban_dau, Null as Tien_Lai, tk.Lai_suat, tk.Trang_thai_tai_khoan 
             FROM tai_khoan_tiet_kiem tk
             JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
             WHERE Loai_tiet_kiem = N'Không kỳ hạn' AND Trang_thai_tai_khoan = 1

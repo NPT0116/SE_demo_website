@@ -39,17 +39,15 @@ def account_detail(maSo):
     }
     return jsonify(account_data)
 
-@app.route('/view_account_transaction')
+@app.route('/view_account_transaction', methods=['GET'])
 def view_account_transaction():
-    account_id = request.args.get('ID');
+    account_id = request.args.get('ID')
     sort = request.args.get('sort', 'ID_tai_khoan')
     order = request.args.get('order', 'asc')
 
     # Ánh xạ các cột hợp lệ để tránh SQL injection
     valid_columns = {
-        'STT': 'ID_tai_khoan',
-        'Mã Số': 'ID_tai_khoan',  # Giả sử mã số là ID_tai_khoan
-        'Khách Hàng': 'Ho_ten',
+        'STT': 'Ngay_giao_dich',
         'Loại Giao Dịch': 'Loai_giao_dich',
         'Số tiền giao dịch': 'So_tien_giao_dich',
         'Ngày Giao Dịch': 'Ngay_giao_dich'
@@ -57,21 +55,37 @@ def view_account_transaction():
 
     # Kiểm tra xem cột sort có hợp lệ không
     if sort not in valid_columns:
-        sort = 'STT'
+        sort = 'Ngày Giao Dịch'
 
     try:
         order_by = f"{valid_columns[sort]} {order.upper()}"
-        query = f"""select ID_tai_khoan, Ho_ten, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich from giao_dich gd
-        join tai_khoan_tiet_kiem tk on gd.Tai_khoan_giao_dich = tk.ID_tai_khoan
-        join khach_hang kh on tk.Nguoi_so_huu = kh.Chung_minh_thu
-        where Tai_khoan_giao_dich = '{account_id}'
-        ORDER BY {order_by};"""
-        cursor = db.get_cursor()
-        cursor.execute(query)
-        accounts = cursor.fetchall()
-        print ("accounts: ", accounts)
         
-        return render_template('view_account_transaction.html', accounts=accounts, ID_returned = account_id)
+        # Truy vấn thông tin tài khoản
+        account_query = f"""
+        SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Ngay_mo, COALESCE(tk.Ngay_dong, N'Tài khoản còn hoạt động')
+        FROM tai_khoan_tiet_kiem tk
+        JOIN khach_hang kh ON kh.Chung_minh_thu = tk.Nguoi_so_huu
+        WHERE tk.ID_tai_khoan = '{account_id}'
+        """
+        cursor = db.get_cursor()
+        cursor.execute(account_query)
+        account = cursor.fetchone()
+
+        # Truy vấn thông tin giao dịch
+        transaction_query = f"""
+        SELECT  Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich FROM giao_dich gd
+        JOIN tai_khoan_tiet_kiem tk ON gd.Tai_khoan_giao_dich = tk.ID_tai_khoan
+        JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
+        WHERE Tai_khoan_giao_dich = '{account_id}'
+        ORDER BY {order_by}
+        """
+        cursor.execute(transaction_query)
+        transactions = cursor.fetchall()
+        
+        print("Account:", account)
+        print("Transactions:", transactions)
+        
+        return render_template('view_account_transaction.html', account=account, Transactions=transactions, ID_returned=account_id)
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)})
 if __name__ == '__main__':

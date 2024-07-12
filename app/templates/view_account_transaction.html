@@ -6,7 +6,30 @@
     <link rel="stylesheet" type="text/css" href="/static/view_account.css">
 </head>
 <body>
-    <h1>Giao dich cua tai khoan</h1>
+    <h1>Thông tin tài khoản</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Số Tài Khoản</th>
+                <th>Họ Tên Chủ Sở Hữu</th>
+                <th>Loại Tài Khoản</th>
+                <th>Ngày Lập Tài Khoản</th>
+                <th>Ngày Đóng Tài Khoản</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ account[0] }}</td>
+                <td>{{ account[1] }}</td>
+                <td>{{ account[2] }}</td>
+                <td>{{ account[3] }}</td>
+                <td>{{ account[4] }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <h1>Lịch sử giao dịch</h1>
 
     <div>
         <select id="column-select">
@@ -23,22 +46,18 @@
         <thead>
             <tr>
                 <th>STT</th>
-                <th>Mã Số</th>
-                <th>Khách Hàng</th>
                 <th>Loại Giao Dịch</th>
                 <th>Số tiền giao dịch</th>
                 <th>Ngày Giao Dịch</th>
             </tr>
         </thead>
         <tbody>
-            {% for account in accounts %}
+            {% for Transaction in Transactions %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ account[0] }}</td>
-                <td>{{ account[1] }}</td>
-                <td>{{ account[2] }}</td>
-                <td>{{ account[3] }}</td>
-                <td>{{ account[4] }}</td>
+                <td>{{ Transaction[0] }}</td>
+                <td>{{ Transaction[1] }}</td>
+                <td>{{ Transaction[2] }}</td>
             </tr>
             {% endfor %}
         </tbody>

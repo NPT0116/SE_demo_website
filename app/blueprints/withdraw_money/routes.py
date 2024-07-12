@@ -115,13 +115,17 @@ def get_term(ma_so, errors):
  
 def save_data_to_database(ma_so, ngay_rut, so_tien_rut):
     cursor = db.get_cursor()
-
+    print ("9")
     # Tạo ID giao dịch mới
-    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Rút Tiền'"
+    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Rút Tiền' "
     cursor.execute(query)
+
     max_id = cursor.fetchone()[0]
+    print ("id: " , max_id)
     next_id = 1 if max_id is None else int(max_id) + 1
+    print ("id: " , next_id)
     new_id = f'RT{next_id:05d}'
+    print ("id: " , new_id)
     
     # Lưu giao dịch mới
     insert_query = """
@@ -254,17 +258,19 @@ def submit_form2():
         if int(account_status(ma_so)) == 0:
             status.append('Sổ đã đóng')
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 401
-
+        print ("1")
         # Kiểm tra dữ liệu đầu vào ( ngày hiện tại / quá khứ và không trước ngày mở)
         input_errors = validate_input(ngay_rut, ngay_mo)
         if input_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': input_errors}), 402
+        print ("2")
 
         # Truy vấn để lấy loại tiết kiệm từ mã số ( có tồn tại mã số đó )
         term_errors = [] 
         term = get_term(ma_so, term_errors)
         if term_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 403
+        print ("3")
 
         # Kiểm tra điều kiện 15 ngày ( cách ngày mở / ngày giao dịch nạp gần nhất 15 ngày)
         nearest_transaction = calculate_nearest_transaction(ma_so)
@@ -275,22 +281,30 @@ def submit_form2():
         # Tính lãi suất
         withdraw_money_after = 0
         interest_rate = validate_interest_rate(term, ngay_mo, ngay_rut)
+        print ("4")
 
         if interest_rate != 0:
             expired_time = cal_expired_time(ngay_mo, ngay_rut, term)
             withdraw_money_after = cal_withdraw_money(term, so_tien_rut, interest_rate, expired_time)
+        print ("5")
             
         # Kiểm tra thỏa điều kiện rút (Đủ tháng + Số dư)
         old_balance = calculate_old_balance(ma_so, interest_rate, expired_time, term)
         withdraw_errors = validate_withdraw_conditions(term, ngay_mo, so_tien_rut, old_balance)
         if withdraw_errors:
             return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': withdraw_errors}), 405
+        print ("6")
         
         # Lưu vào database
+        print (ma_so)
+        print (ngay_rut)
+        print (withdraw_money_after)
         save_data_to_database(ma_so, ngay_rut, withdraw_money_after)
-        
         # Trường hợp rút toàn bộ => đóng sổ
+        print("8")
+
         remaining = calculate_old_balance(ma_so, interest_rate, expired_time, term)
+        print("7")
         if remaining == 0:
             set_close_day(ma_so)
             

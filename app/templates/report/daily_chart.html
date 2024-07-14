@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Report</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="{{ url_for('static', filename='daily_chart.js') }}"></script>
+</head>
+<body>
+    <form id="report-form" >
+      <label for="ngay">Ngày:</label>
+      <input type="date" id="ngay" name="ngay">
+      <button type="submit" id="submit">Submit</button>
+  </form>
+
+    <div id="columnchart_values" style="width: 900px; height: 800px;"></div>
+</body>
+</html>

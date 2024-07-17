@@ -1,175 +1,111 @@
--- Tạo cơ sở dữ liệu QL_TAIKHOANTIETKIEM
-DROP DATABASE IF EXISTS QL_TAIKHOANTIETKIEM;
-
-CREATE DATABASE QL_TAIKHOANTIETKIEM;
-
--- Sử dụng cơ sở dữ liệu QL_TAIKHOANTIETKIEM
 USE QL_TAIKHOANTIETKIEM;
 
--- Tạo bảng Khach_hang
-CREATE TABLE Khach_hang (
-    Ho_ten NVARCHAR(50) NOT NULL,
-    Chung_minh_Thu CHAR(15) NOT NULL,
-    Dia_chi NVARCHAR(80) ,
-    PRIMARY KEY (Chung_minh_Thu)
-);
+-- Insert into Khach_hang
+INSERT INTO Khach_hang (Ho_ten, Chung_minh_Thu, Dia_chi)
+VALUES 
+('Nguyễn Phúc Thành', '060277982155', '61/21 Liên Khu 1-6, phường Bình Trị Đông, quận Bình Tân'),
+('Lê Hoàng Đạt', '060277982156', '61/21 Liên Khu 1-6, phường Bình Trị Đông, quận Bình Tân'),
+('Phạm Quang Duy', '060277982157', '123 Nguyễn Trãi, phường Bến Thành, quận 1'),
+('Nguyễn Phúc Thành', '060277982158', '456 Lê Lợi, phường Bến Nghé, quận 1'),
+('Nguyễn Quang Minh', '060277982159', '789 Trần Hưng Đạo, phường Cầu Kho, quận 1'),
+('Trần Văn A', '060277982160', '12 Bùi Thị Xuân, quận 1'),
+('Nguyễn Thị B', '060277982161', '34 Lê Thánh Tôn, quận 1'),
+('Phạm Văn C', '060277982162', '56 Nguyễn Huệ, quận 1'),
+('Lê Thị D', '060277982163', '78 Trần Quang Khải, quận 1'),
+('Nguyễn Văn E', '060277982164', '90 Lê Văn Sỹ, quận 3'),
+('Trần Thị F', '060277982165', '123 Cách Mạng Tháng 8, quận 10');
 
--- Tạo bảng Tai_khoan_tiet_kiem
-CREATE TABLE Tai_khoan_tiet_kiem (
-    ID_tai_khoan CHAR(10) NOT NULL,
-    Trang_thai_tai_khoan BOOLEAN NOT NULL DEFAULT 1,
-    Ngay_mo DATE NOT NULL,
-    Ngay_dong DATE DEFAULT NULL,
-    Nguoi_so_huu CHAR(15) NOT NULL,
-    Loai_tiet_kiem NCHAR(20) NOT NULL,
-    Tien_nap_ban_dau DECIMAL(19, 4) NOT NULL,
-    Lai_suat FLOAT NOT NULL,
-    PRIMARY KEY (ID_tai_khoan),
-    FOREIGN KEY (Nguoi_so_huu) REFERENCES Khach_hang(Chung_minh_Thu)
-);
+-- Insert into Tai_khoan_tiet_kiem
+INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Trang_thai_tai_khoan, Ngay_mo, Ngay_dong, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
+VALUES 
+('STK00001', 1, '2024-01-01', NULL, '060277982156', 'no period', 1000000, 0.15),
+('STK00002', 1, '2024-01-01', NULL, '060277982157', '3 months', 2000000, 0.5),
+('STK00003', 0, '2024-01-01', '2024-09-01', '060277982158', '6 months', 3000000, 0.55),
+('STK00004', 1, '2024-01-15', NULL, '060277982159', 'no period', 4000000, 0.15),
+('STK00005', 1, '2024-01-15', NULL, '060277982156', '3 months', 5000000, 0.5),
+('STK00006', 1, '2024-01-15', NULL, '060277982157', '6 months', 6000000, 0.55),
+('STK00007', 1, '2024-02-01', NULL, '060277982158', 'no period', 7000000, 0.15),
+('STK00008', 0, '2024-02-01', '2024-11-01', '060277982159', '3 months', 8000000, 0.5),
+('STK00009', 0, '2024-02-01', '2025-03-01', '060277982160', '6 months', 9000000, 0.55),
+('STK00010', 1, '2024-02-15', NULL, '060277982161', 'no period', 10000000, 0.15),
+('STK00011', 0, '2024-02-15', '2025-02-01', '060277982162', '3 months', 11000000, 0.5),
+('STK00012', 1, '2024-02-15', NULL, '060277982163', '6 months', 12000000, 0.55),
+('STK00013', 1, '2024-03-01', NULL, '060277982164', 'no period', 13000000, 0.15),
+('STK00014', 1, '2024-03-01', NULL, '060277982165', '3 months', 14000000, 0.5),
+('STK00015', 1, '2024-03-01', NULL, '060277982165', '6 months', 15000000, 0.55),
+('STK00016', 1, '2024-03-15', NULL, '060277982164', 'no period', 16000000, 0.15),
+('STK00017', 0, '2024-03-15', '2024-09-15', '060277982163', '3 months', 17000000, 0.5),
+('STK00018', 1, '2024-03-15', NULL, '060277982162', '6 months', 18000000, 0.55),
+('STK00019', 1, '2024-04-01', NULL, '060277982161', 'no period', 19000000, 0.15),
+('STK00020', 1, '2024-04-01', NULL, '060277982160', '3 months', 20000000, 0.5),
+('STK00021', 1, '2024-04-01', NULL, '060277982159', '6 months', 21000000, 0.55),
+('STK00022', 1, '2024-04-15', NULL, '060277982158', 'no period', 22000000, 0.15),
+('STK00023', 0, '2024-04-15', '2024-09-15', '060277982157', '3 months', 23000000, 0.5),
+('STK00024', 1, '2024-04-15', NULL, '060277982156', '6 months', 24000000, 0.55),
+('STK00025', 1, '2024-05-01', NULL, '060277982165', 'no period', 25000000, 0.15),
+('STK00026', 1, '2024-05-01', NULL, '060277982164', '3 months', 26000000, 0.5),
+('STK00027', 1, '2024-05-01', NULL, '060277982163', '6 months', 27000000, 0.55),
+('STK00028', 1, '2024-05-15', NULL, '060277982162', 'no period', 28000000, 0.15),
+('STK00029', 1, '2024-05-15', NULL, '060277982161', '3 months', 29000000, 0.5),
+('STK00030', 1, '2024-05-15', NULL, '060277982160', '6 months', 30000000, 0.55),
+('STK00031', 1, '2024-06-01', NULL, '060277982159', 'no period', 31000000, 0.15),
+('STK00032', 1, '2024-06-01', NULL, '060277982158', '3 months', 32000000, 0.5),
+('STK00033', 1, '2024-06-01', NULL, '060277982157', '6 months', 33000000, 0.55),
+('STK00034', 1, '2024-06-15', NULL, '060277982156', 'no period', 34000000, 0.15),
+('STK00035', 1, '2024-06-15', NULL, '060277982165', '3 months', 35000000, 0.5),
+('STK00036', 1, '2024-06-15', NULL, '060277982164', '6 months', 36000000, 0.55),
+('STK00037', 1, '2024-07-01', NULL, '060277982163', 'no period', 37000000, 0.15),
+('STK00038', 0, '2024-07-01', '2024-09-30', '060277982162', '3 months', 38000000, 0.5),
+('STK00039', 1, '2024-07-01', NULL, '060277982161', '6 months', 39000000, 0.55),
+('STK00040', 1, '2024-07-15', NULL, '060277982160', 'no period', 40000000, 0.15),
+('STK00041', 1, '2024-07-15', NULL, '060277982159', '3 months', 41000000, 0.5),
+('STK00042', 1, '2024-07-15', NULL, '060277982158', '6 months', 42000000, 0.55),
+('STK00043', 1, '2024-08-01', NULL, '060277982157', 'no period', 43000000, 0.15),
+('STK00044', 1, '2024-08-01', NULL, '060277982156', '3 months', 44000000, 0.5),
+('STK00045', 1, '2024-08-01', NULL, '060277982165', '6 months', 45000000, 0.55),
+('STK00046', 1, '2024-08-15', NULL, '060277982165', 'no period', 46000000, 0.15),
+('STK00047', 1, '2024-08-15', NULL, '060277982163', '3 months', 47000000, 0.5),
+('STK00048', 1, '2024-08-15', NULL, '060277982160', '6 months', 48000000, 0.55),
+('STK00049', 1, '2024-09-01', NULL, '060277982157', 'no period', 49000000, 0.15),
+('STK00050', 1, '2024-09-01', NULL, '060277982157', '3 months', 50000000, 0.5);
 
--- Tạo bảng Giao_dich
-CREATE TABLE Giao_dich (
-    ID_giao_dich CHAR(10) NOT NULL,
-    Tai_khoan_giao_dich CHAR(10) NOT NULL,
-    Loai_giao_dich NCHAR(10) NOT NULL,
-    So_tien_giao_dich DECIMAL(19, 4) NOT NULL,
-    Ngay_giao_dich DATE NOT NULL,
-    PRIMARY KEY (ID_giao_dich),
-    FOREIGN KEY (Tai_khoan_giao_dich) REFERENCES Tai_khoan_tiet_kiem(ID_tai_khoan)
-);
+INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
+VALUES 
+('RT00001', 'STK00001', 'Rút Tiền', 15112500, '2024-02-01'),
+('NT00001', 'STK00001', 'Nạp Tiền', 5000000, '2024-03-01'),
+('RT00002', 'STK00003', 'Rút Tiền', 238800000, '2024-09-01'),
+('RT00003', 'STK00004', 'Rút Tiền', 10250000, '2024-05-01'),
+('NT00002', 'STK00004', 'Nạp Tiền', 20000000, '2024-06-01'),
+('NT00003', 'STK00007', 'Nạp Tiền', 30000000, '2024-08-01'),
+('RT00004', 'STK00008', 'Rút Tiền', 62325000, '2024-11-01'),
+('RT00005', 'STK00009', 'Rút Tiền', 252975000, '2025-03-01'),
+('NT00004', 'STK00010', 'Nạp Tiền', 40000000, '2024-11-01'),
+('RT00006', 'STK00010', 'Rút Tiền', 10225000, '2024-12-01'),
+('RT00007', 'STK00011', 'Rút Tiền', 82375000, '2025-02-01'),
+('NT00005', 'STK00013', 'Nạp Tiền', 50000000, '2024-07-01'),
+('RT00008', 'STK00014', 'Rút Tiền', 70500000, '2024-03-15'),
+('NT00006', 'STK00016', 'Nạp Tiền', 30000000, '2024-04-15'),
+('RT00009', 'STK00017', 'Rút Tiền', 51125000, '2024-09-15'),
+('NT00007', 'STK00019', 'Nạp Tiền', 40000000, '2024-05-15'),
+('RT00010', 'STK00020', 'Rút Tiền', 46250000, '2024-08-15'),
+('NT00008', 'STK00022', 'Nạp Tiền', 55000000, '2024-07-15'),
+('RT00011', 'STK00023', 'Rút Tiền', 77375000, '2024-09-15'),
+('NT00009', 'STK00025', 'Nạp Tiền', 65000000, '2024-10-15'),
+('RT00012', 'STK00026', 'Rút Tiền', 88500000, '2024-12-15'),
+('NT00010', 'STK00028', 'Nạp Tiền', 90000000, '2024-11-15'),
+('RT00013', 'STK00029', 'Rút Tiền', 96000000, '2025-01-15'),
+('NT00011', 'STK00031', 'Nạp Tiền', 100000000, '2025-02-15'),
+('RT00014', 'STK00034', 'Rút Tiền', 121750000, '2024-03-01'),
+('NT00012', 'STK00037', 'Nạp Tiền', 110000000, '2024-04-01'),
+('RT00015', 'STK00038', 'Rút Tiền', 117875000, '2024-09-30'),
+('NT00013', 'STK00040', 'Nạp Tiền', 125000000, '2024-05-30'),
+('RT00016', 'STK00041', 'Rút Tiền', 132250000, '2024-08-30'),
+('NT00014', 'STK00043', 'Nạp Tiền', 135000000, '2024-06-30'),
+('RT00017', 'STK00044', 'Rút Tiền', 142000000, '2024-09-30'),
+('NT00015', 'STK00046', 'Nạp Tiền', 145000000, '2024-07-30'),
+('RT00018', 'STK00047', 'Rút Tiền', 153750000, '2025-01-01'),
+('NT00016', 'STK00049', 'Nạp Tiền', 155000000, '2024-10-30');
 
-
--- Tạo bảng Regulation
-CREATE TABLE IF NOT EXISTS terms (
-    term_id INT AUTO_INCREMENT PRIMARY KEY,
-    term_name VARCHAR(50) NOT NULL,
-    interest_rate FLOAT DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS minimum_deposit_money (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    amount INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS minimum_withdraw_day (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    days INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-INSERT INTO terms (term_name, interest_rate) VALUES
-('no period', 0.15),
-('3 months', 0.5),
-('6 months', 0.55);
-INSERT INTO minimum_withdraw_day(days) Values
-(15);
-INSERT INTO minimum_deposit_money( amount) Values
-(100000);
-
-
--- INSERT INTO Khach_hang (Ho_ten, Chung_minh_Thu, Dia_chi)
--- VALUES 
--- ( 'Lê Hoàng Đạt', '060277982156', '61/21 Liên Khu 1-6, phường Bình Trị Đông, quận Bình Tân'),
--- ( 'Phạm Quang Duy', '060277982157', '123 Nguyễn Trãi, phường Bến Thành, quận 1'),
--- ( 'Nguyễn Phúc Thành', '060277982158', '456 Lê Lợi, phường Bến Nghé, quận 1'),
--- ('Nguyễn Quang Minh', '060277982159', '789 Trần Hưng Đạo, phường Cầu Kho, quận 1');
-
-
--- Thêm các tài khoản tiết kiệm vào bảng Tai_khoan_tiet_kiem
--- INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Trang_thai_tai_khoan, Ngay_mo, Ngay_dong, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
--- VALUES 
--- ('BT001',1, '2004-04-22',NULL, '060277982156', '3 months', 100000000, 4.6),
--- ('BT002', 1, '2023-06-15', '2023-06-18', '060277982157', '3 months', 50000000, 2.1),
--- ('ST001', 1, '2023-06-16', NULL, '060277982158', '6 months', 200000000, 4.6),
--- ('KKH001', 1,'2023-06-17', NULL,'060277982159', 'no period', 30000000, 0.15),
--- ('BT003', 1, '2023-06-18', NULL,'060277982156', '3 months', 70000000, 2.1);
-
--- Thêm các giao dịch vào bảng Giao_dich
--- INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
--- VALUES 
--- ('RT001', 'KKH001', 'Rút Tiền', 150000000, '2024-06-30'),
--- ('NT001', 'KKH001', 'Nạp Tiền', 430000000, '2024-06-17');
-
-
-
-DROP PROCEDURE IF EXISTS ngay_mo_so_dong_so;
-DELIMITER //
-CREATE PROCEDURE ngay_mo_so_dong_so(input_month VARCHAR(10), LOAITAIKHOAN NCHAR(10))
-BEGIN
-    DECLARE start_date DATE;
-    DECLARE end_date DATE;
-    DECLARE NOW_DATE DATE;
-
-    SET start_date = STR_TO_DATE(CONCAT(input_month, '-01'), '%Y-%m-%d');
-    SET end_date = LAST_DAY(start_date);
-
-    DROP TABLE IF EXISTS temp_card_counts;
-    CREATE  TABLE temp_card_counts (
-        report_date DATE,
-        OPEN_COUNT INT,
-        CLOSE_COUNT INT
-    );
-
-    SET NOW_DATE = start_date;
-
-    WHILE NOW_DATE <= end_date DO
-        INSERT INTO temp_card_counts (report_date, OPEN_COUNT, CLOSE_COUNT)
-        SELECT NOW_DATE, 
-        (SELECT count(*) from Tai_khoan_tiet_kiem WHERE  Ngay_mo = NOW_DATE and Loai_tiet_kiem = LOAITAIKHOAN),
-		(SELECT count(*) from Tai_khoan_tiet_kiem WHERE Ngay_dong = NOW_DATE and Loai_tiet_kiem = LOAITAIKHOAN);
-
-        SET NOW_DATE = DATE_ADD(NOW_DATE, INTERVAL 1 DAY);
-    END WHILE;
-
-    -- Select results from temporary table
-    SELECT * FROM temp_card_counts;
-
-    -- Note: Temporary table will be automatically dropped when the session ends
-END //
-
-DELIMITER ;
-
-select 
-from tai_khoan_tiet_kiem tktk join giao_dich gd on tktk.id_tai_khoan = gd.tai_khoan_giao_dich
-group by gd.tai_khoan_giao_dich
-
-
-select * from terms;
-select * from minimum_withdraw_day;
-select * from minimum_deposit_money;
-
-SELECT 
-    tktk.ID_tai_khoan,
-    tktk.Tien_nap_ban_dau,
-    COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Nạp Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) AS Tong_nap_tien,
-    COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Rút Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) AS Tong_rut_tien,
-    tktk.Tien_nap_ban_dau + 
-        COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Nạp Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0) - 
-        COALESCE(SUM(CASE WHEN gd.Loai_giao_dich = 'Rút Tiền' THEN gd.So_tien_giao_dich ELSE 0 END), 0)/(1+tktk.lai_suat/100) AS Tong_so_tien
-FROM 
-    Tai_khoan_tiet_kiem tktk
-LEFT JOIN 
-    Giao_dich gd ON tktk.ID_tai_khoan = gd.Tai_khoan_giao_dich
-WHERE tktk.loai_tiet_kiem = 'no period'
-GROUP BY 
-    tktk.ID_tai_khoan, tktk.Tien_nap_ban_dau, tktk.lai_suat;
-    
-    
-select * from tai_khoan_tiet_kiem;
-select * from giao_dich;
-select * from khach_hang;
-
-SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Rút Tiền' 
-
-
-
-
-
--- Giả sử đã có các khách hàng (từ ID '060277982156' đến '060277982165') và các loại tiết kiệm ( 'no period', '3 months', '6 months') đã có sẵn trong cơ sở dữ liệu
 
 -- Tạo thêm 20 sổ mở vào tháng 7 năm 2024
 INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Trang_thai_tai_khoan, Ngay_mo, Ngay_dong, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
@@ -361,7 +297,71 @@ VALUES
 ('STK00215', 0, '2024-02-29', '2024-07-14', '060277982155', 'no period', 60000000, 0.15),
 ('STK00216', 0, '2024-02-29', '2024-07-15', '060277982155', 'no period', 60000000, 0.15);
 
+-- Insert transactions for July 2024
+INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
+VALUES 
+-- Nạp tiền
+('NT00017', 'STK00116', 'Nạp Tiền', 5000000, '2024-07-01'),
+('NT00018', 'STK00003', 'Nạp Tiền', 10000000, '2024-07-02'),
+('NT00019', 'STK00004', 'Nạp Tiền', 15000000, '2024-07-03'),
+('NT00020', 'STK00007', 'Nạp Tiền', 20000000, '2024-07-04'),
+('NT00021', 'STK00008', 'Nạp Tiền', 25000000, '2024-07-05'),
+('NT00022', 'STK00009', 'Nạp Tiền', 30000000, '2024-07-06'),
+('NT00023', 'STK00010', 'Nạp Tiền', 35000000, '2024-07-07'),
+('NT00024', 'STK00011', 'Nạp Tiền', 40000000, '2024-07-08'),
+('NT00025', 'STK00013', 'Nạp Tiền', 45000000, '2024-07-09'),
+('NT00026', 'STK00014', 'Nạp Tiền', 50000000, '2024-07-10'),
+('NT00027', 'STK00016', 'Nạp Tiền', 55000000, '2024-07-11'),
+('NT00028', 'STK00017', 'Nạp Tiền', 60000000, '2024-07-12'),
+('NT00029', 'STK00019', 'Nạp Tiền', 65000000, '2024-07-13'),
+('NT00030', 'STK00020', 'Nạp Tiền', 70000000, '2024-07-14'),
+('NT00031', 'STK00022', 'Nạp Tiền', 75000000, '2024-07-15'),
+('NT00032', 'STK00023', 'Nạp Tiền', 80000000, '2024-07-16'),
+('NT00033', 'STK00025', 'Nạp Tiền', 85000000, '2024-07-17'),
+('NT00034', 'STK00026', 'Nạp Tiền', 90000000, '2024-07-18'),
+('NT00035', 'STK00028', 'Nạp Tiền', 95000000, '2024-07-19'),
+('NT00036', 'STK00029', 'Nạp Tiền', 100000000, '2024-07-20'),
+('NT00037', 'STK00031', 'Nạp Tiền', 105000000, '2024-07-21'),
+('NT00038', 'STK00034', 'Nạp Tiền', 110000000, '2024-07-22'),
+('NT00039', 'STK00037', 'Nạp Tiền', 115000000, '2024-07-23'),
+('NT00040', 'STK00038', 'Nạp Tiền', 120000000, '2024-07-24'),
+('NT00041', 'STK00040', 'Nạp Tiền', 125000000, '2024-07-25'),
+('NT00042', 'STK00041', 'Nạp Tiền', 130000000, '2024-07-26'),
+('NT00043', 'STK00043', 'Nạp Tiền', 135000000, '2024-07-27'),
+('NT00044', 'STK00044', 'Nạp Tiền', 140000000, '2024-07-28'),
+('NT00045', 'STK00046', 'Nạp Tiền', 145000000, '2024-07-29'),
+('NT00046', 'STK00047', 'Nạp Tiền', 150000000, '2024-07-30'),
+('NT00047', 'STK00049', 'Nạp Tiền', 155000000, '2024-07-31'),
 
--- Continue adding for 60 accounts
-
-
+-- Rút tiền
+('RT00019', 'STK00001', 'Rút Tiền', 2500000, '2024-07-01'),
+('RT00020', 'STK00003', 'Rút Tiền', 5000000, '2024-07-02'),
+('RT00021', 'STK00004', 'Rút Tiền', 7500000, '2024-07-03'),
+('RT00022', 'STK00007', 'Rút Tiền', 10000000, '2024-07-04'),
+('RT00023', 'STK00008', 'Rút Tiền', 12500000, '2024-07-05'),
+('RT00024', 'STK00009', 'Rút Tiền', 15000000, '2024-07-06'),
+('RT00025', 'STK00010', 'Rút Tiền', 17500000, '2024-07-07'),
+('RT00026', 'STK00011', 'Rút Tiền', 20000000, '2024-07-08'),
+('RT00027', 'STK00013', 'Rút Tiền', 22500000, '2024-07-09'),
+('RT00028', 'STK00014', 'Rút Tiền', 25000000, '2024-07-10'),
+('RT00029', 'STK00016', 'Rút Tiền', 27500000, '2024-07-11'),
+('RT00030', 'STK00017', 'Rút Tiền', 30000000, '2024-07-12'),
+('RT00031', 'STK00019', 'Rút Tiền', 32500000, '2024-07-13'),
+('RT00032', 'STK00020', 'Rút Tiền', 35000000, '2024-07-14'),
+('RT00033', 'STK00022', 'Rút Tiền', 37500000, '2024-07-15'),
+('RT00034', 'STK00023', 'Rút Tiền', 40000000, '2024-07-16'),
+('RT00035', 'STK00025', 'Rút Tiền', 42500000, '2024-07-17'),
+('RT00036', 'STK00026', 'Rút Tiền', 45000000, '2024-07-18'),
+('RT00037', 'STK00028', 'Rút Tiền', 47500000, '2024-07-19'),
+('RT00038', 'STK00029', 'Rút Tiền', 50000000, '2024-07-20'),
+('RT00039', 'STK00031', 'Rút Tiền', 52500000, '2024-07-21'),
+('RT00040', 'STK00034', 'Rút Tiền', 55000000, '2024-07-22'),
+('RT00041', 'STK00037', 'Rút Tiền', 57500000, '2024-07-23'),
+('RT00042', 'STK00038', 'Rút Tiền', 60000000, '2024-07-24'),
+('RT00043', 'STK00040', 'Rút Tiền', 62500000, '2024-07-25'),
+('RT00044', 'STK00041', 'Rút Tiền', 65000000, '2024-07-26'),
+('RT00045', 'STK00043', 'Rút Tiền', 67500000, '2024-07-27'),
+('RT00046', 'STK00044', 'Rút Tiền', 70000000, '2024-07-28'),
+('RT00047', 'STK00046', 'Rút Tiền', 72500000, '2024-07-29'),
+('RT00048', 'STK00047', 'Rút Tiền', 75000000, '2024-07-30'),
+('RT00049', 'STK00049', 'Rút Tiền', 77500000, '2024-07-31');

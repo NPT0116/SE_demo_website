@@ -20,12 +20,17 @@ class Database:
                 print(f"Error: {e}")
                 self.connection = None
         return self.connection
-
     def get_cursor(self):
-        connection = self.connect();
-        connection.reconnect();
-        if connection:
-            return connection.cursor(buffered=True)
-        return None
+        try:
+            connection = self.connect()
+            if connection:
+                return connection.cursor(buffered=True)
+            else:
+                print("Failed to establish a connection.")
+                return None
+        except Exception as e:
+            print(f"An error occurred while connecting to the database: {e}")
+            return None
+
     
 db = Database()

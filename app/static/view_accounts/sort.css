@@ -1,0 +1,51 @@
+.sort {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#column-select {
+    width: 30%;
+    height: 40px;
+    font-size: 1vw;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#order-select {
+    width: 30%;
+    height: 40px;
+    font-size: 1vw;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#sort-button {
+    width: 10%;
+    height: 5vh;
+    font-size: 1vw;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none;
+    cursor: pointer;
+}
+
+#reset-button {
+    width: 30%;
+    height: 5vh;
+    font-size: 1vw;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    border: none;
+    cursor: pointer;
+}
+
+#sort-button:hover, #reset-button:hover {
+    opacity: 0.8;
+}

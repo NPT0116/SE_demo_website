@@ -85,7 +85,7 @@ def view_account_transaction():
         print("Account:", account)
         print("Transactions:", transactions)
         
-        return render_template('view_account_transaction.html', account=account, Transactions=transactions, ID_returned=account_id)
+        return render_template('view_accounts/view_account_transaction.html', account=account, Transactions=transactions, ID_returned=account_id)
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)})
 if __name__ == '__main__':

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Account Information</title>
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/root.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/background.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/table.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/sort.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/transaction-component.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="sub-background">
+            <div class="return-button"></div>
+            <div class="display">
+                <div class="account-information">
+                    <div class="transaction-title">account information</div>
+                    <div class="account-detail">
+                        <div class="first-column">
+                            <div class="account-number">{{ account[0] }}</div>
+                            <div class="name">{{ account[1] }}</div>
+                            <div class="term">{{ account[2] }}</div>
+                        </div>
+                        <div class="second-column">
+                            <div class="account-creation-date">Creation Date: {{ account[3] }}</div>
+                            {% if account[4] == 'Tài khoản còn hoạt động' %}
+                                <div class="account-closure-date-inactive">
+                                    <div class="active-box">Active</div>
+                                    <div class="active-circle"></div>
+                                </div>
+                            {% else %}
+                                <div class="account-creation-date-active">Closure Date: {{ account[4] }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Account Number</th>
+                                    <th>Owner's Name</th>
+                                    <th>Account Type</th>
+                                    <th>Account Creation Date</th>
+                                    <th>Account Closure Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ account[0] }}</td>
+                                    <td>{{ account[1] }}</td>
+                                    <td>{{ account[2] }}</td>
+                                    <td>{{ account[3] }}</td>
+                                    <td>{{ account[4] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> -->
+                </div>
+
+                <div class="transaction-history">
+                    <div class="transaction-title">transaction history</div>
+                    <div class="sort">
+                        <select id="column-select"></select>
+                        <select id="order-select">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                        <button id="sort-button" onclick="sortTable()">Sort</button>
+                        <button id="reset-button" onclick="resetTable()">Reset to Default Order</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Transaction Type</th>
+                                    <th>Transaction Amount</th>
+                                    <th>Transaction Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for Transaction in Transactions %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ Transaction[0] }}</td>
+                                    <td>{{ Transaction[1] }}</td>
+                                    <td>{{ Transaction[2] }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="../../static/view_accounts/view_accounts_transaction.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            populateSortOptions();
+        });
+        var holding_id = "{{ ID_returned }}";
+        function populateSortOptions() {
+            var tableHeaders = document.querySelectorAll('th');
+            var columnSelect = document.getElementById('column-select');
+            columnSelect.innerHTML = '';
+            tableHeaders.forEach(function (header, index) {
+                var option = document.createElement('option');
+                option.textContent = header.textContent.trim();
+                option.value = header.textContent.trim();
+                columnSelect.appendChild(option);
+            });
+        }
+        function sortTable() {
+            var columnSelect = document.getElementById('column-select');
+            var orderSelect = document.getElementById('order-select');
+            var column = columnSelect.value;
+            var order = orderSelect.value;
+
+            window.location.href = `/view_account_transaction?sort=${column}&order=${order}&ID=${holding_id}`;
+        }
+        function resetTable() {
+            window.location.href = `/view_account_transaction?ID=${holding_id}`;
+        }
+    </script>
+</body>
+
+</html>

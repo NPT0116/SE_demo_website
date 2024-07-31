@@ -1,15 +1,19 @@
 .card-container {
     display: grid;
     grid-template-columns: repeat(3, minmax(auto, 1fr));
-    gap: 2vw; /* Adjust gap between grid items */
-    max-width: 100%; /* Allow container to expand */
-    max-height: calc(100% - 40px); /* Adjust height minus logo container padding */
+    gap: 2vw;
+    /* Adjust gap between grid items */
+    max-width: 100%;
+    /* Allow container to expand */
+    max-height: calc(100% - 40px);
+    /* Adjust height minus logo container padding */
     /* padding: 3vw; */
     margin-top: 7vh;
     justify-content: center;
     align-items: center;
     /* background-color: red; */
 }
+
 .card {
     width: 18vw;
     height: 25vh;
@@ -66,7 +70,7 @@
     /* box-shadow: 0px 0px 30px 1px rgb(255, 255, 255); */
     box-shadow: 0px 0px 30px 1px rgb(255, 80, 0);
     /* box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30); */
-    
+
 }
 
 .card:before,
@@ -99,5 +103,74 @@
     z-index: 2;
     text-decoration: none;
 }
-
 /*  */
+.box-container {
+    position: relative;
+    width: 90%;
+    height: 40%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transition: all 0.5s ease-in-out;
+    border: 2px solid rgba(255, 255, 255, 0);
+    overflow: hidden;
+    border-radius: 30px;
+    /* background-color: antiquewhite; */
+}
+.box {
+    margin-top: 10px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 10px;
+    text-align: right;
+    border-top: 3px solid orangered;
+    border-right: 3px solid orangered;
+    border-radius: 10% 13% 42% 0%/10% 12% 75% 0%;
+    transform-origin: bottom left;
+    transition: all 0.5s ease-in-out;
+    background-color: azure;
+    /* box-shadow: inset 5px 5px 5px #c4c4c4,
+                inset -5px -5px 5px #ffffff; */
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 1.2vw;
+    font-weight: 700;
+    font-style: italic;
+}
+.card:hover #a-box1 {
+    left: -1%;
+}
+#a-box1 {
+    width: 80%;
+    height: 80%;
+    bottom: -100%;
+    left: -100%;
+    transition-delay: 0.2s;
+}
+.card:hover #a-box2 {
+    top: 20%;
+    left: -35%;
+}
+#a-box2 {
+    width: 80%;
+    height: 80%;
+    bottom: -100%;
+    left: -100%;
+    transition-delay: 0.1s;
+}
+#a-box1:hover {
+    box-shadow: inset 0px 0px 5px 1px black;
+    background-color: orange;
+    font-size: 1.5vw;
+    color: white;
+    transition-delay: 0s;
+}
+#a-box2:hover {
+    box-shadow: 0px 0px 10px 1px black;
+    background-color: orange;
+    font-size: 1.5vw;
+    color: white;
+    transition-delay: 0s;
+}
+#a-box1:hover ~ #a-box2 {
+    scale: 0.9;
+}

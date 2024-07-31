@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Account List</title>
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/root.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/background.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/components.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/table.css">
+    <link rel="stylesheet" type="text/css" href="../../static/view_accounts/sort.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="background">
+        <div class="sub-background">
+            <div class="home-button"></div>
+            <div class="title">list of accounts</div>
+
+            <div class="container">
+                <div class="tools-bar">
+
+                    <div class="search">
+                        <input type="text" id="search-input" placeholder="Enter customer name or account number...">
+                        <button class="search-button" onclick="filterTable()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="sort">
+                        <select id="column-select"></select>
+                        <select id="order-select">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                        <button id="sort-button" onclick="sortTable()">Sort</button>
+                        <button id="reset-button" onclick="resetTable()">Reset to Default Order</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Account Number</th>
+                                <th>Customer</th>
+                                <th>Account Type</th>
+                                <th id="initial_amount_th" onclick="changeColumnContent()">
+                                    {% if show_initial_amount %}
+                                    Initial Amount
+                                    {% else %}
+                                    Current Amount
+                                    {% endif %}
+                                </th>
+                                <th>Account Status</th>
+                                <th>Interest Rate</th>
+                            </tr>
+                        </thead>
+                        <tbody id="account-table-body">
+                            {% for account in accounts %}
+                            <tr onclick="redirectToDetail('{{ account[0] }}')">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ account[0] }}</td>
+                                <td>{{ account[1] }}</td>
+                                <td>{{ account[2] }}</td>
+                                <td class="initial_amount">
+                                    {% if show_initial_amount %}
+                                    {{ account[3] }}
+                                    {% else %}
+                                    {{ account[6] }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="status-box {% if account[7] == 1 %}active{% else %}inactive{% endif %}">
+                                        {% if account[7] == 1 %}
+                                        Active
+                                        {% else %}
+                                        Inactive
+                                        {% endif %}
+                                        <span class="dot"></span>
+                                    </div>
+                                </td>
+                                <td>{{ account[5] }}</td>
+                                <td class="current_total" style="display: none;">
+                                    {% if show_initial_amount %}
+                                    {{ account[6] }}
+                                    {% else %}
+                                    {{ account[3] }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script src="/static/view_accounts/view_accounts.js"></script>
+</body>
+</div>
+</div>
+
+</html>
+
+<!-- <div class="card">
+    <div class="background">
+    </div>
+    <div class="logo">
+     Socials
+    </div>
+  
+    <a href="#"><div class="box box1"><span class="icon"></span></div></a>
+  
+    <a href="##"><div class="box box2"><span class="icon"></span></div></a>
+  
+    <a href="###"><div class="box box3"><span class="icon"></span></div></a>
+  
+    <div class="box box4"></div>
+  </div> -->

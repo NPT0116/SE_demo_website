@@ -11,7 +11,7 @@ class Database:
                 self.connection = mysql.connector.connect(
                     host="localhost",
                     user="root",
-                    passwd="Npt16012004",
+                    passwd="aloha123",
                     database="QL_TAIKHOANTIETKIEM"
                 )
                 if self.connection.is_connected():

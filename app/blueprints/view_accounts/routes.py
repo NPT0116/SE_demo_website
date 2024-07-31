@@ -36,14 +36,14 @@ FROM (
            tk.Lai_suat , tk.Trang_thai_tai_khoan  
             FROM tai_khoan_tiet_kiem tk
             JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
-            WHERE Loai_tiet_kiem != N'Không kỳ hạn' AND Trang_thai_tai_khoan = 1
+            WHERE Loai_tiet_kiem != N'Không kỳ hạn'
 
             UNION 
 
             SELECT tk.ID_tai_khoan, kh.Ho_ten, tk.Loai_tiet_kiem, tk.Tien_nap_ban_dau, Null as Tien_Lai, tk.Lai_suat, tk.Trang_thai_tai_khoan 
             FROM tai_khoan_tiet_kiem tk
             JOIN khach_hang kh ON tk.Nguoi_so_huu = kh.Chung_minh_thu
-            WHERE Loai_tiet_kiem = N'Không kỳ hạn' AND Trang_thai_tai_khoan = 1
+            WHERE Loai_tiet_kiem = N'Không kỳ hạn' 
         ) AS combined_results
         ORDER BY {order_by};"""
         cursor = db.get_cursor()
@@ -56,7 +56,7 @@ FROM (
         else :
             is_tong_tien = True;
         
-        return render_template('view_accounts.html', accounts=accounts, show_initial_amount = is_tong_tien)
+        return render_template('view_accounts/view_accounts.html', accounts=accounts, show_initial_amount = is_tong_tien)
     except Exception as e:
         return jsonify({'message': 'An error occurred', 'error': str(e)})
     

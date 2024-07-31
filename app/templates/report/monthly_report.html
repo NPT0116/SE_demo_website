@@ -1,47 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Báo Cáo Mở/Đóng Sổ Tháng</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" type="text/css" href="/static/view_account.css">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/view_account.css"> -->
+    <link rel="stylesheet" href="../../static/report/monthly/background.css">
+    <link rel="stylesheet" href="../../static/report/monthly/right_column.css">
+    <link rel="stylesheet" href="../../static/report/monthly/left_column.css">
+    <link rel="stylesheet" href="../../static/report/root.css">
+    <link rel="stylesheet" href="../../static/report/monthly/chart.css">
 </head>
+
 <body>
-    <h1>Báo Cáo Mở/Đóng Sổ Tháng</h1>
+    <div class="background">
+        <div class="sub-background">
+            <div class="home-button"></div>
 
-    <!-- Form nhập tháng -->
-    <form action="/report/monthly/submit" method="post" id="monthly_report_form">
-        <label for="loai_tiet_kiem">Loại tiết kiệm:</label>
-        <input type="text" id="loai_tiet_kiem" name="loai_tiet_kiem" required><br><br>
+            <div class="right-column">
+                <form action="/report/monthly/submit" method="POST" id="form">
+                    <div class="box box1">
+                        <div class="form-title">CHOOSE A TERM</div>
+                        <select id="term" name="term" required>
+                            {% for term in terms %}
+                            <option value="{{ term }}">{{ term }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="box box2">
+                        <div class="yearContainer">
+                            <div class="form-title">INPUT A YEAR</div>
+                            <input type="number" id="year" name="year" min="1900" max="2024" required>
+                        </div>
 
-        <label for="thang">Tháng:</label>
-        <input type="month" id="thang" name="thang" required><br><br>
-        <input type="submit" value="Gửi Báo Cáo">
-    </form>
-
-    <!-- Bảng hiển thị kết quả -->
-    <h2>Kết Quả Báo Cáo</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Ngày </th>
-                <th>Số Mở </th>
-                <th>Số Đóng </th>
-
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in reports %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ report[0] }}</td>
-                <td>{{ report[1] }}</td>
-                <td>{{ report[2] }}</td>
-                <td>{{ report[3] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                        <div class="monthContainer">
+                            <div class="form-title">PICK A MONTH</div>
+                            <div id="monthList"></div>
+                        </div>
+                        <input type="hidden" id="selectedMonth" name="selected_month" required>
+                    </div>
+                    <button id="submit-button" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="left-column">
+                <div class="title">monthly report</div>
+                <button id="backToTableButton" style="display: none;">Back To Table</button>
+                <canvas id="myChart" style="display: none;"></canvas>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Date</th>
+                                <th>Openning</th>
+                                <th>Closing</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in reports %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ report[0] }}</td>
+                                <td>{{ report[1] }}</td>
+                                <td>{{ report[2] }}</td>
+                                <td>{{ report[3] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../../static/report/monthly/month.js"></script>
+    <script type="module" src="../../static/report/monthly/chart.js"></script>
 </body>
+
 </html>

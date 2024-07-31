@@ -132,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .then(response => response.json())
                     .then(name => {
+                        console.log(typeof name)
                         customerName = name['ten_tai_khoan'];
                         account_status = name['Trang_thai_tai_khoan']
                         term = name['loai_tiet_kiem']

@@ -71,28 +71,28 @@ INSERT INTO minimum_deposit_money( amount) Values
 (100000);
 
 
-INSERT INTO Khach_hang (Ho_ten, Chung_minh_Thu, Dia_chi)
-VALUES 
-( 'Lê Hoàng Đạt', '060277982156', '61/21 Liên Khu 1-6, phường Bình Trị Đông, quận Bình Tân'),
-( 'Phạm Quang Duy', '060277982157', '123 Nguyễn Trãi, phường Bến Thành, quận 1'),
-( 'Nguyễn Phúc Thành', '060277982158', '456 Lê Lợi, phường Bến Nghé, quận 1'),
-('Nguyễn Quang Minh', '060277982159', '789 Trần Hưng Đạo, phường Cầu Kho, quận 1');
+-- INSERT INTO Khach_hang (Ho_ten, Chung_minh_Thu, Dia_chi)
+-- VALUES 
+-- ( 'Lê Hoàng Đạt', '060277982156', '61/21 Liên Khu 1-6, phường Bình Trị Đông, quận Bình Tân'),
+-- ( 'Phạm Quang Duy', '060277982157', '123 Nguyễn Trãi, phường Bến Thành, quận 1'),
+-- ( 'Nguyễn Phúc Thành', '060277982158', '456 Lê Lợi, phường Bến Nghé, quận 1'),
+-- ('Nguyễn Quang Minh', '060277982159', '789 Trần Hưng Đạo, phường Cầu Kho, quận 1');
 
 
--- Thêm các tài khoản tiết kiệm vào bảng Tai_khoan_tiet_kiem
-INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Trang_thai_tai_khoan, Ngay_mo, Ngay_dong, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
-VALUES 
-('BT001',1, '2004-04-22',NULL, '060277982156', '3 Tháng', 100000000, 4.6),
-('BT002', 1, '2023-06-15', NULL, '060277982157', '3 Tháng', 50000000, 2.1),
-('ST001', 1, '2023-06-16', NULL, '060277982158', '6 Tháng', 200000000, 4.6),
-('KKH001', 1,'2023-06-17', NULL,'060277982159', 'Không kỳ hạn', 30000000, 0.15),
-('BT003', 1, '2023-06-18', NULL,'060277982156', '3 Tháng', 70000000, 2.1);
+-- -- Thêm các tài khoản tiết kiệm vào bảng Tai_khoan_tiet_kiem
+-- INSERT INTO Tai_khoan_tiet_kiem (ID_tai_khoan, Trang_thai_tai_khoan, Ngay_mo, Ngay_dong, Nguoi_so_huu, Loai_tiet_kiem, Tien_nap_ban_dau, Lai_suat)
+-- VALUES 
+-- ('BT001',1, '2004-04-22',NULL, '060277982156', '3 Tháng', 100000000, 4.6),
+-- ('BT002', 1, '2023-06-15', NULL, '060277982157', '3 Tháng', 50000000, 2.1),
+-- ('ST001', 1, '2023-06-16', NULL, '060277982158', '6 Tháng', 200000000, 4.6),
+-- ('KKH001', 1,'2023-06-17', NULL,'060277982159', 'Không kỳ hạn', 30000000, 0.15),
+-- ('BT003', 1, '2023-06-18', NULL,'060277982156', '3 Tháng', 70000000, 2.1);
 
--- Thêm các giao dịch vào bảng Giao_dich
-INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
-VALUES 
-('RT001', 'KKH001', 'Rút Tiền', 150000000, '2024-06-30'),
-('NT001', 'KKH001', 'Nạp Tiền', 430000000, '2024-06-17');
+-- -- Thêm các giao dịch vào bảng Giao_dich
+-- INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
+-- VALUES 
+-- -- ('RT001', 'KKH001', 'Rút Tiền', 150000000, '2024-06-30'),
+-- -- ('NT001', 'KKH001', 'Nạp Tiền', 430000000, '2024-06-17');
 
 
 
@@ -133,8 +133,8 @@ END //
 
 DELIMITER ;
 
-
-
+select * 
+select * from tai_khoan_tiet_kiem
 select * from terms;
 select * from minimum_withdraw_day;
 select * from minimum_deposit_money;

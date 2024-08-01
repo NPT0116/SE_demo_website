@@ -158,15 +158,17 @@
     transition-delay: 0.1s;
 }
 #a-box1:hover {
-    box-shadow: inset 0px 0px 5px 1px black;
-    background-color: orange;
+    /* box-shadow: inset 0px 0px 5px 1px black; */
+    background-color: black;
+    box-shadow: 0px 0px 20px 1px rgb(255, 80, 0);
     font-size: 1.5vw;
     color: white;
     transition-delay: 0s;
 }
 #a-box2:hover {
-    box-shadow: 0px 0px 10px 1px black;
-    background-color: orange;
+    /* box-shadow: 0px 0px 10px 1px black; */
+    background-color:black;
+    box-shadow: 0px 0px 20px 1px rgb(255, 80, 0);
     font-size: 1.5vw;
     color: white;
     transition-delay: 0s;

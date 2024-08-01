@@ -8,16 +8,16 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 .form-title {
     font-family: "Inter", "san-serif";
     font-size: 2vw;
     font-weight: 1000;
-    margin-bottom: 10px;
+    margin: 30px;
 
-    text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.356);
+    text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.434);
 }
 form {
     width: 100%;
@@ -31,19 +31,15 @@ form {
 .box {
     margin: 10px;
     width: 90%;
+    height: 85%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border-radius: 20px;
-    box-shadow: inset 0px 1px 5px 5px rgba(0, 0, 0, 0.416);
-}
-.box.box1 {
-    height: 30%;
-}
+    /* box-shadow: inset 0px 1px 5px 5px rgba(0, 0, 0, 0.416); */
+    box-shadow: 0 0px 10px 2px rgb(0, 0, 0);
 
-.box.box2 {
-    height: 90%;
 }
 
 #term {
@@ -115,7 +111,9 @@ form {
 }
 
 #submit-button {
-    /* background-color: blue; */
+    /* margin-top: 20px; */
+    /* position: relative; */
+    /* bottom: 1%; */
     width: 90%;
     height: 10%;
     border-radius: 40px;

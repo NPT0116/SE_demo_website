@@ -1,0 +1,128 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+.wrapper{
+  width: 90%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 0px 6px 2px rgb(0, 0, 0);
+}
+/* .wrapper header{
+  display: flex;
+  align-items: center;
+  padding: 25px 30px 10px;
+  justify-content: space-between;
+} */
+header .icons{
+  display: flex;
+  /* background-color: aqua; */
+}
+header .icons span{
+  height: 38px;
+  width: 38px;
+  /* margin: 0 1px; */
+  cursor: pointer;
+  color: #878787;
+  text-align: center;
+  line-height: 38px;
+  font-size: 1.5rem;
+  user-select: none;
+  border-radius: 50%;
+}
+header .icons span:hover{
+  background: #f2f2f2;
+}
+
+.calendar{
+  padding: 10px;
+}
+.calendar ul{
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  text-align: center;
+}
+.calendar .days{
+  margin-bottom: 20px;
+}
+.calendar li{
+  color: #333;
+  width: calc(100% / 7);
+  font-size: 0.8vw;
+}
+.calendar .weeks li{
+  font-weight: 500;
+  cursor: default;
+}
+.calendar .days li{
+  z-index: 1;
+  cursor: pointer;
+  position: relative;
+  margin-top: 30px;
+}
+.days li.inactive{
+  color: #aaa;
+}
+.days li.active{
+  color: #fff;
+}
+.days li::before{
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  height: 30px;
+  width: 30px;
+  z-index: -1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.days li.active::before{
+  background: #9B59B6;
+}
+.days li:not(.active):hover::before{
+  background: #f2f2f2;
+}
+.days li.selected::before {
+    background: #9c59b659;
+}
+header {
+    /* background-color: #9B59B6; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.year-input {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    /* background-color: red; */
+}
+
+.year-picker {
+    width: 100%;
+    /* background-color: rebeccapurple; */
+}
+
+.pick-month {
+    /* background-color: blue; */
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+header .current-date {
+    /* background-color: red; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1vw;
+    font-weight: bold;
+}

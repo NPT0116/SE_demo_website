@@ -49,7 +49,9 @@ def get_daily_report():
 @daily_report_bp.route('/submit', methods=['POST'])
 def submit_daily_report():
     try:
+        print(request.form)
         ngay = request.form['ngay']
+        print(ngay)
         query = f"""SELECT '{ngay}',rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP ,rut_tien.TONG_RUT
                     FROM
                     (SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT

@@ -98,6 +98,8 @@ button i.fas.fa-search:hover {
 
 .status-box {
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     width: 50%;
     height: 100%;
     border-radius: 20px;
@@ -117,14 +119,14 @@ button i.fas.fa-search:hover {
 
 .status-box.inactive {
     background-color: red;
-    color: black;
+    color: white;
 }
 
 .status-box .dot {
-    position: absolute;
+    /* position: absolute;
     top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
+    right: 10px; */
+    /* transform: translateY(-50%); */
     width: 10px;
     height: 10px;
     border-radius: 50%;

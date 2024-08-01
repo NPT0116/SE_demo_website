@@ -6,7 +6,7 @@ class Database:
         self.connection = None
 
     def connect(self):
-        if self.connection is None:
+        if self.connection is None or not self.connection.is_connected():
             try:
                 self.connection = mysql.connector.connect(
                     host="localhost",
@@ -20,17 +20,29 @@ class Database:
                 print(f"Error: {e}")
                 self.connection = None
         return self.connection
+
     def get_cursor(self):
-        try:
-            connection = self.connect()
-            if connection:
-                return connection.cursor(buffered=True)
-            else:
-                print("Failed to establish a connection.")
-                return None
-        except Exception as e:
-            print(f"An error occurred while connecting to the database: {e}")
+        connection = self.connect()
+        if connection:
+            return connection.cursor(buffered=True)
+        else:
+            print("Failed to establish a connection.")
             return None
 
-    
+    def execute_query(self, query):
+        cursor = self.get_cursor()
+        if cursor:
+            try:
+                cursor.execute(query)
+                result = cursor.fetchall()
+                cursor.close()  # Ensure the cursor is closed after execution
+                return result
+            except Error as e:
+                print(f"Query failed: {e}")
+                cursor.close()
+                return None
+        else:
+            print("No cursor available.")
+            return None
+
 db = Database()

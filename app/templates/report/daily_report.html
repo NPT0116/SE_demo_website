@@ -1,45 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Báo Cáo Doanh Số Hoạt Động Ngày</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" type="text/css" href="/static/view_account.css">
+    <title>Báo Cáo Mở/Đóng Sổ Ngày</title>
+    <link rel="stylesheet" href="../../static/report/daily/background.css">
+    <link rel="stylesheet" href="../../static/report/daily/right_column.css">
+    <link rel="stylesheet" href="../../static/report/daily/left_column.css">
+    <link rel="stylesheet" href="../../static/report/root.css">
+    <link rel="stylesheet" href="../../static/report/daily/chart.css">
+    <link rel="stylesheet" href="../../static/report/daily/calendar.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 </head>
+
 <body>
-    <h1>Báo Cáo Doanh Số Hoạt Động Ngày</h1>
+    <div class="background">
+        <div class="sub-background">
+            <div class="home-button"></div>
 
-    <!-- Form nhập ngày -->
-    <form action="/report/daily/submit" method="post" id="daily_report_form">
-        <label for="ngay">Ngày:</label>
-        <input type="date" id="ngay" name="ngay" required><br><br>
-        <input type="submit" value="Gửi Báo Cáo">
-    </form>
-
-    <!-- Bảng hiển thị kết quả -->
-    <h2>Kết Quả Báo Cáo</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Ngày</th>
-                <th>Loại Tiết Kiệm </th>
-                <th>Tổng Thu </th>
-                <th>Tổng Chi </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for report in reports %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ report[0] }}</td>
-                <td>{{ report[1] }}</td>
-                <td>{{ report[2] }}</td>
-                <td>{{ report[3] }}</td>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            <div class="right-column">
+                <form action="/report/daily/submit" method="post" id="daily_report_form">
+                    <div class="box">
+                        <div class="form-title">Pick A Date</div>
+                        <div class="wrapper">
+                            <header>
+                                <div class="year-input">
+                                    <!-- <label for="year">Year:</label> -->
+                                    <input type="number" id="year" class="year-picker" min="1900" max="2100" placeholder="2024">
+                                </div>
+                                <!-- <label for="pick-month">Month:</label> -->
+                                <div class="pick-month">
+                                    <p class="current-date"></p>
+                                    <div class="icons">
+                                        <span id="prev" class="material-symbols-rounded">chevron_left</span>
+                                        <span id="next" class="material-symbols-rounded">chevron_right</span>
+                                    </div>
+                                </div>
+                            </header>
+                            <div class="calendar">
+                                <ul class="weeks">
+                                    <li>Sun</li>
+                                    <li>Mon</li>
+                                    <li>Tue</li>
+                                    <li>Wed</li>
+                                    <li>Thu</li>
+                                    <li>Fri</li>
+                                    <li>Sat</li>
+                                </ul>
+                                <ul class="days" id="days"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="date" id="ngay" name="ngay" required hidden>
+                    <button id="submit-button" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="left-column">
+                <div class="title">daily report</div>
+                <button id="backToTableButton" style="display: none;">Back To Table</button>
+                <canvas id="myChart" style="display: none;"></canvas>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Date</th>
+                                <th>Term</th>
+                                <th>Total Revenue</th>
+                                <th>Total Expenditure</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in reports %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ report[0] }}</td>
+                                <td>{{ report[1] }}</td>
+                                <td>{{ report[2] }}</td>
+                                <td>{{ report[3] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="../../static/report/daily/daily.js"></script>
+    <script type="module" src="../../static/report/daily/chart.js"></script>
+    <script type="module" src="../../static/report/daily/calendar.js"></script>
 </body>
+
 </html>

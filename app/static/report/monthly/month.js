@@ -35,3 +35,4 @@ document.querySelector('form').addEventListener('submit', function(event) {
 document.querySelector('.home-button').addEventListener('click', () => {
     window.location.href = '/'
 })
+

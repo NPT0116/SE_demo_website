@@ -92,10 +92,6 @@ button i.fas.fa-search {
     color: #fff;
 }
 
-button i.fas.fa-search:hover {
-    /* color: blue; */
-}
-
 .status-box {
     display: flex;
     justify-content: space-evenly;

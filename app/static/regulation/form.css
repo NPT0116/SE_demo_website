@@ -1,0 +1,135 @@
+.page {
+    width: 90%;
+    height: 80%;
+    /* background-color: rgba(170, 255, 0, 0.767); */
+}
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    /* background-color: aquamarine; */
+}
+
+.title-form {
+    font-family: "Inter";
+    font-size: 2.3vw;
+    font-weight: bold;
+    font-style: oblique;
+}
+
+.button-form {
+    width: 60%;
+    height: 15%;
+    border-radius: 30px;
+
+    font-family: "Inter";
+    font-size: 1.5vw;
+    font-weight: bold;
+}
+.button-form:hover {
+    opacity: 0.8;
+}
+
+.form-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 10%;
+    /* background-color: #27408b; */
+}
+
+.form-item label {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9vw;
+    color: rgb(99, 102, 102);
+    position: absolute;
+    top: 50%;
+    left: 7%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    transition: all .3s ease;
+}
+
+.form-item input,
+.form-item textarea {
+    font-family: "Inter", sans-serif;
+    font-size: 1.6vw;
+    max-width: 90%;
+    width: 100%;
+    height: 6vh;
+    padding-left: 1.5vw;
+    margin: 1.5vw;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+    /* background-color: #ff0000; */
+}
+
+.form-item input:placeholder-shown + label,
+.form-item textarea:placeholder-shown + label {
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: transparent;
+}
+
+.form-item input:focus,
+.form-item textarea:focus {
+    outline: none;
+}
+
+.form-item input:focus + label,
+.form-item textarea:focus + label {
+    top: -40%;
+    left: 10%;
+    transform: translateY(0);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #fff;
+    color: #000000;
+    font-weight: 600;
+}
+.form-item input:not(:placeholder-shown) + label,
+.form-item textarea:not(:placeholder-shown) + label {
+    top: -40%;
+    left: 10%;
+    transform: translateY(0);
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: #fff;
+    color: #000000;
+    font-weight: 600;
+}
+
+.form-item textarea {
+    resize: none;
+    height: 10px;
+}
+
+#term-select {
+    width: 60%;
+    height: 15%;
+    outline: none;
+    border: none;
+    border-bottom: 4px solid black;
+    border-radius: 15px;
+
+}
+.percentage-sign {
+    position: absolute;
+    right: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    width: 5%;
+    height: 5vh;
+    /* background-color: aqua; */
+}

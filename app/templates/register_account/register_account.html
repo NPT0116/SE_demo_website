@@ -43,7 +43,6 @@
                     <div class="group-left">
                         <div class="select-container">
                             <select id="term" name="term" required>
-                                
                                 <option value="" disabled selected id="holder">choose a term</option>
                                 {% for period in regulation.get_terms() %}
                                 <option value="{{ period }}">{{ period }}</option>

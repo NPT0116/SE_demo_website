@@ -1,46 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Update Regulation</title>
-    <link rel="stylesheet" type="text/css" href="../../static/regulation/regulation_home.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/regulation/root.css">
+    <link rel="stylesheet" href="../../static/regulation/background.css">
+    <link rel="stylesheet" href="../../static/regulation/regulation.css">
+    <link rel="stylesheet" href="../../static/regulation/form.css">
     <link href='https://fonts.googleapis.com/css?family=Borel' rel='stylesheet'>
-
 </head>
+
 <body>
-    <div class="background"></div>
-    <div class="regulation_container container">
-    <h1 class="container_header">Change Regulation</h1>
-        <ul class="regulation_list_item container_list">
-            <li class = "regulation_item container_list_item">
-                <a href="/regulation/insert_term">
-                <span class="item_text container_list_item_text">
-                    Insert Term
-                </span>
-                </a>
-            </li>
-            <li class = "regulation_item container_list_item">
-                <a href="/regulation/update_interest_rate">
-                <span class="item_text container_list_item_text">
-                    Update interset rate
-                </span>
-                </a>
-            </li>
-            <li class = "regulation_item container_list_item">
-                <a href="/regulation/change_minimum_withdraw_day">
-                <span class="item_text container_list_item_text">
-                    Change Minimum Withdraw Day
-                </span>
-                </a>
-            </li>
-            <li class = "regulation_item container_list_item">
-                <a href="/regulation/change_minimum_deposit_money">
-                <span class="item_text container_list_item_text">
-                    Change Minimum Deposit
-                </span>
-                </a>
-            </li>
-        </ul>
+    <div class="background">
+        <div class="sub-background">
+            <div class="home-button"></div>
+            <div class="left-column">
+                <div class="title">Change Regulation</div>
+                <div class="container">
+                    <div class="box">
+                        <div class="page" id="insert">
+                            <form id="insert_term_form">
+                                <div class="title-form">INSERT NEW TERM</div>
+
+                                <div class="form-item">
+                                    <input type="text" id="term" name="term" placeholder=" " required>
+                                    <label for="term">Term</label>
+                                </div>
+
+                                <div class="form-item">
+                                    <input type="text" id="term" name="term" placeholder=" " required>
+                                    <label for="term">Interest</label>
+                                    <span class="percentage-sign">%</span>
+                                </div>
+
+                                <button class="button-form" type="button" onclick="submitForm()">Confirm</button>
+                            </form>
+                        </div>
+
+                        <div class="page" id="change-minimum-deposit" hidden>
+                            <form id="change_minimum_deposit_money_form">
+                                <div class="title-form">CHANGE MINIMUM DEPOSIT</div>
+
+                                <div class="form-item">
+                                    <input type="number" id="minimum_deposit" name="minimum_deposit" placeholder=" "
+                                        required>
+                                    <label for="minimum_deposit">Deposit</label>
+                                </div>
+
+                                <button class="button-form" type="button" onclick="submitForm()">Update</button>
+                            </form>
+                        </div>
+
+                        <div class="page" id="change-minimum-withdraw-day" hidden>
+                            <form id="change_minimum_withdraw_day_form">
+                                <div class="title-form">CHANGE MINIMUM WIRHDRAW DAY</div>
+
+                                <div class="form-item">
+                                    <input type="number" id="minimum_withdraw_day" name="minimum_withdraw_day"
+                                        placeholder=" " required>
+                                    <label for="minimum_withdraw_day">Day</label>
+                                </div>
+
+                                <button class="button-form" type="button" onclick="submitForm()">Update</button>
+                            </form>
+                        </div>
+
+                        <div class="page" id="change-interest-rate" hidden>
+                            <form id="update_interest_rate_form" class="container_form">
+                                <div class="title-form">UPDATE INTEREST RATE</div>
+                                <!-- <div class="form-item">
+                                    <input type="number" id="minimum_withdraw_day" name="minimum_withdraw_day"
+                                        placeholder=" " required>
+                                    <label for="minimum_withdraw_day">Day</label>
+                                </div> -->
+
+                                <select id="term-select" name="term" required>
+                                    <option value="" disabled id="holder" selected>choose a term</option>
+                                    {% for term in terms %}
+                                    <option value="{{ term }}">{{ term }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <input type="hidden" id="hidden_interest_period" name="interest_period">
+                                <div class="form-item">
+                                    <input type="text" id="term" name="term" placeholder=" " required>
+                                    <label for="term">Interest</label>
+                                    <span class="percentage-sign">%</span>
+                                </div>
+
+                                <button class="button-form" type="button" onclick="submitForm()">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-column">
+                <div id="btn-insert-term" class="button">Insert Term</div>
+                <div id="btn-change-minimum-deposit" class="button">Change Minimum Deposit</div>
+                <div id="btn-change-minimum-withdraw-day" class="button">Change Minimum Withdraw Day</div>
+                <div id="btn-change-interest-rate" class="button">Change Interest Rate</div>
+            </div>
+        </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="module" src="../../static/regulation/regulation.js"></script>
+    <script type="module" src="../../static/regulation/change_regulation_js/change_minimum_deposit_money.js"></script>
+    <script type="module" src="../../static/regulation/change_regulation_js/change_minimum_withdraw_day.js"></script>
+    <script type="module" src="../../static/regulation/change_regulation_js/update_interest_rate.js"></script>
+    <script type="module" src="../../static/regulation/change_regulation_js/insert_new_term.js"></script>
 </body>
+
 </html>

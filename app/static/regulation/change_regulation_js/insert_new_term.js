@@ -1,4 +1,4 @@
-function submitForm() {
+function submitFormTerm() {
     var form = document.getElementById('insert_term_form');
     var formData = new FormData(form);
     

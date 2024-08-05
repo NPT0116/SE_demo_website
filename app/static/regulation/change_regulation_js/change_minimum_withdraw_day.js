@@ -1,4 +1,4 @@
-function submitForm() {
+function submitFormDay() {
     var form = document.getElementById('change_minimum_withdraw_day_form');
     var formData = new FormData(form);
     event.preventDefault()
@@ -41,3 +41,27 @@ $('p.formLabel').click(function(){
 $(this).parent().children('.form-style').focus();
 
 });
+
+
+
+function get_current_money()
+{
+    var current;
+
+    fetch('/change_minimum_withdraw_day/get_current',
+    {
+        method: 'POST'
+    }
+    )
+    .then( response => response.json())
+    .then( data => {
+        current = data['current day']
+        console.log(current)
+    })
+    .catch(error =>
+    {
+        console.log(error)
+    }
+    )
+    return current
+}

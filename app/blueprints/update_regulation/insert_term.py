@@ -10,8 +10,8 @@ def insert_term():
 @insert_term_bp.route('/insert_term/submit', methods=['POST'])
 def submit_insert_term():
     try:
-        new_period = request.form.get('new_period')
-        new_interest = request.form.get('new_interest')
+        new_period = request.form.get('term')
+        new_interest = request.form.get('interest')
 
         print(new_interest)
         if new_period:

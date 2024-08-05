@@ -1,5 +1,5 @@
 
-function submitForm() {
+function submitFormInterest() {
     var form = document.getElementById('update_interest_rate_form');
     var hiddenInput = document.getElementById('hidden_interest_period');
     var interestPeriod = document.getElementById('interest_period').textContent;

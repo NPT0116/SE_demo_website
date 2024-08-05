@@ -1,4 +1,4 @@
-function submitForm() {
+function submitFormDeposit() {
     var form = document.getElementById('change_minimum_deposit_money_form');
     var formData = new FormData(form);
     event.preventDefault()
@@ -41,3 +41,30 @@ $('p.formLabel').click(function(){
 $(this).parent().children('.form-style').focus();
 
 });
+
+
+function get_current_money()
+{
+    var current;
+
+    fetch('/change_minimum_deposit_money/get_current',
+    {
+        method: 'GET'
+    }
+    )
+    .then( response => response.json())
+    .then( data => {
+        current = data['current money']
+        console.log(current)
+    })
+    .catch(error =>
+    {
+        console.log(error)
+    }
+    )
+    return current
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log(get_current_money())
+})

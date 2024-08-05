@@ -8,9 +8,13 @@ def change_minimum_deposit_money():
     return render_template('update_regulation/change_minimum_deposit_money.html')
 @change_minimum_deposit_money_bp.route('/change_minimum_deposit_money/get_current', methods=['GET'])
 def get_currrent_minimum_deposit_money():
-    current = regulation.get_minimum_deposit_money()
-    return jsonify({'current money': current})
-
+    try:
+        current = regulation.get_minimum_deposit_money()
+        print(current)
+        return jsonify({'current money': current})
+    except Exception as e:
+        print("Error retrieving current money:", e)
+        return jsonify({'error': 'Failed to retrieve current money'}), 500
 @change_minimum_deposit_money_bp.route('/change_minimum_deposit_money/submit', methods=['POST'])
 def submit_change_minimum_deposit_money():
     new_minimum = int(request.form.get('minimum_deposit'))

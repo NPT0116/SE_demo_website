@@ -47,24 +47,22 @@ function get_current_money()
 {
     var current;
 
-    fetch('/change_minimum_deposit_money/get_current',
+    fetch('/regulation/change_minimum_deposit_money/get_current',
     {
-        method: 'GET'
+        method: 'GET',
     }
     )
     .then( response => response.json())
     .then( data => {
-        current = data['current money']
-        console.log(current)
+        current = data['current money'];
+        console.log(current);
+        return current;
+
     })
     .catch(error =>
     {
         console.log(error)
+        return null;
     }
     )
-    return current
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log(get_current_money())
-})

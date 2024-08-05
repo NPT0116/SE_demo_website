@@ -44,13 +44,13 @@ $(this).parent().children('.form-style').focus();
 
 
 
-function get_current_money()
+function get_current_day()
 {
     var current;
 
-    fetch('/change_minimum_withdraw_day/get_current',
+    fetch('/regulation/change_minimum_withdraw_day/get_current',
     {
-        method: 'POST'
+        method: 'GET'
     }
     )
     .then( response => response.json())

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Interest Rates</title>
+</head>
+<body>
+
+<h2>Terms and Interest Rates</h2>
+<table id="termsTable" border="1">
+    <tr>
+        <th>Term Name</th>
+        <th>Interest Rate</th>
+    </tr>
+</table>
+
+<script>
+    // Function to fetch data from the Flask route
+    async function fetchTerms() {
+        try {
+            const response = await fetch('/regulation/get_term_list');
+            const data = await response.json();
+            
+            if (response.ok) {
+                const table = document.getElementById('termsTable');
+                
+                data.forEach(term => {
+                    const row = table.insertRow();
+                    const termNameCell = row.insertCell(0);
+                    const interestRateCell = row.insertCell(1);
+                    
+                    termNameCell.textContent = term.term_name;
+                    interestRateCell.textContent = term.interest_rate;
+                });
+            } else {
+                console.error('Error fetching terms:', data.error);
+            }
+        } catch (error) {
+            console.error('Error fetching terms:', error);
+        }
+    }
+
+    // Call the function to fetch and display terms when the page loads
+    window.onload = fetchTerms;
+</script>
+
+</body>
+</html>

@@ -24,4 +24,7 @@ $(document).ready(function() {
     $('#btn-change-interest-rate').click(function() {
         showPage('change-interest-rate');
     });
+    $('#btn-display-all-term').click(function() {
+        showPage('display-all-term');
+    });
 });

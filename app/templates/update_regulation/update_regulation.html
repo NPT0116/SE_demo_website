@@ -41,7 +41,9 @@
                         <div class="page" id="change-minimum-deposit" hidden>
                             <form id="change_minimum_deposit_money_form">
                                 <div class="title-form">CHANGE MINIMUM DEPOSIT</div>
-
+                                <div class="form-item">
+                                    <div class="current_minimum_deposit">NGUYEN QUANG MINH</div>
+                                </div>
                                 <div class="form-item">
                                     <input type="number" id="minimum_deposit" name="minimum_deposit" placeholder=" "
                                         required>
@@ -55,7 +57,9 @@
                         <div class="page" id="change-minimum-withdraw-day" hidden>
                             <form id="change_minimum_withdraw_day_form">
                                 <div class="title-form">CHANGE MINIMUM WIRHDRAW DAY</div>
-
+                                <div class="form-item">
+                                    <div class="current_minimum_day">NGUYEN QUANG MINH</div>
+                                </div>
                                 <div class="form-item">
                                     <input type="number" id="minimum_withdraw_day" name="minimum_withdraw_day"
                                         placeholder=" " required>
@@ -92,6 +96,19 @@
                                 <button class="button-form" type="button" onclick="submitFormInterest()">Update</button>
                             </form>
                         </div>
+
+                        <div class="page" id="display-all-term" hidden>
+                            <div class="table-container">
+                                <div class="title-form">DISPLAY ALL TERMS</div>
+
+                                <table id="termsTable" border="1">
+                                    <tr>
+                                        <th>Term Name</th>
+                                        <th>Interest Rate</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,15 +117,42 @@
                 <div id="btn-change-minimum-deposit" class="button">Change Minimum Deposit</div>
                 <div id="btn-change-minimum-withdraw-day" class="button">Change Minimum Withdraw Day</div>
                 <div id="btn-change-interest-rate" class="button">Change Interest Rate</div>
+                <div id="btn-display-all-term" class="button">Display All Term</div>
             </div>
         </div>
     </div>
+    <script>
+        async function fetchTerms() {
+            try {
+                const response = await fetch('/regulation/get_term_list');
+                const data = await response.json();
+
+                if (response.ok) {
+                    const table = document.getElementById('termsTable');
+
+                    data.forEach(term => {
+                        const row = table.insertRow();
+                        const termNameCell = row.insertCell(0);
+                        const interestRateCell = row.insertCell(1);
+
+                        termNameCell.textContent = term.term_name;
+                        interestRateCell.textContent = term.interest_rate;
+                    });
+                } else {
+                    console.error('Error fetching terms:', data.error);
+                }
+            } catch (error) {
+                console.error('Error fetching terms:', error);
+            }
+        }
+        window.onload = fetchTerms;
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script  src="../../static/regulation/regulation.js"></script>
-    <script  src="../../static/regulation/change_regulation_js/change_minimum_deposit_money.js"></script>
-    <script  src="../../static/regulation/change_regulation_js/change_minimum_withdraw_day.js"></script>
-    <script  src="../../static/regulation/change_regulation_js/update_interest_rate.js"></script>
-    <script  src="../../static/regulation/change_regulation_js/insert_new_term.js"></script>
+    <script src="../../static/regulation/regulation.js"></script>
+    <script src="../../static/regulation/change_regulation_js/change_minimum_deposit_money.js"></script>
+    <script src="../../static/regulation/change_regulation_js/change_minimum_withdraw_day.js"></script>
+    <script src="../../static/regulation/change_regulation_js/update_interest_rate.js"></script>
+    <script src="../../static/regulation/change_regulation_js/insert_new_term.js"></script>
     <script>
 
     </script>

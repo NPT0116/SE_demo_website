@@ -42,26 +42,3 @@ $(this).parent().children('.form-style').focus();
 
 });
 
-
-
-function get_current_day()
-{
-    var current;
-
-    fetch('/regulation/change_minimum_withdraw_day/get_current',
-    {
-        method: 'GET'
-    }
-    )
-    .then( response => response.json())
-    .then( data => {
-        current = data['current day']
-        console.log(current)
-    })
-    .catch(error =>
-    {
-        console.log(error)
-    }
-    )
-    return current
-}

@@ -43,26 +43,62 @@ $(this).parent().children('.form-style').focus();
 });
 
 
-function get_current_money()
-{
-    var current;
+async function get_current_money() {
+    try {
+        const response = await fetch('/regulation/change_minimum_deposit_money/get_current', {
+            method: 'GET',
+        });
 
-    fetch('/regulation/change_minimum_deposit_money/get_current',
-    {
-        method: 'GET',
-    }
-    )
-    .then( response => response.json())
-    .then( data => {
-        current = data['current money'];
-        console.log(current);
-        return current;
-
-    })
-    .catch(error =>
-    {
-        console.log(error)
+        const data = await response.json();
+        return data['current money'];
+    } catch (error) {
+        console.log('Error fetching current money:', error);
         return null;
     }
-    )
 }
+
+async function get_current_day() {
+    try {
+        const response = await fetch('/regulation/change_minimum_withdraw_day/get_current', {
+            method: 'GET',
+        });
+
+        const data = await response.json();
+        const current = data['current day'];
+        console.log(current);
+        return current;
+    } catch (error) {
+        console.log('Error fetching current day:', error);
+        return null;
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    var current = await get_current_money();
+    var current_minimum_deposit = document.getElementsByClassName('current_minimum_deposit');
+    
+    console.log(current);  // Xem giá trị của current
+    
+    // Kiểm tra nếu phần tử đầu tiên tồn tại
+    if (current_minimum_deposit.length > 0) {
+        current_minimum_deposit[0].textContent = current !== null ? current : 'Không thể lấy dữ liệu';
+    } else {
+        console.log('Không tìm thấy phần tử với class "current_minimum_deposit".');
+    }
+
+    console.log(current_minimum_deposit);
+    var current = await get_current_day();
+    var current_minimum_day = document.getElementsByClassName('current_minimum_day');
+    
+    console.log(current);  // Xem giá trị của current
+    
+    // Kiểm tra nếu phần tử đầu tiên tồn tại
+    if (current_minimum_day.length > 0) {
+        current_minimum_day[0].textContent = current !== null ? current : 'Không thể lấy dữ liệu';
+    } else {
+        console.log('Không tìm thấy phần tử với class "current_minimum_day".');
+    }
+
+    console.log(current_minimum_day);
+});

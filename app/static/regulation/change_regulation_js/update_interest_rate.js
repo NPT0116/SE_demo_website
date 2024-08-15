@@ -1,9 +1,10 @@
 
 function submitFormInterest() {
     var form = document.getElementById('update_interest_rate_form');
-    var hiddenInput = document.getElementById('hidden_interest_period');
-    var interestPeriod = document.getElementById('interest_period').textContent;
-    hiddenInput.value = interestPeriod
+    var hiddenInput = document.getElementById('hidden_interest_period').value;
+    var interestPeriod = document.getElementById('holder').textContent;
+    hiddenInput.value = interestPeriod;
+    console.log(hiddenInput.value)
     var formData = new FormData(form);
     event.preventDefault()
     fetch('/regulation/update_interest_rate/submit', {
@@ -58,42 +59,57 @@ const outputOption = document.querySelector('.output-option');
 const arrow = document.querySelector('.fa-arrow-left');
 const selection_box = document.querySelector('.selection-box')
 const header = document.querySelector('.input_container_header')
-selection_box.addEventListener('click', function()
-{
+// selection_box.addEventListener('click', function()
+// {
 
-event.stopPropagation();
-        if (optionBox.classList.contains('visible')) {
-            optionBox.classList.remove('visible');
-            arrow.classList.add('fa-arrow-left');
-            arrow.classList.remove('fa-arrow-down');
-            header.classList.remove('header-focus')
-        } else {
-            optionBox.classList.add('visible');
-            arrow.classList.add('fa-arrow-down');
-            arrow.classList.remove('fa-arrow-left');
-            header.classList.add('header-focus')
+// event.stopPropagation();
+//         if (optionBox.classList.contains('visible')) {
+//             optionBox.classList.remove('visible');
+//             arrow.classList.add('fa-arrow-left');
+//             arrow.classList.remove('fa-arrow-down');
+//             header.classList.remove('header-focus')
+//         } else {
+//             optionBox.classList.add('visible');
+//             arrow.classList.add('fa-arrow-down');
+//             arrow.classList.remove('fa-arrow-left');
+//             header.classList.add('header-focus')
 
-        }
+//         }
 
-})
+// })
 
 
-document.addEventListener('click', function() {
-        arrow.classList.add('fa-arrow-left');
-        arrow.classList.remove('fa-arrow-down');
-optionBox.classList.remove('visible')
+// document.addEventListener('click', function() {
+//         arrow.classList.add('fa-arrow-left');
+//         arrow.classList.remove('fa-arrow-down');
+// optionBox.classList.remove('visible')
 
-    });
-// Thêm sự kiện click cho từng option-item
-optionItems.forEach(item => {
-    item.addEventListener('click', function() {
-        // Xóa lớp selected khỏi tất cả các mục
-        optionItems.forEach(i => i.classList.remove('selected'));
+//     });
+// // Thêm sự kiện click cho từng option-item
+// optionItems.forEach(item => {
+//     item.addEventListener('click', function() {
+//         // Xóa lớp selected khỏi tất cả các mục
+//         optionItems.forEach(i => i.classList.remove('selected'));
         
-        // Thêm lớp selected cho mục được chọn
-        this.classList.add('selected');
+//         // Thêm lớp selected cho mục được chọn
+//         this.classList.add('selected');
 
-        // Cập nhật nội dung của span output-option
-        outputOption.textContent = this.textContent;
+//         // Cập nhật nội dung của span output-option
+//         outputOption.textContent = this.textContent;
+//     });
+// });
+document.addEventListener('DOMContentLoaded', () => {
+    const termSelect = document.getElementById('term-select');
+    // Lấy giá trị khi người dùng thay đổi lựa chọn
+    termSelect.addEventListener('change', () => {
+        const selectedValue = termSelect.value;
+        console.log('Giá trị đã chọn:', selectedValue);
+
+        // Bạn có thể làm gì đó với giá trị này, ví dụ:
+        document.getElementById('hidden_interest_period').value = selectedValue;
     });
+
+    // Lấy giá trị hiện tại nếu cần khi trang được tải
+    const selectedValueOnLoad = termSelect.value;
+    console.log('Giá trị đã chọn khi tải trang:', selectedValueOnLoad);
 });

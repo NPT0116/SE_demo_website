@@ -8,7 +8,8 @@ def change_minimum_withdraw_day():
     return render_template('update_regulation/change_minimum_withdraw_day.html')
 @change_minimum_withdraw_day_bp.route('/change_minimum_withdraw_day/get_current', methods=['GET'])
 def get_current_minimum_day():
-    return jsonify({'current day': regulation.get_minimum_withdraw_day})
+    current = regulation.get_minimum_withdraw_day()
+    return jsonify({'current day': current})
 
 @change_minimum_withdraw_day_bp.route('/change_minimum_withdraw_day/submit', methods=['POST'])
 def submit_change_minimum_withdraw_day():

@@ -83,7 +83,7 @@
     justify-content: center;
     align-items: flex-start;
 }
-#c-id, #c-name, #c-withdraw-date {
+#c-id, #c-name, #c-withdraw-date, #c-term {
     width: 90%;
     height: 20%;
     /* background-color: aqua; */
@@ -105,8 +105,26 @@
     /* background-color: red; */
 }
 #c-withdraw-date {
-    width: 90%;
+    width: 60%;
     height: 5%;
     font-size: 1.3vw;
+    /* background-color: green; */
+}
+
+#c-term {
+    width: 90%;
+    height: 5%;
+    font-size: 1.5vw;
+    justify-content: flex-end;
     /* background-color: red; */
+}
+
+.display_row {
+    width: 100%;
+    /* height: 30%; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    /* background-color: aqua; */
 }

@@ -81,9 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const parent = document.getElementById('card-old-balance')
     const label = parent.querySelector('label')
     function updateOldBalance() {
+        // console.log(oldBalance)
         if (oldBalance) {
             label.textContent = 'Old Balance'
-            oldBalanceBox.textContent = addComma(oldBalance)
+            oldBalanceBox.textContent = addComma(parseInt(oldBalance))
+        } else {
+            label.textContent = ''
+            oldBalanceBox.textContent = ''
         }
         /* Display old balance */
         document.getElementById('withdraw-money').addEventListener('input', (event) => {
@@ -132,21 +136,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     .then(response => response.json())
                     .then(name => {
-                        console.log(typeof name)
+                        // console.log(typeof name)
                         customerName = name['ten_tai_khoan'];
                         account_status = name['Trang_thai_tai_khoan']
                         term = name['loai_tiet_kiem']
                         initial_money = name['Tien_nap_ban_dau']
                         interest = name['Lai_suat']
-                        console.log(customerName)
-                        console.log(account_status)
-                        console.log(term)
-                        console.log(initial_money)
-                        console.log(interest)
+                        // console.log(customerName)
+                        // console.log(account_status)
+                        // console.log(initial_money)
+                        // console.log(interest)
 
-                        if (term == "no period")
-                        {
-                            
+                        if (term == "no period" || term == "Không kỳ hạn")
+                        {                            
                             fetch('/deposit_money/get_old_balance', {
                                 method: 'POST',
                                 headers: {
@@ -156,7 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             })
                             .then(response => response.json())
                             .then(data => {
-                                oldBalance = data['Old balance'];
+                                // oldBalance = data['Old balance'];
+                                oldBalance = initial_money
                                 updateOldBalance();
                             }) 
                         }
@@ -176,8 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                 updateOldBalance();
                             }) 
                         }
-                        console.log(oldBalance)
-                        console.log(interest_money)
+                        // console.log(oldBalance)
+                        // console.log(interest_money)
                     })
                     .catch(error => {
                         console.error('Error fetching data:', error);
@@ -187,9 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
                 // Fetch Old Balance cho nay
-
-                
-
                 updateOldBalance()
                 return true;
             } else if (idValue !== '') {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const c_name = document.getElementById('c-name')
         const nameValue = customerName
 
-        if (customerName !== '') {
+        if (customerName !== '' && customerName) {
             c_name.textContent = nameValue
             nameInput.value = nameValue
             nameInput.style.border = '4px solid green'
@@ -277,28 +277,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const amountValue = removeComma(commaValue)
 
         const maxWithdraw = oldBalance
-
-        if (/^\d+$/.test(amountValue) && amountValue <= maxWithdraw) {
-            amountError.textContent = ''
-            amountInput.style.color = 'blue'
-            const formattedInput = addComma(BigInt(amountValue))
-            amountInput.value = formattedInput
-            if (amountInput.value === '0') {
-                amountInput.value = ''
+        if (term) {
+            if (term == 'no period' || term == 'Không kỳ hạn') {
+                return true;
             }
-            return true;
-        } else {
-            amountInput.style.color = 'red'
-            if (amountValue > maxWithdraw) {
-                amountError.textContent = '*Amount must be smaller than Current Balance!'
-            } else {
-                amountError.textContent = '*Value must be numeric!'
-            }
-            if (amountValue === '') {
-                amountInput.style.color = 'blue'
+    
+            if (/^\d+$/.test(amountValue) && parseInt(amountValue) <= parseInt(maxWithdraw)) {
                 amountError.textContent = ''
+                amountInput.style.color = 'blue'
+                const formattedInput = addComma(BigInt(amountValue))
+                amountInput.value = formattedInput
+                if (amountInput.value === '0') {
+                    amountInput.value = ''
+                }
+                return true;
+            } else {
+                amountInput.style.color = 'red'
+                // console.log(amountValue, maxWithdraw)
+                // console.log(typeof(amountValue))
+                // console.log(typeof(maxWithdraw))
+                if (parseInt(amountValue) > parseInt(maxWithdraw)) {
+                    amountError.textContent = '*Amount must be smaller than Current Balance!'
+                } else {
+                    amountError.textContent = '*Value must be numeric!'
+                }
+                if (amountValue === '') {
+                    amountInput.style.color = 'blue'
+                    amountError.textContent = ''
+                }
+                return false;
             }
-            return false;
         }
     }
     // ValidateSubmit
@@ -307,6 +315,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = validateName()
         const date = validateWithdrawDate()
         const amount = validateAmount()
+        let inputBox = document.getElementById('withdraw-money')
+        let displayTerm = document.getElementById("c-term")
+        let parentOfAmountBox = inputBox.parentElement
+
+        if (term) {
+            displayTerm.textContent = term
+            if (term == 'no period' || term == 'Không kỳ hạn') {
+                inputBox.disabled = true;
+                inputBox.value = addComma(parseInt(oldBalance))
+                parentOfAmountBox.style.opacity = 0.5;
+            }                       
+        }  else {
+            displayTerm.textContent = ''
+            inputBox.value = ''
+            inputBox.disabled = false;  
+            parentOfAmountBox.style.opacity = 1; 
+        }
 
         const submitButton = document.getElementById('submit-button')
         const handleMouseEnter = () => {
@@ -329,26 +354,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const newBalance = document.getElementById('c-new-balance')
         const newBalanceLabel = document.querySelector('label[for="c-new-balance"]')
-        const oldBalance = document.getElementById('c-old-balance')
+        const oldBalanceBox = document.getElementById('c-old-balance')
         const newBalanceBox = document.getElementById('withdraw-money')
-        if (id && name && date) {
-            document.getElementById('withdraw-money').disabled = false;
-            console.log(document.getElementById('withdraw-money').disabled)
-        } else {
-            document.getElementById('withdraw-money').disabled = true;
-            document.getElementById('withdraw-money').value = '';
-            console.log(document.getElementById('withdraw-money').disabled)
-        }
+
         if (id && name && date && amount) {
-            // console.log(oldBalance.textContent)
-            const oldBalanceValue = removeComma(oldBalance.textContent)
+            // const oldBalanceValue = removeComma(oldBalanceBox.textContent)
+            // const newBalanceValue = removeComma(newBalanceBox.value)
+            const oldBalanceValue = removeComma(oldBalanceBox.textContent)
             const newBalanceValue = removeComma(newBalanceBox.value)
 
             newBalanceLabel.textContent = 'New Balance'
-            newBalance.textContent = addComma(BigInt(oldBalanceValue) - BigInt(newBalanceValue))
+            newBalance.textContent = addComma(oldBalanceValue - newBalanceValue)
 
             submitButton.style.boxShadow = '0px 0px 10px gray'
             submitButton.style.border = '2px solid black'
+            submitButton.disabled = false;
             // submitButton.style.color = 'black'
             if (!submitButton.hasMouseEnterListener) {
                 submitButton.addEventListener('mouseenter', handleMouseEnter);
@@ -361,6 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.style.boxShadow = ''
             submitButton.style.border = ''
             submitButton.style.color = 'white'
+            submitButton.disabled = true;
             if (submitButton.hasMouseEnterListener) {
                 submitButton.addEventListener('mouseenter', handleSpecialLeave);
                 submitButton.removeEventListener('mouseenter', handleMouseEnter);

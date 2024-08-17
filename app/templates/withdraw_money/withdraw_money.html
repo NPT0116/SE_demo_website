@@ -14,7 +14,7 @@
     <div class="background">
         <div class="sub-background">
             <div class="home-button"></div>
-            <form action="/withdraw_money/submit" id = "withdraw_money_form"method="POST">
+            <form action="/withdraw_money/submit" id="withdraw_money_form" method="POST">
                 <div class="right-column">
                     <div class="title">withdraw</div>
                     <div class="title"></div>
@@ -25,12 +25,12 @@
                             <span class="error-message-1" id="id-error"></span>
                         </div>
                         <div class="right-group">
-                            <input type="text"  id="name" readonly placeholder=" " required>
+                            <input type="text" id="name" readonly placeholder=" " required>
                             <label for="name">Customer's Name</label>
                             <span class="error-message-1" id="name-error"></span>
                         </div>
                         <div class="right-group">
-                            <input type="date" name="ngay_rut"id="withdraw-date" required>
+                            <input type="date" name="ngay_rut" id="withdraw-date" required>
                             <label for="withdraw-date">Withdraw Date</label>
                             <span class="error-message-1" id="date-error"></span>
                         </div>
@@ -42,7 +42,10 @@
                             <div id="c-information-container">
                                 <div id="c-id"></div>
                                 <div id="c-name"></div>
-                                <div id="c-withdraw-date"></div>
+                                <div class="display_row">
+                                    <div id="c-withdraw-date"></div>
+                                    <div id="c-term"></div>
+                                </div>
                             </div>
                         </div>
                         <div id="card-old-balance">
@@ -56,13 +59,13 @@
                     </div>
                     <div class="form-part-left">
                         <div class="left-group">
-                            <input id="withdraw-money"name="so_tien_rut" type="text" placeholder="amount?" required>
+                            <input id="withdraw-money" name="so_tien_rut" type="text" placeholder="amount?" required>
                             <span id="static-label-currency">VND</span>
                             <label for="withdraw-money">Withdraw Amount</label>
                             <span class="error-message-2" id="withdraw-money-error"></span>
                         </div>
 
-                        <button id="submit-button">Submit</button>
+                        <button id="submit-button" disabled>Submit</button>
                     </div>
                 </div>
             </form>

@@ -12,13 +12,12 @@ def view_accounts():
     # Ánh xạ các cột hợp lệ để tránh SQL injection
     valid_columns = {
         'ID': 'ID_tai_khoan',
-        'Mã Số': 'ID_tai_khoan',  # Giả sử mã số là ID_tai_khoan
-        'Khách Hàng': 'Ho_ten',
-        'Loại Tiết Kiệm': 'Loai_tiet_kiem',
-        'Số Tiền Gửi Ban Đầu': 'Tien_nap_ban_dau',
-        'Tiền Lãi': 'Tien_Lai',
-        'Lãi Suất': 'Lai_suat',
-        'Tổng Tiền Hiện Tại': 'Tong_tien'
+        'Account Number': 'ID_tai_khoan',  # Giả sử mã số là ID_tai_khoan
+        'Customer': 'Ho_ten',
+        'Account Type': 'Loai_tiet_kiem',
+        'Initial Amount': 'Tien_nap_ban_dau',
+        'Interest Rate': 'Lai_suat',
+        'Current Amount': 'Tong_tien'
     }
 
     # Kiểm tra xem cột sort có hợp lệ không
@@ -49,7 +48,6 @@ FROM (
         cursor = db.get_cursor()
         cursor.execute(query)
         accounts = cursor.fetchall()
-        print ("accounts: ", accounts)
         
         if (sort == 'Tổng Tiền Hiện Tại'):
             is_tong_tien = False;

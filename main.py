@@ -47,15 +47,15 @@ def view_account_transaction():
 
     # Ánh xạ các cột hợp lệ để tránh SQL injection
     valid_columns = {
-        'STT': 'Ngay_giao_dich',
-        'Loại Giao Dịch': 'Loai_giao_dich',
-        'Số tiền giao dịch': 'So_tien_giao_dich',
-        'Ngày Giao Dịch': 'Ngay_giao_dich'
+        'No.': 'Ngay_giao_dich',
+        'Transaction Type': 'Loai_giao_dich',
+        'Transaction Amount': 'So_tien_giao_dich',
+        'Transaction Date': 'Ngay_giao_dich'
     }
 
     # Kiểm tra xem cột sort có hợp lệ không
     if sort not in valid_columns:
-        sort = 'Ngày Giao Dịch'
+        sort = 'Transaction Date'
 
     try:
         order_by = f"{valid_columns[sort]} {order.upper()}"
@@ -82,8 +82,6 @@ def view_account_transaction():
         cursor.execute(transaction_query)
         transactions = cursor.fetchall()
         
-        print("Account:", account)
-        print("Transactions:", transactions)
         
         return render_template('view_accounts/view_account_transaction.html', account=account, Transactions=transactions, ID_returned=account_id)
     except Exception as e:

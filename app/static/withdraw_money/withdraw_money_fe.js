@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newBalanceValue = removeComma(newBalanceBox.value)
 
             newBalanceLabel.textContent = 'New Balance'
-            newBalance.textContent = addComma(oldBalanceValue - newBalanceValue)
+            newBalance.textContent = addComma(interest_money)
 
             submitButton.style.boxShadow = '0px 0px 10px gray'
             submitButton.style.border = '2px solid black'

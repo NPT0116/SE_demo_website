@@ -18,11 +18,16 @@ def get_account_info():
         cursor.execute(query, (ma_so,))
         result = cursor.fetchone()
         
+        ngay_mo = get_open_date(ma_so)
+        ngay_rut = request.form['ngay_rut']
+        expired_time = cal_expired_time(ngay_mo, ngay_rut, result[2])
+        old_balance = calculate_old_balance(ma_so, result[4], expired_time, result[2])
+        
         if result:
             return jsonify({'ten_tai_khoan': result[0],
                             'Trang_thai_tai_khoan': result[1],
                             'loai_tiet_kiem': result[2],
-                            'Tien_nap_ban_dau': result[3],
+                            'Tien_nap_ban_dau': old_balance,
                             'Lai_suat': result[4],
                             }
                             ), 200
@@ -31,7 +36,6 @@ def get_account_info():
 
     except Exception as e:
         return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
-
 @withdraw_money_bp.route('/withdraw_money/get_old_balance', methods=['POST'])
 def get_old_balance():
     try:

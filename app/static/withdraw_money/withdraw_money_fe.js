@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (term) {
             displayTerm.textContent = term
             if (term == 'no period' || term == 'Không kỳ hạn') {
-                inputBox.disabled = true;
+                inputBox.disabled = false;
                 inputBox.value = addComma(parseInt(oldBalance))
                 parentOfAmountBox.style.opacity = 0.5;
             }                       

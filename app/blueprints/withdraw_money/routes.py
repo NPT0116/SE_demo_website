@@ -27,7 +27,7 @@ def get_account_info():
             return jsonify({'ten_tai_khoan': result[0],
                             'Trang_thai_tai_khoan': result[1],
                             'loai_tiet_kiem': result[2],
-                            'Tien_nap_ban_dau': old_balance,
+                            'Tien_nap_ban_dau':old_balance,
                             'Lai_suat': result[4],
                             }
                             ), 200
@@ -265,13 +265,13 @@ def account_status(ma_so):
 @withdraw_money_bp.route('/withdraw_money/submit', methods=['POST'])
 def submit_form2():
     try:
+        print(request.form)
         ma_so = request.form['ma_so']
         ngay_rut = request.form['ngay_rut']
         so_tien = request.form['so_tien_rut']
         ngay_rut = datetime.strptime(ngay_rut, '%Y-%m-%d').date()
         ngay_mo = get_open_date(ma_so)
         so_tien_rut = so_tien.replace(',', '')
-        
         # Kiểm tra sổ đóng 
         status = []
         if int(account_status(ma_so)) == 0:

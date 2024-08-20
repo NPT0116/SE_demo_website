@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let initial_money;
     let interest ;
     let interest_money = 0;
+    var old_balance = 0;
     /*Function to add comma*/
     const form = document.querySelector('#withdraw_money_form')
     // Submit Button
@@ -142,6 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         term = name['loai_tiet_kiem']
                         initial_money = name['Tien_nap_ban_dau']
                         interest = name['Lai_suat']
+                        old_balance = name['old_balance']
                         // console.log(customerName)
                         // console.log(account_status)
                         // console.log(initial_money)
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             .then(response => response.json())
                             .then(data => {
                                 // oldBalance = data['Old balance'];
-                                oldBalance = initial_money
+                                oldBalance = old_balance
                                 updateOldBalance();
                             }) 
                         }

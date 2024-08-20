@@ -18,17 +18,18 @@ def get_account_info():
         cursor.execute(query, (ma_so,))
         result = cursor.fetchone()
         
-        ngay_mo = get_open_date(ma_so)
-        ngay_rut = request.form['ngay_rut']
-        expired_time = cal_expired_time(ngay_mo, ngay_rut, result[2])
-        old_balance = calculate_old_balance(ma_so, result[4], expired_time, result[2])
-        
+        # ngay_mo = get_open_date(ma_so)
+        # ngay_rut = request.form['ngay_rut']
+        # expired_time = cal_expired_time(ngay_mo, ngay_rut, result[2])
+        old_balance = calculate_old_balance(ma_so, result[4], 1, result[2])
+
         if result:
             return jsonify({'ten_tai_khoan': result[0],
                             'Trang_thai_tai_khoan': result[1],
                             'loai_tiet_kiem': result[2],
-                            'Tien_nap_ban_dau':old_balance,
+                            'Tien_nap_ban_dau':result[3],
                             'Lai_suat': result[4],
+                            'old_balance' : old_balance,
                             }
                             ), 200
         else:

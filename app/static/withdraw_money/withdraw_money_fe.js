@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const maxWithdraw = oldBalance
         if (term) {
-            if (term == 'no period' || term == 'Không kỳ hạn') {
+            if (term != 'no period' && term != 'Không kỳ hạn') {
                 return true;
             }
     
@@ -295,9 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return true;
             } else {
                 amountInput.style.color = 'red'
-                // console.log(amountValue, maxWithdraw)
-                // console.log(typeof(amountValue))
-                // console.log(typeof(maxWithdraw))
                 if (parseInt(amountValue) > parseInt(maxWithdraw)) {
                     amountError.textContent = '*Amount must be smaller than Current Balance!'
                 } else {
@@ -323,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (term) {
             displayTerm.textContent = term
-            if (term == 'no period' || term == 'Không kỳ hạn') {
+            if (term != 'no period' && term != 'Không kỳ hạn') {
                 inputBox.disabled = false;
                 inputBox.value = addComma(parseInt(oldBalance))
                 parentOfAmountBox.style.opacity = 0.5;
@@ -363,10 +360,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // const oldBalanceValue = removeComma(oldBalanceBox.textContent)
             // const newBalanceValue = removeComma(newBalanceBox.value)
             const oldBalanceValue = removeComma(oldBalanceBox.textContent)
-            const newBalanceValue = removeComma(newBalanceBox.value)
+            // const newBalanceValue = removeComma(newBalanceBox.value)
 
-            newBalanceLabel.textContent = 'New Balance'
-            newBalance.textContent = addComma(interest_money)
+            if (term) {
+                if (term != 'no period' && term != 'Không kỳ hạn') {
+                    newBalanceLabel.textContent = 'Interest Money'
+                    newBalance.textContent = addComma(interest_money)
+                } else {
+                    newBalanceLabel.textContent = 'New Balance'
+                    const amountInput = document.getElementById('withdraw-money')
+                    // console.log(amountInput.value)
+                    const new_money = oldBalanceValue - removeComma(amountInput.value)
+                    newBalance.textContent = addComma(new_money)
+                }
+            }
 
             submitButton.style.boxShadow = '0px 0px 10px gray'
             submitButton.style.border = '2px solid black'
@@ -418,6 +425,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.home-button').addEventListener('click', () => {
         window.location.href = '/'
     })
-
-
 })

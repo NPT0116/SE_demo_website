@@ -72,13 +72,16 @@
                                     {% endif %}
                                 </td>
                                 <td>
-                                    <div class="status-box {% if account[7] == 1 %}active{% else %}inactive{% endif %}">
-                                        {% if account[7] == 1 %}
-                                        Active
-                                        {% else %}
-                                        Inactive
-                                        {% endif %}
-                                        <div class="dot"></div>
+                                    <div class="status">
+                                        <div
+                                            class="status-box {% if account[7] == 1 %}active{% else %}inactive{% endif %}">
+                                            {% if account[7] == 1 %}
+                                            Active
+                                            {% else %}
+                                            Inactive
+                                            {% endif %}
+                                            <div class="dot"></div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>{{ account[5] }}</td>

@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
-            labels.push(cells[0].textContent); // Label from first cell (e.g., Date)
+            labels.push(cells[2].textContent); // Label from first cell (e.g., Date)
             const revenue = parseFloat(cells[3].textContent); // Data for total revenue
             const expenditure = parseFloat(cells[4].textContent); // Data for total expenditure
             revenueData.push(revenue);

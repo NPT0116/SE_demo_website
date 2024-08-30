@@ -57,6 +57,18 @@
                             <label for="c-new-balance"></label>
                         </div>
                     </div>
+
+                    <div id="popup-dialog" class="popup">
+                        <div class="popup-content">
+                            <p>Are you sure you want to withdraw the following amount?</p>
+                            <p id="withdraw-amount-display"></p>
+                            <div class="button-bar">
+                                <button id="confirm-button">Confirm</button>
+                                <button id="cancel-button">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="form-part-left">
                         <div class="left-group">
                             <input id="withdraw-money" name="so_tien_rut" type="text" placeholder="amount?" required>
@@ -64,7 +76,6 @@
                             <label for="withdraw-money">Withdraw Amount</label>
                             <span class="error-message-2" id="withdraw-money-error"></span>
                         </div>
-
                         <button id="submit-button" disabled>Submit</button>
                     </div>
                 </div>

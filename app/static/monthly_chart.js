@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 title: 'Count',
                 format: '0', // Hiển thị số nguyên thay vì float
             }
-            
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));

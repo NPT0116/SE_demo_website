@@ -16,20 +16,25 @@ def get_daily_report():
 
         ngay = data['ngay']
         print (ngay)
-        query = f"""SELECT rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP + TK.Tien_nap_ban_dau,rut_tien.TONG_RUT
-                    FROM
-                    (SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
+        query = f"""
+SELECT '{ngay}',rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP + Revernue_from_Create_account.Amount ,rut_tien.TONG_RUT
+FROM
+(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
                     FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
-                    where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Rút tiền') as tk_gd
+                    where Ngay_giao_dich = '{ngay}'  and Loai_giao_dich = N'Rút tiền') as tk_gd
                     RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
                     group by tk.Loai_tiet_kiem) as rut_tien
-                    ,(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_NAP
+                    ,(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 )  as TONG_NAP
                     FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
                     where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Nạp tiền') as tk_gd
                     RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
                     group by tk.Loai_tiet_kiem) as nap_tien
-                    , (SELECT Tien_nap_ban_dau FROM Tai_khoan_tiet_kiem where Ngay_mo = '{ngay}') as TK
-                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem and TK.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem"""
+                    , (SELECT IFNULL(SUM(TAO_TK_SUM.init_am), 0) as Amount, loai_tk.Loai_tiet_kiem as type_tk  from  (SELECT TAO_TK.Tien_nap_ban_dau as init_am,ID_tai_khoan , Loai_tiet_kiem  FROM Tai_khoan_tiet_kiem as TAO_TK 
+                    where TAO_TK.Ngay_mo = '{ngay}') as TAO_TK_SUM
+                    RIGHT JOIN Tai_khoan_tiet_kiem as loai_tk on loai_tk.ID_tai_khoan = TAO_TK_SUM.ID_tai_khoan
+                    Group by loai_tk.Loai_tiet_kiem) as Revernue_from_Create_account
+                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem and Revernue_from_Create_account.type_tk = nap_tien.Loai_tiet_kiem
+"""
         cursor = db.get_cursor()
         cursor.execute(query)
         daily_reports = cursor.fetchall()
@@ -53,20 +58,25 @@ def submit_daily_report():
         print(request.form)
         ngay = request.form['ngay']
         print(ngay)
-        query = f"""SELECT rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP + TK.Tien_nap_ban_dau,rut_tien.TONG_RUT
-                    FROM
-                    (SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
+        query = f"""
+SELECT '{ngay}',rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP + Revernue_from_Create_account.Amount ,rut_tien.TONG_RUT
+FROM
+(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
                     FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
                     where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Rút tiền') as tk_gd
                     RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
                     group by tk.Loai_tiet_kiem) as rut_tien
-                    ,(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_NAP
+                    ,(SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 )  as TONG_NAP
                     FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
                     where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Nạp tiền') as tk_gd
                     RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
                     group by tk.Loai_tiet_kiem) as nap_tien
-                    , (SELECT Tien_nap_ban_dau FROM Tai_khoan_tiet_kiem where Ngay_mo = '{ngay}') as TK
-                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem and TK.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem"""
+                    , (SELECT IFNULL(SUM(TAO_TK_SUM.init_am), 0) as Amount, loai_tk.Loai_tiet_kiem as type_tk  from  (SELECT TAO_TK.Tien_nap_ban_dau as init_am,ID_tai_khoan , Loai_tiet_kiem  FROM Tai_khoan_tiet_kiem as TAO_TK 
+                    where TAO_TK.Ngay_mo = '{ngay}') as TAO_TK_SUM
+                    RIGHT JOIN Tai_khoan_tiet_kiem as loai_tk on loai_tk.ID_tai_khoan = TAO_TK_SUM.ID_tai_khoan
+                    Group by loai_tk.Loai_tiet_kiem) as Revernue_from_Create_account
+                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem and Revernue_from_Create_account.type_tk = nap_tien.Loai_tiet_kiem
+"""
         cursor = db.get_cursor()
         cursor.execute(query)
         daily_reports = cursor.fetchall()

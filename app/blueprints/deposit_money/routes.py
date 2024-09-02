@@ -29,8 +29,8 @@ def calculate_old_balance (ma_so, interest_rate):
     query = """
     SELECT 
         t.Tien_nap_ban_dau,
-        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Nạp Tiền' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_nap,
-        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Rút Tiền' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_rut
+        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Deposit' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_nap,
+        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Withdraw' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_rut
     FROM 
         Tai_khoan_tiet_kiem t
     LEFT JOIN 
@@ -57,10 +57,10 @@ def get_old_balance():
         if old_balance:
             return jsonify({'Old balance': old_balance}), 200
         else:
-            return jsonify({'message': 'Không tìm thấy thông tin tài khoản.'}), 404
+            return jsonify({'message': 'Account information not found.'}), 404
 
     except Exception as e:
-        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+        return jsonify({'message': 'An error has occurred.', 'error': str(e)}), 500
 @deposit_money_bp.route('/deposit_money/get_account_info', methods=['POST'])
 def get_account_info():
     try:
@@ -78,10 +78,10 @@ def get_account_info():
         if result:
             return jsonify({'ten_tai_khoan': result[0]}), 200
         else:
-            return jsonify({'message': 'Không tìm thấy thông tin tài khoản.'}), 404
+            return jsonify({'message': 'Account information not found.'}), 404
 
     except Exception as e:
-        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+        return jsonify({'message': 'An error has occurred.', 'error': str(e)}), 500
 
 @deposit_money_bp.route('/deposit_money')
 def deposit_money():
@@ -102,10 +102,10 @@ def validate_input(ma_so, ngay_gui):
     errors = []
 
     if ngay_gui > datetime.now().date():
-        errors.append('Ngày gửi không được quá ngày hiện tại.')
+        errors.append('The submission date cannot be later than the current date.')
         
     if ngay_gui < get_open_date(ma_so):
-        errors.append('Ngày gửi không được trước ngày mở sổ.')
+        errors.append('The submission date cannot be earlier than the account opening date.')
     return errors
         
 def get_term(ma_so, errors):
@@ -115,7 +115,7 @@ def get_term(ma_so, errors):
     cursor.execute(query, (ma_so,))
     result = cursor.fetchone()
     if not result:
-        errors.append('Không tìm thấy thông tin tài khoản.')
+        errors.append('Account information not found.')
 
     return result[0] if result else None
  
@@ -123,20 +123,20 @@ def validate_deposit_conditions(so_tien_gui, loai_tiet_kiem):
     errors = []
     # Kiểm tra điều kiện gửi tiền 
     if loai_tiet_kiem != 'no period':
-        err = 'Chỉ nhận gửi tiền cho loại tiết kiệm "no period". ' + 'Loại tiết kiệm của sổ là ' + loai_tiet_kiem 
+        err = 'Only accepting deposits for "no period" savings accounts. ' + 'The savings account type is ' + loai_tiet_kiem 
         errors.append(err)
 
     minimum_deposit_amount = regulation.get_minimum_deposit_money()
     
     if int(so_tien_gui) < minimum_deposit_amount:
-        errors.append(f'Số tiền gửi tối thiểu là {minimum_deposit_amount} VND.')
+        errors.append(f'The minimum deposit amount is {minimum_deposit_amount} VND.')
     return errors
         
 def save_data_to_database(ma_so, ngay_gui, so_tien_gui):
     cursor = db.get_cursor()
 
     # Tạo ID giao dịch mới
-    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Nạp Tiền'"
+    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Deposit'"
     cursor.execute(query)
     max_id = cursor.fetchone()[0]
     next_id = 1 if max_id is None else int(max_id) + 1
@@ -147,7 +147,7 @@ def save_data_to_database(ma_so, ngay_gui, so_tien_gui):
     INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
     VALUES (%s, %s, %s, %s, %s)
     """
-    values = (new_id, ma_so, 'Nạp Tiền', so_tien_gui, ngay_gui)
+    values = (new_id, ma_so, 'Deposit', so_tien_gui, ngay_gui)
     cursor.execute(insert_query, values)
     db.connection.commit()
 
@@ -176,30 +176,30 @@ def submit_form2():
         # Kiểm tra sổ đóng 
         status = []
         if int(account_status(ma_so)) == 0:
-            status.append('Sổ đã đóng')
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': status}), 400
+            status.append('The account is closed')
+            return jsonify({'message': 'An error has occurred.', 'errors': status}), 400
         
         # Kiểm tra dữ liệu đầu vào
         input_errors = validate_input(ma_so, ngay_gui)
         if input_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': input_errors}), 400
+            return jsonify({'message': 'An error has occurred.', 'errors': input_errors}), 400
         
         # Truy vấn để lấy loại tiết kiệm từ mã số
         term_errors = []
         loai_tiet_kiem = get_term(ma_so, term_errors)
 
         if term_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': term_errors}), 400
+            return jsonify({'message': 'An error has occurred.', 'errors': term_errors}), 400
 
         # Kiểm tra điều kiện gửi tiền
         deposit_errors = validate_deposit_conditions(so_tien_gui, loai_tiet_kiem)
         if deposit_errors:
-            return jsonify({'message': 'Đã xảy ra lỗi.', 'errors': deposit_errors}), 400
+            return jsonify({'message': 'An error has occurred.', 'errors': deposit_errors}), 400
         
         # Lưu dữ liệu vào cơ sở dữ liệu
         save_data_to_database(ma_so, ngay_gui, so_tien_gui)
 
-        return jsonify({'message': 'Dữ liệu đã được nhận và lưu thành công.'}), 200
+        return jsonify({'message': 'The data has been received and successfully saved.'}), 200
     except Exception as e:
         return jsonify({'message': str(e), 'error': str(e)}), 500
 
@@ -211,8 +211,8 @@ def get_deposit_money():
         if minimum_deposit_money:
             return jsonify({'minimum_deposit_money': minimum_deposit_money}), 200
         else:
-            return jsonify({'message': 'Không tìm thấy minimum deposit money.'}), 404
+            return jsonify({'message': 'Minimum deposit amount not found.'}), 404
 
     except Exception as e:
         print("Error occurred:", e)
-        return jsonify({'message': 'Đã xảy ra lỗi.', 'error': str(e)}), 500
+        return jsonify({'message': 'An error has occurred.', 'error': str(e)}), 500

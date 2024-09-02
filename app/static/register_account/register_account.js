@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         var errorMessage = document.getElementById('customer_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('deposit')) {
+                    } else if (error.includes('deposit amount')) {
                         var input = document.getElementById('amount');
                         input.classList.add('error');
                         const errorMessage = document.getElementById('amount_error');
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         var errorMessage = document.getElementById('address_error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-
                     } else if (error.includes('opening date')) {
                         var input = document.getElementById('opening-date');
                         input.classList.add('error');
@@ -68,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             } else {
                 // Nếu không có lỗi, hiển thị thông báo thành công
-                alert('Information was successfully submitted: ' + data.message);
+                alert(data.message);
             }
         })
         .catch(error => {

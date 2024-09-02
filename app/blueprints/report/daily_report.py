@@ -16,7 +16,7 @@ def get_daily_report():
 
         ngay = data['ngay']
         print (ngay)
-        query = f"""SELECT rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP ,rut_tien.TONG_RUT
+        query = f"""SELECT rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP + TK.Tien_nap_ban_dau,rut_tien.TONG_RUT
                     FROM
                     (SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
                     FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
@@ -28,7 +28,8 @@ def get_daily_report():
                     where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Nạp tiền') as tk_gd
                     RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
                     group by tk.Loai_tiet_kiem) as nap_tien
-                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem """
+                    , (SELECT Tien_nap_ban_dau FROM Tai_khoan_tiet_kiem where Ngay_mo = '{ngay}') as TK
+                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem and TK.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem"""
         cursor = db.get_cursor()
         cursor.execute(query)
         daily_reports = cursor.fetchall()
@@ -52,7 +53,7 @@ def submit_daily_report():
         print(request.form)
         ngay = request.form['ngay']
         print(ngay)
-        query = f"""SELECT '{ngay}',rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP ,rut_tien.TONG_RUT
+        query = f"""SELECT rut_tien.Loai_tiet_kiem, nap_tien.TONG_NAP + TK.Tien_nap_ban_dau,rut_tien.TONG_RUT
                     FROM
                     (SELECT tk.Loai_tiet_kiem, IFNULL(SUM(tk_gd.So_tien_giao_dich),0 ) as TONG_RUT
                     FROM (select Tai_khoan_giao_dich, So_tien_giao_dich from Giao_dich gd
@@ -64,7 +65,8 @@ def submit_daily_report():
                     where Ngay_giao_dich = '{ngay}' and Loai_giao_dich = N'Nạp tiền') as tk_gd
                     RIGHT JOIN Tai_khoan_tiet_kiem tk on tk.ID_tai_khoan = tk_gd.Tai_khoan_giao_dich
                     group by tk.Loai_tiet_kiem) as nap_tien
-                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem """
+                    , (SELECT Tien_nap_ban_dau FROM Tai_khoan_tiet_kiem where Ngay_mo = '{ngay}') as TK
+                    where rut_tien.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem and TK.Loai_tiet_kiem = nap_tien.Loai_tiet_kiem"""
         cursor = db.get_cursor()
         cursor.execute(query)
         daily_reports = cursor.fetchall()

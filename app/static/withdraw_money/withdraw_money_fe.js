@@ -34,19 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.errors) {
                 data.errors.forEach(error => {
-                    if (error.includes('Số tiền rút') || error.includes('rút hết toàn bộ')) {
+                    if (error.includes('withdrawal amount') || error.includes('fully withdrawn')) {
                         var input = document.getElementById('withdraw-money');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('withdraw-money-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('thời gian tối thiểu')) {
+                    } else if (error.includes('withdrawal da|te') | error.includes('at least 15 days') || error.includes('minimum time')) {
                         var input = document.getElementById('withdraw-date');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('date-error');
                         errorMessage.textContent = '* ' + error;
                         errorMessage.style.display = 'block';
-                    } else if (error.includes('Mã số') || error.includes('thông tin tài khoản') || error.includes('đóng')) {
+                    } else if (error.includes('Mã số') || error.includes('Account information') || error.includes('closed')) {
                         var input = document.getElementById('id');
                         input.classList.add('error');
                         var errorMessage = document.getElementById('id-error');
@@ -54,16 +54,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         errorMessage.style.display = 'block';
                     }
                 });
-                alert('Có lỗi xảy ra: \n' + data.errors.join('\n'));
+                alert(data.errors.join('\n'));
             } else {
                 // Nếu không có lỗi, hiển thị thông báo thành công
-                alert('Thông tin đã được gửi thành công: ' + data.message);
+                alert(data.message);
             }
         })
         .catch(error => {
             // Xử lý lỗi nếu có
             console.error('Error:', error);
-            alert('Đã xảy ra lỗi khi gửi thông tin');
+            alert('An error has occured.');
         });
     });
     function addComma(value) {

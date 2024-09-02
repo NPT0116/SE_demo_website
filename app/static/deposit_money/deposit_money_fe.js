@@ -35,19 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     var errorMessage = document.getElementById('name-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
-                } else if (error.includes('tiền gửi')) {
+                } else if (error.includes('minimum deposit')) {
                     var input = document.getElementById('deposit-money');
                     input.classList.add('error');
                     var errorMessage = document.getElementById('deposit-money-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
-                } else if (error.includes('Ngày gửi')) {
+                } else if (error.includes('submission date')) {
                     var input = document.getElementById('deposit-date');
                     input.classList.add('error');
                     var errorMessage = document.getElementById('date-error');
                     errorMessage.textContent = '* ' + error;
                     errorMessage.style.display = 'block';
-                } else if (error.includes('thông tin tài khoản') || error.includes('loại tiết kiệm "no period"') || error.includes('đóng')) {
+                } else if (error.includes('Account information') || error.includes('accepting deposits') || error.includes('closed')) {
                     var input = document.getElementById('id');
                     input.classList.add('error');
                     var errorMessage = document.getElementById('id-error');
@@ -55,16 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorMessage.style.display = 'block';
                 }
             });
-            alert('Có lỗi xảy ra: \n' + data.errors.join('\n'));
+            alert(data.errors.join('\n'));
             } else {
                // Nếu không có lỗi, hiển thị thông báo thành công
-               alert('Thông tin đã được gửi thành công: ' + data.message);
+               alert(data.message);
             }
         })
         .catch(error => {
             // Xử lý lỗi nếu có
             console.error('Error:', error);
-            alert('Đã xảy ra lỗi khi gửi thông tin');
+            alert('An error has occured');
         });
     });
     fetch('/deposit_money/get_minimum_deposit_money', {

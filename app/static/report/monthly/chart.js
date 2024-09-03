@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             backgroundColor: 'rgba(255, 99, 132, 0.5)', // Light color for closing accounts
                             stack: 'Stack 0', // Grouping in stack
                         },
-                        {
-                            label: 'Difference',
-                            data: closingData.map((val, index) => val - openingData[index]),
-                            backgroundColor: 'rgba(255, 206, 86, 0.5)', // Light color for difference
-                            stack: 'Stack 1', // Different stack for difference
-                        }
+                        // {
+                        //     label: 'Difference',
+                        //     data: closingData.map((val, index) => val - openingData[index]),
+                        //     backgroundColor: 'rgba(255, 206, 86, 0.5)', // Light color for difference
+                        //     stack: 'Stack 1', // Different stack for difference
+                        // }
                     ]
                 },
                 options: {

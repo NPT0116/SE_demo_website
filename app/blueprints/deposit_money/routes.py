@@ -29,8 +29,8 @@ def calculate_old_balance (ma_so, interest_rate):
     query = """
     SELECT 
         t.Tien_nap_ban_dau,
-        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Deposit' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_nap,
-        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Withdraw' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_rut
+        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Nạp Tiền' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_nap,
+        IFNULL(SUM(CASE WHEN g.Loai_giao_dich = 'Rút Tiền' THEN g.So_tien_giao_dich ELSE 0 END), 0) AS Tong_tien_rut
     FROM 
         Tai_khoan_tiet_kiem t
     LEFT JOIN 
@@ -136,7 +136,7 @@ def save_data_to_database(ma_so, ngay_gui, so_tien_gui):
     cursor = db.get_cursor()
 
     # Tạo ID giao dịch mới
-    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Deposit'"
+    query = "SELECT MAX(SUBSTRING(ID_giao_dich, 3)) FROM Giao_dich Where Loai_giao_dich = 'Nạp Tiền'"
     cursor.execute(query)
     max_id = cursor.fetchone()[0]
     next_id = 1 if max_id is None else int(max_id) + 1
@@ -147,7 +147,7 @@ def save_data_to_database(ma_so, ngay_gui, so_tien_gui):
     INSERT INTO Giao_dich (ID_giao_dich, Tai_khoan_giao_dich, Loai_giao_dich, So_tien_giao_dich, Ngay_giao_dich)
     VALUES (%s, %s, %s, %s, %s)
     """
-    values = (new_id, ma_so, 'Deposit', so_tien_gui, ngay_gui)
+    values = (new_id, ma_so, 'Nạp Tiền', so_tien_gui, ngay_gui)
     cursor.execute(insert_query, values)
     db.connection.commit()
 

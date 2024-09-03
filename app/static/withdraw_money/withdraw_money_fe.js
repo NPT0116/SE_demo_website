@@ -10,62 +10,62 @@ document.addEventListener('DOMContentLoaded', () => {
     /*Function to add comma*/
     const form = document.querySelector('#withdraw_money_form')
     // Submit Button
-    form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+    // form.addEventListener('submit', function(event) {
+    //     event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
 
-        // Tạo một đối tượng FormData để thu thập dữ liệu từ form
-        var formData = new FormData(this);
+    //     // Tạo một đối tượng FormData để thu thập dữ liệu từ form
+    //     var formData = new FormData(this);
 
-        // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
-        var inputs = document.querySelectorAll('#withdraw_money_form input');
-        var errorMessages = document.querySelectorAll('.error-message');
-        inputs.forEach(input => input.classList.remove('error'));
-        errorMessages.forEach(errorMessage => errorMessage.style.display = 'none');
+    //     // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
+    //     var inputs = document.querySelectorAll('#withdraw_money_form input');
+    //     var errorMessages = document.querySelectorAll('.error-message');
+    //     inputs.forEach(input => input.classList.remove('error'));
+    //     errorMessages.forEach(errorMessage => errorMessage.style.display = 'none');
         
-        // Sử dụng Fetch API để gửi dữ liệu đến server
-        fetch('/withdraw_money/submit', {
-            method: 'POST',
-            body: formData // Gửi dữ liệu đã thu thập được
-        })
-        .then(response => response.json()) // Chuyển đổi phản hồi nhận được thành JSON
-        .then(data => {
-            // Xóa lớp lỗi khỏi tất cả các trường input
-            inputs.forEach(input => input.classList.remove('error'));
+    //     // Sử dụng Fetch API để gửi dữ liệu đến server
+    //     fetch('/withdraw_money/submit', {
+    //         method: 'POST',
+    //         body: formData // Gửi dữ liệu đã thu thập được
+    //     })
+    //     .then(response => response.json()) // Chuyển đổi phản hồi nhận được thành JSON
+    //     .then(data => {
+    //         // Xóa lớp lỗi khỏi tất cả các trường input
+    //         inputs.forEach(input => input.classList.remove('error'));
 
-            if (data.errors) {
-                data.errors.forEach(error => {
-                    if (error.includes('withdrawal amount') || error.includes('fully withdrawn')) {
-                        var input = document.getElementById('withdraw-money');
-                        input.classList.add('error');
-                        var errorMessage = document.getElementById('withdraw-money-error');
-                        errorMessage.textContent = '* ' + error;
-                        errorMessage.style.display = 'block';
-                    } else if (error.includes('withdrawal da|te') | error.includes('at least 15 days') || error.includes('minimum time')) {
-                        var input = document.getElementById('withdraw-date');
-                        input.classList.add('error');
-                        var errorMessage = document.getElementById('date-error');
-                        errorMessage.textContent = '* ' + error;
-                        errorMessage.style.display = 'block';
-                    } else if (error.includes('Mã số') || error.includes('Account information') || error.includes('closed')) {
-                        var input = document.getElementById('id');
-                        input.classList.add('error');
-                        var errorMessage = document.getElementById('id-error');
-                        errorMessage.textContent = '* ' + error;
-                        errorMessage.style.display = 'block';
-                    }
-                });
-                alert(data.errors.join('\n'));
-            } else {
-                // Nếu không có lỗi, hiển thị thông báo thành công
-                alert(data.message);
-            }
-        })
-        .catch(error => {
-            // Xử lý lỗi nếu có
-            console.error('Error:', error);
-            alert('An error has occured.');
-        });
-    });
+    //         if (data.errors) {
+    //             data.errors.forEach(error => {
+    //                 if (error.includes('withdrawal amount') || error.includes('fully withdrawn')) {
+    //                     var input = document.getElementById('withdraw-money');
+    //                     input.classList.add('error');
+    //                     var errorMessage = document.getElementById('withdraw-money-error');
+    //                     errorMessage.textContent = '* ' + error;
+    //                     errorMessage.style.display = 'block';
+    //                 } else if (error.includes('withdrawal da|te') | error.includes('at least 15 days') || error.includes('minimum time')) {
+    //                     var input = document.getElementById('withdraw-date');
+    //                     input.classList.add('error');
+    //                     var errorMessage = document.getElementById('date-error');
+    //                     errorMessage.textContent = '* ' + error;
+    //                     errorMessage.style.display = 'block';
+    //                 } else if (error.includes('Mã số') || error.includes('Account information') || error.includes('closed')) {
+    //                     var input = document.getElementById('id');
+    //                     input.classList.add('error');
+    //                     var errorMessage = document.getElementById('id-error');
+    //                     errorMessage.textContent = '* ' + error;
+    //                     errorMessage.style.display = 'block';
+    //                 }
+    //             });
+    //             alert(data.errors.join('\n'));
+    //         } else {
+    //             // Nếu không có lỗi, hiển thị thông báo thành công
+    //             alert(data.message);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         // Xử lý lỗi nếu có
+    //         console.error('Error:', error);
+    //         alert('An error has occured.');
+    //     });
+    // });
     function addComma(value) {
         if (typeof value !== 'bigint' && typeof value !== 'number') {
             return ''
@@ -425,4 +425,106 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.home-button').addEventListener('click', () => {
         window.location.href = '/'
     })
+        // Popup
+    // const form_ = document.getElementById('withdraw_money_form');
+    const submitButton = document.getElementById('submit-button');
+    const popupDialog = document.getElementById('popup-dialog');
+    const confirmButton = document.getElementById('confirm-button');
+    const cancelButton = document.getElementById('cancel-button');
+    const withdrawAmountInput = document.getElementById('withdraw-money');
+    const withdrawAmountDisplay = document.getElementById('withdraw-amount-display');
+
+    submitButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent form submission
+        const amount = withdrawAmountInput.value.trim();
+
+        if (amount) {
+            withdrawAmountDisplay.textContent = `${amount} VND`;
+            popupDialog.style.display = 'flex'; // Show the popup
+        }
+    });
+
+    // Confirm button click handler
+    confirmButton.addEventListener('click', function() {
+        popupDialog.style.display = 'none'; // Hide the popup
+    });
+
+    // Submit Button
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+
+        // Tạo một đối tượng FormData để thu thập dữ liệu từ form
+        var formData = new FormData(this);
+
+        // Xóa lớp lỗi và ẩn các thông báo lỗi khỏi tất cả các trường input
+        var inputs = document.querySelectorAll('#withdraw_money_form input');
+        var errorMessages = document.querySelectorAll('.error-message');
+        inputs.forEach(input => input.classList.remove('error'));
+        errorMessages.forEach(errorMessage => errorMessage.style.display = 'none');
+        
+        // Sử dụng Fetch API để gửi dữ liệu đến server
+        fetch('/withdraw_money/submit', {
+            method: 'POST',
+            body: formData // Gửi dữ liệu đã thu thập được
+        })
+        .then(response => response.json()) // Chuyển đổi phản hồi nhận được thành JSON
+        .then(data => {
+            // Xóa lớp lỗi khỏi tất cả các trường input
+            inputs.forEach(input => input.classList.remove('error'));
+
+            if (data.errors) {
+                data.errors.forEach(error => {
+                    if (error.includes('Số tiền rút') || error.includes('rút hết toàn bộ')) {
+                        var input = document.getElementById('withdraw-money');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('withdraw-money-error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Ngày rút') || error.includes('giao dịch gần nhất') || error.includes('thời gian tối thiểu')) {
+                        var input = document.getElementById('withdraw-date');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('date-error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    } else if (error.includes('Mã số') || error.includes('thông tin tài khoản') || error.includes('đóng')) {
+                        var input = document.getElementById('id');
+                        input.classList.add('error');
+                        var errorMessage = document.getElementById('id-error');
+                        errorMessage.textContent = '* ' + error;
+                        errorMessage.style.display = 'block';
+                    }
+                });
+                alert('Có lỗi xảy ra: \n' + data.errors.join('\n'));
+            } else {
+                // Nếu không có lỗi, hiển thị thông báo thành công
+                console.log("lalala")
+                alert('Thông tin đã được gửi thành công: ' + data.message);
+            }
+        })
+        .catch(error => {
+            // Xử lý lỗi nếu có
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi gửi thông tin');
+        });
+    });
+
+    cancelButton.addEventListener('click', function() {
+        popupDialog.style.display = 'none'; // Hide the popup
+        form.reset(); // Clear all form inputs
+
+
+        // document.getElementById('c-id').textContent = ''
+        document.getElementById('c-withdraw-date').textContent = ''
+        document.getElementById('c-term').textContent = ''
+
+        term = ''
+        
+        let today = new Date();
+        let formattedDate = today.toISOString().split('T')[0];
+        document.getElementById('withdraw-date').value = formattedDate;
+
+        setTimeout(() => {
+            document.activeElement.blur(); // Remove focus from any active element
+        }, 10); // 10ms delay
+    });
 })
